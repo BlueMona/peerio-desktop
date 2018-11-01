@@ -77,7 +77,6 @@ export default class Beacon extends React.Component<
         // This will error if the child is a stateless functional component, which cannot be given a ref
         this.childContent = React.cloneElement(originalChild, {
             ...originalChild.props,
-            key: `beacon-${this.props.name}`,
             ref: node => {
                 // Keep your own reference
                 this.contentRef = node;
@@ -406,7 +405,7 @@ export default class Beacon extends React.Component<
     }
 
     render() {
-        if (!this.active && !this.rendered) return this.childContent;
+        if (!this.active && !this.rendered) return this.props.children;
 
         const beaconContent = this.beaconContent();
 

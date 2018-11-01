@@ -66,6 +66,29 @@ export default class Beacon extends React.Component<
     @observable contentRef;
     @observable rendered = false;
 
+    // Clone the child content, passing its ref to `contentRef`
+    // This allows us to measure its dimensions without needing to wrap it in another div
+    @observable childContent;
+    @action.bound
+    setChildContent() {
+        const originalChild = React.Children.only(this.props.children) || null;
+        if (!originalChild) return null;
+
+        // This will error if the child is a stateless functional component, which cannot be given a ref
+        this.childContent = React.cloneElement(originalChild, {
+            key: `beacon-${this.props.name}`,
+            ref: node => {
+                // Keep your own reference
+                this.contentRef = node;
+                // Call the original ref, if any
+                const { ref } = originalChild;
+                if (typeof ref === 'function') {
+                    ref(node);
+                }
+            }
+        });
+    }
+
     // `contentRect` stores the bounding rect for the child content.
     // We give it default values to start, to prevent null references
     @observable
@@ -329,31 +352,6 @@ export default class Beacon extends React.Component<
     beaconFadeout() {
         this.rendered = false;
         beaconStore.increment();
-    }
-
-    // Clone the child content, passing its ref to `contentRef`
-    // This allows us to measure its dimensions without needing to wrap it in another div
-    @observable childContent;
-    @action.bound
-    setChildContent() {
-        const originalChild = React.Children.only(this.props.children) || null;
-        if (!originalChild) return null;
-        console.log('original chiiiiiiiiiiiild');
-        console.log(originalChild);
-
-        // This will error if the child is a stateless functional component, which cannot be given a ref
-        this.childContent = React.cloneElement(originalChild, {
-            key: `beacon-${this.props.name}`,
-            ref: node => {
-                // Keep your own reference
-                this.contentRef = node;
-                // Call the original ref, if any
-                const { ref } = originalChild;
-                if (typeof ref === 'function') {
-                    ref(node);
-                }
-            }
-        });
     }
 
     beaconContent() {

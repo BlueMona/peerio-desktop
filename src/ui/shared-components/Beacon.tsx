@@ -5,6 +5,7 @@ import {
     computed,
     observable,
     reaction,
+    when,
     IReactionDisposer
 } from 'mobx';
 import { observer } from 'mobx-react';
@@ -64,12 +65,6 @@ export default class Beacon extends React.Component<
     // `contentRef` stores the ref for the .beacon-container component which contains the child content
     @observable contentRef;
     @observable rendered = false;
-    setContentRef = ref => {
-        if (ref) {
-            this.contentRef = ref;
-            this.setContentRect();
-        }
-    };
 
     // `contentRect` stores the bounding rect for the child content.
     // We give it default values to start, to prevent null references
@@ -88,29 +83,42 @@ export default class Beacon extends React.Component<
         }
     }
 
-    @observable dispose: IReactionDisposer;
+    @observable reactionsToDispose: IReactionDisposer[];
     @observable renderTimeout: NodeJS.Timer;
     componentWillMount() {
         // Update `contentRect` on window resize
         window.addEventListener('resize', this.setContentRect);
 
-        this.dispose = reaction(
-            () => this.active && !!this.contentRef,
-            active => {
-                if (active) {
-                    this.renderTimeout = setTimeout(() => {
-                        this.rendered = true;
-                    }, 1);
-                } else {
-                    this.rendered = false;
+        // Set childContent ref
+        this.setChildContent();
+
+        this.reactionsToDispose = [
+            reaction(
+                () => this.active && !!this.contentRef,
+                active => {
+                    if (active) {
+                        this.renderTimeout = setTimeout(() => {
+                            this.rendered = true;
+                        }, 1);
+                    } else {
+                        this.rendered = false;
+                    }
                 }
-            }
-        );
+            ),
+            when(
+                () => !!this.contentRef,
+                () => {
+                    this.setContentRect();
+                }
+            )
+        ];
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.setContentRect);
-        this.dispose();
+        this.reactionsToDispose.forEach(dispose => {
+            dispose();
+        });
         clearTimeout(this.renderTimeout);
         this.renderTimeout = null;
     }
@@ -323,17 +331,29 @@ export default class Beacon extends React.Component<
         beaconStore.increment();
     }
 
-    // Render the child content, wrapped in .beacon-container div so we can make the above positioning calculations
-    get childContent() {
-        return (
-            <div
-                key="beacon-container"
-                className="beacon-container"
-                ref={this.setContentRef}
-            >
-                {this.props.children}
-            </div>
-        );
+    // Clone the child content, passing its ref to `contentRef`
+    // This allows us to measure its dimensions without needing to wrap it in another div
+    @observable childContent;
+    @action.bound
+    setChildContent() {
+        const originalChild = React.Children.only(this.props.children) || null;
+        if (!originalChild) return null;
+        console.log('original chiiiiiiiiiiiild');
+        console.log(originalChild);
+
+        // This will error if the child is a stateless functional component, which cannot be given a ref
+        this.childContent = React.cloneElement(originalChild, {
+            key: `beacon-${this.props.name}`,
+            ref: node => {
+                // Keep your own reference
+                this.contentRef = node;
+                // Call the original ref, if any
+                const { ref } = originalChild;
+                if (typeof ref === 'function') {
+                    ref(node);
+                }
+            }
+        });
     }
 
     beaconContent() {
@@ -344,7 +364,7 @@ export default class Beacon extends React.Component<
 
         return (
             <div
-                key="beacon-content"
+                key={`beacon-content-${this.props.name}`}
                 className={css(
                     'beacon',
                     this.props.className,

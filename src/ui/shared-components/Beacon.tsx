@@ -27,7 +27,6 @@ interface BeaconBaseProps {
 
 export interface SpotBeaconProps extends BeaconBaseProps {
     type: 'spot';
-    circleContent?: any; // duplicates child content if this prop is not provided
     position?: 'right' | 'left'; // position of the bubble
     size?: number; // force a certain bubble size
     onContentClick?: () => void;
@@ -392,9 +391,6 @@ export default class Beacon extends React.Component<
                     <Bubble
                         position={this.positionClasses}
                         size={this.circleSize}
-                        content={
-                            this.props.circleContent || this.props.children
-                        }
                         onClick={this.contentClick}
                     />
                 ) : (
@@ -440,7 +436,6 @@ interface BubbleProps {
     classNames?: string;
     position: string;
     size: number;
-    content: any;
     onClick?: () => void;
 }
 
@@ -460,7 +455,7 @@ class Bubble extends React.Component<BubbleProps> {
                 }}
                 onClick={this.props.onClick}
             >
-                <div className="circle-content">{this.props.content}</div>
+                <div className="circle-content" />
             </div>
         );
     }

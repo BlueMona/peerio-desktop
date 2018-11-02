@@ -14,7 +14,10 @@ class PlusIconBeaconed extends React.Component {
                 offsetX={100}
                 className="chatlist-plusicon-beacon"
             >
-                <PlusIcon {...this.props} />
+                <div>This will work</div>
+
+                {/* This won't  */}
+                {/* <PlusIcon {...this.props} /> */}
             </Beacon>
         );
     }

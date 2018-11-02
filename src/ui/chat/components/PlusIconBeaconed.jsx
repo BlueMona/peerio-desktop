@@ -6,9 +6,6 @@ const { observer } = require('mobx-react');
 @observer
 class PlusIconBeaconed extends React.Component {
     render() {
-        const beaconButton = <PlusIcon {...this.props} label={null} />;
-        const actionButton = <PlusIcon {...this.props} />;
-
         return (
             <Beacon
                 name={this.props.beaconName}
@@ -17,7 +14,7 @@ class PlusIconBeaconed extends React.Component {
                 offsetX={100}
                 className="chatlist-plusicon-beacon"
             >
-                {actionButton}
+                <PlusIcon {...this.props} />
             </Beacon>
         );
     }

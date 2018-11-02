@@ -21,12 +21,6 @@ class AppNavBeaconedItem extends React.Component {
     };
 
     render() {
-        const beaconButton = <AppNavButton {...this.props} />;
-        // override navigate onclick so that we can hide the beacons
-        const navigateButton = (
-            <AppNavButton {...this.props} onClick={this.onNavigateClick} />
-        );
-
         return (
             <Beacon
                 type="spot"
@@ -37,7 +31,7 @@ class AppNavBeaconedItem extends React.Component {
                 onContentClick={this.props.onClick}
                 onBeaconClick={this.cancelOnboardingBeacons}
             >
-                {navigateButton}
+                <AppNavButton {...this.props} onClick={this.onNavigateClick} />
             </Beacon>
         );
     }

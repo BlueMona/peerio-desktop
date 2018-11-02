@@ -146,7 +146,7 @@ $arrow-size: 12px;
         @include tab-bottom-right;
       }
 
-      &.slice-1::after {
+      &.slice-1::before {
         @include tab-top-left;
         left: -16%;
         right: auto;

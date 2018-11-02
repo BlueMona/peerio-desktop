@@ -15,7 +15,6 @@ class PlusIconBeaconed extends React.Component {
                 type="spot"
                 size={48}
                 offsetX={100}
-                circleContent={beaconButton}
                 className="chatlist-plusicon-beacon"
             >
                 {actionButton}

@@ -34,7 +34,6 @@ class AppNavBeaconedItem extends React.Component {
                 size={48}
                 offsetY={12}
                 className="appnav-beacon"
-                circleContent={beaconButton}
                 onContentClick={this.props.onClick}
                 onBeaconClick={this.cancelOnboardingBeacons}
             >

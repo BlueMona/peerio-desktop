@@ -14,6 +14,7 @@ import { t } from 'peerio-translator';
 import beaconStore from '~/stores/beacon-store';
 
 const appRoot = document.getElementById('root');
+const BEACON_COLOR = '#5461cc';
 
 interface BeaconBaseProps {
     name: string;
@@ -49,6 +50,7 @@ interface RectanglePosition {
     marginLeft?: string | number;
     paddingRight?: string | number;
     paddingLeft?: string | number;
+    background?: any; // TODO: type
 }
 
 @observer
@@ -230,54 +232,73 @@ export default class Beacon extends React.Component<
     rectangleRef: React.RefObject<HTMLDivElement> = React.createRef();
 
     @computed
-    get rectanglePosition(): RectanglePosition | null {
-        const ret = {} as RectanglePosition;
-
+    get rectangleDimensions() {
         let rectHeight: number = 0;
         let rectWidth: number = 0;
+
         if (this.rectangleRef && this.rectangleRef.current) {
             const rectangle = this.rectangleRef.current.getBoundingClientRect();
             rectHeight = rectangle.height;
             rectWidth = rectangle.width;
         }
 
+        return { rectHeight, rectWidth };
+    }
+
+    @computed
+    get rectanglePosition(): RectanglePosition | null {
+        const ret = {} as RectanglePosition;
+        const { rectHeight, rectWidth } = this.rectangleDimensions;
+
         /*
             For SpotBeacon, rectangle needs to be positioned very precisely based on own size and circle size.
             There's a lot of offsets based on half of the rectangle height, or half the circle diameter.
+            There's also the "punchout" effect, created by placing a CSS punchout of the rectangle
+            (using radial-gradiant) exactly in the same location as the circle.
         */
         if (this.props.type === 'spot') {
             const rectangleOffset = rectHeight / 2;
-            const circleOffset = this.circleSize / 2;
+            const circleRadius = this.circleSize / 2;
+            const punchoutX = this.props.position === 'right' ? '100%' : 0;
+            let punchoutY;
 
             switch (this.slicePosition) {
                 case 1:
                     ret.top = '0';
-                    ret.marginTop = circleOffset;
+                    ret.marginTop = circleRadius;
+                    punchoutY = '0px';
                     break;
                 case 2:
                     ret.top = '0';
+                    punchoutY = `${circleRadius}px`;
                     break;
                 case 3:
                 default:
                     ret.top = '50%';
                     ret.marginTop = -rectangleOffset;
+                    punchoutY = '50%';
                     break;
                 case 4:
                     ret.bottom = '0';
+                    punchoutY = `${rectHeight - circleRadius}px`;
                     break;
                 case 5:
                     ret.bottom = '0';
-                    ret.marginBottom = circleOffset;
+                    ret.marginBottom = circleRadius;
+                    punchoutY = '100%';
                     break;
             }
 
             if (this.props.position === 'right') {
-                ret.paddingRight = circleOffset;
-                ret.marginRight = -circleOffset;
+                ret.paddingRight = circleRadius;
+                ret.marginRight = -circleRadius;
             } else {
-                ret.paddingLeft = circleOffset;
-                ret.marginLeft = -circleOffset;
+                ret.paddingLeft = circleRadius;
+                ret.marginLeft = -circleRadius;
             }
+
+            ret.background = `radial-gradient(circle at ${punchoutX} ${punchoutY}, transparent ${circleRadius -
+                1}px, ${BEACON_COLOR} ${circleRadius}px)`;
         } else {
             const arrowPos = this.props.arrowPosition || 'bottom';
             const arrowDistance = this.props.arrowDistance || 0;

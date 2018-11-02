@@ -28,7 +28,9 @@ interface BeaconBaseProps {
 
 export interface SpotBeaconProps extends BeaconBaseProps {
     type: 'spot';
-    position?: 'right' | 'left'; // position of the bubble
+
+    /** Position of the bubble. 'left' is default. */
+    position?: 'right' | 'left';
     size?: number; // force a certain bubble size
     onContentClick?: () => void;
 }

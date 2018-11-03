@@ -13,6 +13,7 @@ class PlusIconBeaconed extends React.Component {
                 size={48}
                 offsetX={100}
                 className="chatlist-plusicon-beacon"
+                onContentClick={this.props.onClick}
             >
                 <PlusIcon {...this.props} />
             </Beacon>

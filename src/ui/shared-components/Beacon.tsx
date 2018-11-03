@@ -49,7 +49,7 @@ interface RectanglePosition {
     marginLeft?: string | number;
     paddingRight?: string | number;
     paddingLeft?: string | number;
-    background?: any; // TODO: type
+    background?: string;
 }
 
 @observer

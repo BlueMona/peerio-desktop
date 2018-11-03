@@ -465,7 +465,7 @@ class Bubble extends React.Component<BubbleProps> {
                 }}
                 onClick={this.props.onClick}
             >
-                <div className="circle-content" />
+                <div className="circle-inner" />
             </div>
         );
     }

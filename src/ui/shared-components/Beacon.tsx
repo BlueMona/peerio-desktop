@@ -223,7 +223,7 @@ export default class Beacon extends React.Component<
             For SpotBeacon, rectangle needs to be positioned very precisely based on own size and circle size.
             There's a lot of offsets based on half of the rectangle height, or half the circle diameter.
             There's also the "punchout" effect, created by placing a CSS punchout of the rectangle
-            (using radial-gradiant) exactly in the same location as the circle.
+            exactly in the same location as the circle.
         */
         if (this.props.type === 'spot') {
             const rectangleOffset = rectHeight / 2;
@@ -266,6 +266,13 @@ export default class Beacon extends React.Component<
                 ret.marginLeft = -circleRadius;
             }
 
+            /*
+                The highlight bubble itself is a transparent circle. However, since it sits on
+                top of the rectangle, the corner of the rectangle will peek through the bubble.
+                To solve this, we take advantage of a funny trick with `radial-gradient`, where
+                we set a gradient from transparent to $peerio-purple, over a span of 1px. This
+                has the effect of making a transparent circle with a radius of `circleRadius`.
+            */
             ret.background = `radial-gradient(circle at ${punchoutX} ${punchoutY}, transparent ${circleRadius -
                 1}px, ${BEACON_COLOR} ${circleRadius}px)`;
         } else {

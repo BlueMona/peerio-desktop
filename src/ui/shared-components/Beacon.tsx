@@ -457,7 +457,10 @@ class Bubble extends React.Component<BubbleProps> {
                 className={css(
                     'circle',
                     this.props.classNames,
-                    this.props.position
+                    this.props.position,
+                    {
+                        clickable: !!this.props.onClick
+                    }
                 )}
                 style={{
                     height: this.props.size,

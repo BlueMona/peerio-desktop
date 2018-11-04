@@ -32,9 +32,8 @@ class DragDropStore {
         if (
             !User.current ||
             !ev.dataTransfer.items.length ||
-            Array.prototype.slice
-                .call(ev.dataTransfer.items)
-                .filter(it => it.kind === 'file').length === 0
+            Array.prototype.slice.call(ev.dataTransfer.items).filter(it => it.kind === 'file')
+                .length === 0
         ) {
             return;
         }
@@ -99,9 +98,8 @@ class DragDropStore {
         if (
             !User.current ||
             !ev.dataTransfer.items.length ||
-            Array.prototype.slice
-                .call(ev.dataTransfer.items)
-                .filter(it => it.kind === 'file').length === 0
+            Array.prototype.slice.call(ev.dataTransfer.items).filter(it => it.kind === 'file')
+                .length === 0
         ) {
             // remove these two lines ^ after electron bug is fixed
             ev.dataTransfer.dropEffect = 'none';
@@ -117,8 +115,7 @@ class DragDropStore {
      * @param {Function<Array<string>>} handler
      */
     onFilesDropped(handler) {
-        if (!this._subscribers.includes(handler))
-            this._subscribers.push(handler);
+        if (!this._subscribers.includes(handler)) this._subscribers.push(handler);
     }
 }
 

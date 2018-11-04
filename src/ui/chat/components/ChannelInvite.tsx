@@ -78,27 +78,19 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
     }
 
     get renderParticipants() {
-        const {
-            channelName,
-            participants,
-            username
-        } = chatInviteStore.activeInvite;
+        const { channelName, participants, username } = chatInviteStore.activeInvite;
         if (participants.length <= this.minParticipants) return null;
 
         const participantsToShow: JSX.Element[] = [];
 
         for (
             let i = 0;
-            i < participants.length &&
-            participantsToShow.length < this.maxAvatars;
+            i < participants.length && participantsToShow.length < this.maxAvatars;
             i++
         ) {
             const participant = participants[i];
 
-            if (
-                participant !== username &&
-                participant !== User.current.username
-            ) {
+            if (participant !== username && participant !== User.current.username) {
                 participantsToShow.push(
                     <AvatarWithPopup
                         key={participant}
@@ -112,11 +104,7 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
         return (
             <div className="participant-list">
                 <span>
-                    <T
-                        k="title_whoIsAlreadyIn"
-                        className="already-in-room"
-                        tag="span"
-                    />&nbsp;
+                    <T k="title_whoIsAlreadyIn" className="already-in-room" tag="span" />&nbsp;
                     <span className="room-name">{`# ${channelName}`}</span>
                 </span>
                 <div className="avatars">
@@ -132,10 +120,7 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
     }
 
     render() {
-        if (
-            chatInviteStore.activeInvite &&
-            chatInviteStore.activeInvite.declined
-        )
+        if (chatInviteStore.activeInvite && chatInviteStore.activeInvite.declined)
             return this.declineControl;
         if (this.inProgress) return <ProgressBar />;
         const { activeInvite } = chatInviteStore;
@@ -168,16 +153,9 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
                         <div className="upgrade-prompt">
                             <div className="upgrade-content">
                                 <span className="upgrade-text">
-                                    👋{' '}
-                                    <T
-                                        k="title_roomInviteUpgradeNotice"
-                                        tag="span"
-                                    />
+                                    👋 <T k="title_roomInviteUpgradeNotice" tag="span" />
                                 </span>
-                                <Button
-                                    label={t('button_upgrade')}
-                                    onClick={this.toUpgrade}
-                                />
+                                <Button label={t('button_upgrade')} onClick={this.toUpgrade} />
                             </div>
                             <Button
                                 label={t('button_declineInvite')}
@@ -193,14 +171,8 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
                         <Divider />
                         <div className="participant-list">
                             <span>
-                                <T
-                                    k="title_hostedBy"
-                                    className="hosted-by"
-                                    tag="span"
-                                />&nbsp;
-                                <span className="host-username">
-                                    {contact.fullName}
-                                </span>
+                                <T k="title_hostedBy" className="hosted-by" tag="span" />&nbsp;
+                                <span className="host-username">{contact.fullName}</span>
                             </span>
                             <div className="avatars">
                                 <AvatarWithPopup contact={contact} tooltip />

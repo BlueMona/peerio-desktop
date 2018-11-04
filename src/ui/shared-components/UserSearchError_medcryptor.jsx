@@ -74,10 +74,7 @@ class UserSearchError extends React.Component {
                             onChange={this.onChange}
                             options={this.options}
                         />
-                        <Button
-                            onClick={this.invite}
-                            label={t('button_sendInvite')}
-                        />
+                        <Button onClick={this.invite} label={t('button_sendInvite')} />
                     </div>
                 ) : null}
             </div>

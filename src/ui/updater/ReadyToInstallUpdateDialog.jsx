@@ -15,9 +15,7 @@ class ReadyToInstallUpdateDialog extends Component {
         updaterStore.askToInstall = false;
     }
     render() {
-        const actions = [
-            { label: t('button_installUpdate'), onClick: this.handleUpdate }
-        ];
+        const actions = [{ label: t('button_installUpdate'), onClick: this.handleUpdate }];
         if (!updaterStore.mandatory) {
             actions.unshift({
                 label: t('button_installUpdateLater'),

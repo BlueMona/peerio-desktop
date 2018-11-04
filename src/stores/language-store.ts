@@ -5,11 +5,7 @@ import moment from 'moment';
 import { observable, action } from 'mobx';
 
 import { setLocale } from 'peerio-translator';
-import {
-    errors as icebearErrors,
-    TinyDb as db,
-    PhraseDictionary
-} from 'peerio-icebear';
+import { errors as icebearErrors, TinyDb as db, PhraseDictionary } from 'peerio-icebear';
 
 const electron = require('electron').remote || require('electron');
 const normalizeError = icebearErrors.normalize;
@@ -101,10 +97,7 @@ class LanguageStore {
         try {
             const jsonPath = path.join(
                 electron.app.getAppPath(),
-                `/node_modules/peerio-icebear/src/copy/${code.replace(
-                    '-',
-                    '_'
-                )}.json`
+                `/node_modules/peerio-icebear/src/copy/${code.replace('-', '_')}.json`
             );
             const translation = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
             setLocale(code, translation);
@@ -117,9 +110,7 @@ class LanguageStore {
             moment.locale(code);
             console.log(`Language changed to ${code}`);
         } catch (err) {
-            console.error(
-                `Failed switch language to: ${code} ${normalizeError(err)}`
-            );
+            console.error(`Failed switch language to: ${code} ${normalizeError(err)}`);
         }
     }
 

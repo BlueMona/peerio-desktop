@@ -27,8 +27,7 @@ class MailSentSidebar extends React.Component {
     };
 
     componentDidUpdate() {
-        this.ghostActive =
-            !this.props.ghost.expired && !this.props.ghost.revoked;
+        this.ghostActive = !this.props.ghost.expired && !this.props.ghost.revoked;
     }
 
     copyLink = () => {
@@ -82,12 +81,8 @@ class MailSentSidebar extends React.Component {
                     <div className="expire-info">
                         {this.ghostActive ? (
                             <div className="content">
-                                <div className="dark-label">
-                                    {t('title_mailExpires')}
-                                </div>
-                                <div>
-                                    {this.props.ghost.expiryDate.toLocaleString()}
-                                </div>
+                                <div className="dark-label">{t('title_mailExpires')}</div>
+                                <div>{this.props.ghost.expiryDate.toLocaleString()}</div>
                                 <Button
                                     className="mail-revoke"
                                     label={t('button_mailRevoke')}

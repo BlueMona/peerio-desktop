@@ -5,13 +5,7 @@ import css from 'classnames';
 
 import { fileStore, chatStore } from 'peerio-icebear';
 import { File } from 'peerio-icebear/dist/models';
-import {
-    Button,
-    Dialog,
-    MaterialIcon,
-    ProgressBar,
-    RadioButtons
-} from 'peer-ui';
+import { Button, Dialog, MaterialIcon, ProgressBar, RadioButtons } from 'peer-ui';
 import { t } from 'peerio-translator';
 
 import uiStore from '~/stores/ui-store';
@@ -61,16 +55,10 @@ class InlineFile extends React.Component<InlineFileProps> {
             // if user sets the preference later, the image would be shown
             // if it's already enabled, the when would be executed immediately
             this._reactionToDispose = when(
-                () =>
-                    uiStore.prefs.peerioContentEnabled &&
-                    uiStore.prefs.peerioContentConsented,
+                () => uiStore.prefs.peerioContentEnabled && uiStore.prefs.peerioContentConsented,
                 () => {
                     this.isExpanded = true;
-                    if (
-                        !file.tmpCached &&
-                        !file.isOverInlineSizeLimit &&
-                        !file.isOversizeCutoff
-                    ) {
+                    if (!file.tmpCached && !file.isOverInlineSizeLimit && !file.isOversizeCutoff) {
                         file.tryToCacheTemporarily();
                     }
                 }
@@ -224,11 +212,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                         />
                         {isFileOwnedByCurrentUser(file) && (
                             <React.Fragment>
-                                <Button
-                                    icon="delete"
-                                    onClick={this.deleteFile}
-                                    theme="small"
-                                />
+                                <Button icon="delete" onClick={this.deleteFile} theme="small" />
                                 <Button
                                     icon="remove_circle_outline"
                                     onClick={this.unshareFile}
@@ -259,11 +243,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                         options={this.radioOptions}
                     />
                     <div className="buttons-container">
-                        <Button
-                            className="notnow"
-                            onClick={this.onDismiss}
-                            theme="secondary"
-                        >
+                        <Button className="notnow" onClick={this.onDismiss} theme="secondary">
                             {t('button_notNow')}
                         </Button>
                         <Button className="save" onClick={this.onSubmitConsent}>
@@ -309,14 +289,9 @@ class InlineFile extends React.Component<InlineFileProps> {
 
     shareWithMultipleDialogRef = React.createRef<ShareWithMultipleDialog>();
     share = async () => {
-        const contacts = await this.shareWithMultipleDialogRef.current.show(
-            null,
-            'sharefiles'
-        );
+        const contacts = await this.shareWithMultipleDialogRef.current.show(null, 'sharefiles');
         if (!contacts || !contacts.length) return;
-        contacts.forEach(c =>
-            chatStore.startChatAndShareFiles([c], this.props.file)
-        );
+        contacts.forEach(c => chatStore.startChatAndShareFiles([c], this.props.file));
     };
 
     render() {
@@ -332,14 +307,9 @@ class InlineFile extends React.Component<InlineFileProps> {
                                     onClick={this.download}
                                 >
                                     <div className="file-icon">
-                                        <FileSpriteIcon
-                                            type={file.iconType}
-                                            size="small"
-                                        />
+                                        <FileSpriteIcon type={file.iconType} size="small" />
                                     </div>
-                                    <div className="file-name">
-                                        {file.nameWithoutExtension}
-                                    </div>
+                                    <div className="file-name">{file.nameWithoutExtension}</div>
                                     <div className="file-ext">.{file.ext}</div>
                                 </div>
                                 {file.isImage &&
@@ -361,10 +331,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                                 />
                             </div>
                             {!file.cachingFailed && file.downloading ? (
-                                <ProgressBar
-                                    value={file.progress}
-                                    max={file.progressMax}
-                                />
+                                <ProgressBar value={file.progress} max={file.progressMax} />
                             ) : null}
                         </div>
                     </div>
@@ -374,27 +341,19 @@ class InlineFile extends React.Component<InlineFileProps> {
                                 className={css('inline-files-expanded', {
                                     'display-image':
                                         uiStore.prefs.peerioContentEnabled &&
-                                        (file.tmpCached ||
-                                            !file.isOverInlineSizeLimit)
+                                        (file.tmpCached || !file.isOverInlineSizeLimit)
                                 })}
                             >
-                                {file.tmpCached ||
-                                uiStore.prefs.peerioContentEnabled ? (
+                                {file.tmpCached || uiStore.prefs.peerioContentEnabled ? (
                                     <div className="inline-files-dropdown">
                                         {file.tmpCached &&
                                             (this.errorLoading ? (
-                                                <span>
-                                                    {t('error_loadingImage')}
-                                                </span>
+                                                <span>{t('error_loadingImage')}</span>
                                             ) : (
                                                 <img
                                                     src={file.tmpCachePath}
-                                                    onLoad={
-                                                        this.props.onImageLoaded
-                                                    }
-                                                    onError={
-                                                        this.onErrorLoadingImage
-                                                    }
+                                                    onLoad={this.props.onImageLoaded}
+                                                    onError={this.onErrorLoadingImage}
                                                     onClick={this.imageClick}
                                                 />
                                             ))}
@@ -406,9 +365,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                                         {file.isOversizeCutoff &&
                                             this.renderOversizeCutoffWarning()}
                                         {file.cachingFailed ? (
-                                            <span>
-                                                {t('error_downloadFailed')}
-                                            </span>
+                                            <span>{t('error_downloadFailed')}</span>
                                         ) : null}
                                     </div>
                                 ) : (
@@ -424,9 +381,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                     {this.currentImageSrc && this.imagePopup}
                 </div>
                 <div>
-                    {!uiStore.prefs.peerioContentConsented &&
-                        file.isImage &&
-                        this.renderConsent()}
+                    {!uiStore.prefs.peerioContentConsented && file.isImage && this.renderConsent()}
                 </div>
                 <div>
                     {this.firstSave && (
@@ -438,9 +393,7 @@ class InlineFile extends React.Component<InlineFileProps> {
                         </div>
                     )}
                 </div>
-                <ShareWithMultipleDialog
-                    ref={this.shareWithMultipleDialogRef}
-                />
+                <ShareWithMultipleDialog ref={this.shareWithMultipleDialogRef} />
             </div>
         );
     }
@@ -477,9 +430,7 @@ export default class InlineFiles extends React.Component<InlineFilesProps> {
             >
                 <div className="invalid-file">
                     <MaterialIcon icon="info_outline" />
-                    <div className="file-name">
-                        {t('error_invalidFileSignature')}
-                    </div>
+                    <div className="file-name">{t('error_invalidFileSignature')}</div>
                 </div>
             </div>
         );
@@ -490,13 +441,9 @@ export default class InlineFiles extends React.Component<InlineFilesProps> {
         return (
             <div>
                 {this.props.files.map(fileId => {
-                    const file = fileStore.getByIdInChat(
-                        fileId,
-                        chatStore.activeChat.id
-                    );
+                    const file = fileStore.getByIdInChat(fileId, chatStore.activeChat.id);
                     if (file.deleted) return this.renderNoFile(fileId);
-                    if (file.signatureError)
-                        return this.renderNoSignature(fileId);
+                    if (file.signatureError) return this.renderNoSignature(fileId);
                     if (!file.loaded) return this.renderProgress(fileId);
 
                     return (

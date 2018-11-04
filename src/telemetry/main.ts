@@ -1,31 +1,21 @@
 import os from 'os';
 import isDevEnv from '~/helpers/is-dev-env';
 
-import {
-    send as internalSend,
-    EventObject,
-    EventProperties
-} from 'peerio-icebear/dist/telemetry';
+import { send as internalSend, EventObject, EventProperties } from 'peerio-icebear/dist/telemetry';
 
 // Main client-side functionality is here, i.e. converting objects into send()
 // functions, and the send() function itself
 
-type TelemetryPayload =
-    | [string]
-    | [string, { [key: string]: string | number | boolean }];
+type TelemetryPayload = [string] | [string, { [key: string]: string | number | boolean }];
 
 interface TelemetryConfig {
-    [methodName: string]:
-        | TelemetryPayload
-        | ((...args: any[]) => false | TelemetryPayload);
+    [methodName: string]: TelemetryPayload | ((...args: any[]) => false | TelemetryPayload);
 }
 
 export function setup<T extends TelemetryConfig>(
     config: T
 ): {
-    [K in keyof T]: T[K] extends ((
-        ...args: infer U
-    ) => false | TelemetryPayload)
+    [K in keyof T]: T[K] extends ((...args: infer U) => false | TelemetryPayload)
         ? (...args: U) => void
         : () => void
 } {

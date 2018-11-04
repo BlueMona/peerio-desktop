@@ -14,14 +14,7 @@ hierarchy, respectively, and call 'cleanup' when unmounting.
 */
 
 import React from 'react';
-import {
-    observable,
-    autorun,
-    action,
-    computed,
-    runInAction,
-    IReactionDisposer
-} from 'mobx';
+import { observable, autorun, action, computed, runInAction, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import { Plugin, TextSelection } from 'prosemirror-state';
 
@@ -79,23 +72,14 @@ export default class Suggestions<T> {
     readonly source: (matchData: MatchData) => T[];
     readonly formatter: (match: T) => string | JSX.Element;
     readonly keySource: string | number;
-    readonly onAcceptSuggestion: (
-        matchData: MatchData,
-        acceptedSuggestion: T
-    ) => void;
+    readonly onAcceptSuggestion: (matchData: MatchData, acceptedSuggestion: T) => void;
 
     readonly plugin: Plugin;
 
     readonly disposer: IReactionDisposer;
 
     constructor(config: SuggestionsConfig<T>) {
-        const {
-            matchers,
-            source,
-            formatter,
-            keySource,
-            onAcceptSuggestion
-        } = config;
+        const { matchers, source, formatter, keySource, onAcceptSuggestion } = config;
         this.matchers = matchers;
         this.source = source;
         this.formatter = formatter;
@@ -107,10 +91,7 @@ export default class Suggestions<T> {
         this.disposer = autorun(() => {
             // Our selected index should always be in range.
             if (this.suggestions && this.suggestions.length > 0) {
-                this.selectedIndex = Math.min(
-                    this.selectedIndex,
-                    this.suggestions.length - 1
-                );
+                this.selectedIndex = Math.min(this.selectedIndex, this.suggestions.length - 1);
             }
 
             const el = document.querySelector(
@@ -150,10 +131,7 @@ export default class Suggestions<T> {
     @action.bound
     acceptSuggestion() {
         if (this.matchData && this.suggestions.length > 0) {
-            this.onAcceptSuggestion(
-                this.matchData,
-                this.suggestions[this.selectedIndex]
-            );
+            this.onAcceptSuggestion(this.matchData, this.suggestions[this.selectedIndex]);
         }
         this.dismiss();
     }
@@ -171,9 +149,7 @@ export default class Suggestions<T> {
                             return (
                                 <div
                                     className={`suggest-item ${
-                                        i === this.selectedIndex
-                                            ? 'selected'
-                                            : ''
+                                        i === this.selectedIndex ? 'selected' : ''
                                     }`}
                                     key={s[this.keySource]}
                                     onMouseDown={this.acceptSuggestion}
@@ -201,10 +177,7 @@ function makePlugin(self: Suggestions<any>) {
                         if (self.visible && self.suggestions.length > 0) {
                             runInAction(() => {
                                 self.selectedIndex += 1;
-                                if (
-                                    self.selectedIndex >=
-                                    self.suggestions.length
-                                ) {
+                                if (self.selectedIndex >= self.suggestions.length) {
                                     self.selectedIndex = 0;
                                 }
                             });
@@ -216,8 +189,7 @@ function makePlugin(self: Suggestions<any>) {
                             runInAction(() => {
                                 self.selectedIndex -= 1;
                                 if (self.selectedIndex < 0) {
-                                    self.selectedIndex =
-                                        self.suggestions.length - 1;
+                                    self.selectedIndex = self.suggestions.length - 1;
                                 }
                             });
                             return true;

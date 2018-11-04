@@ -15,14 +15,9 @@ class UrlPreview extends React.Component {
     };
 
     render() {
-        const {
-            url,
-            isOversizeCutoff,
-            isOverInlineSizeLimit
-        } = this.props.urlData;
+        const { url, isOversizeCutoff, isOverInlineSizeLimit } = this.props.urlData;
         const tooBig = !isOversizeCutoff && isOverInlineSizeLimit;
-        const showImage =
-            forceShowCache.get(url) || (!tooBig && !isOversizeCutoff);
+        const showImage = forceShowCache.get(url) || (!tooBig && !isOversizeCutoff);
         return (
             <div className="urlpreview">
                 <div>
@@ -33,17 +28,14 @@ class UrlPreview extends React.Component {
                                     <div className="image-over-limit-warning">
                                         <T k="title_imageSizeWarning">
                                             {{
-                                                size:
-                                                    fileStore.inlineImageSizeLimitFormatted
+                                                size: fileStore.inlineImageSizeLimitFormatted
                                             }}
                                         </T>
                                         <Button
                                             className="display-this-image display-over-limit-image"
                                             onClick={this.forceDownload}
                                         >
-                                            {t(
-                                                'button_displayThisImageAfterWarning'
-                                            )}
+                                            {t('button_displayThisImageAfterWarning')}
                                         </Button>
                                     </div>
                                 )}
@@ -51,18 +43,12 @@ class UrlPreview extends React.Component {
                                 <div className="image-over-limit-warning">
                                     <T k="title_imageTooBigCutoff">
                                         {{
-                                            size:
-                                                fileStore.inlineImageSizeLimitCutoffFormatted
+                                            size: fileStore.inlineImageSizeLimitCutoffFormatted
                                         }}
                                     </T>
                                 </div>
                             )}
-                            {showImage && (
-                                <img
-                                    src={url}
-                                    onLoad={this.props.onImageLoaded}
-                                />
-                            )}
+                            {showImage && <img src={url} onLoad={this.props.onImageLoaded} />}
                         </div>
                     </div>
                 </div>

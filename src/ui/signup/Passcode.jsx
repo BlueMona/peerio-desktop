@@ -65,31 +65,20 @@ class PasscodeStore extends OrderedFormStore {
      * Note that hints are divorced from whether the user can actually register.
      */
     ratePasscode() {
-        this.passcodeHints.set(
-            'length',
-            this.passcode.length > MIN_PASSWORD_LENGTH
-        );
+        this.passcodeHints.set('length', this.passcode.length > MIN_PASSWORD_LENGTH);
         this.passcodeHints.set(
             'case',
             this.passcode.length > 0 &&
-                !(
-                    this.passcode.match(/^[a-z\d\W]+$/) ||
-                    this.passcode.match(/^[A-Z\d\W]+$/)
-                )
+                !(this.passcode.match(/^[a-z\d\W]+$/) || this.passcode.match(/^[A-Z\d\W]+$/))
         );
         this.passcodeHints.set('number', this.passcode.match(/\d/));
         this.passcodeHints.set('specialChars', this.passcode.match(/\W/));
         let hasDictionaryProblems = this.passcode.length > 0;
         if (this.passcode.length > 0) {
             this.zxcvbnScore = zxcvbn(this.passcode, this.banList || []);
-            hasDictionaryProblems = !this.zxcvbnScore.sequence.find(
-                admonishment => {
-                    return (
-                        ['repeat', 'dictionary'].indexOf(admonishment.pattern) >
-                        -1
-                    );
-                }
-            );
+            hasDictionaryProblems = !this.zxcvbnScore.sequence.find(admonishment => {
+                return ['repeat', 'dictionary'].indexOf(admonishment.pattern) > -1;
+            });
             this.passcodeStrength = this.zxcvbnScore.score;
         } else {
             this.zxcvbnScore = null;
@@ -218,40 +207,26 @@ class Passcode extends Component {
                         />
                         <MaterialIcon
                             icon={
-                                this.passcodeStrengthMeter[
-                                    this.props.store.passcodeStrength
-                                ].icon
+                                this.passcodeStrengthMeter[this.props.store.passcodeStrength].icon
                             }
                             className={
                                 this.props.store.zxcvbnScore === null
                                     ? 'hide'
-                                    : this.passcodeStrengthMeter[
-                                          this.props.store.passcodeStrength
-                                      ].class
+                                    : this.passcodeStrengthMeter[this.props.store.passcodeStrength]
+                                          .class
                             }
                         />
                     </div>
                     <ul className="passcode-hints">
                         <li className="heading">{t('title_passwordHints')}</li>
-                        {entries(this.props.store.passcodeHints).map(
-                            ([key, hint]) => {
-                                return (
-                                    <li
-                                        key={key}
-                                        className={hint ? 'passed' : ''}
-                                    >
-                                        <MaterialIcon
-                                            icon={
-                                                hint
-                                                    ? 'lens'
-                                                    : 'panorama_fish_eye'
-                                            }
-                                        />
-                                        {t(`title_passwordHint_${key}`)}
-                                    </li>
-                                );
-                            }
-                        )}
+                        {entries(this.props.store.passcodeHints).map(([key, hint]) => {
+                            return (
+                                <li key={key} className={hint ? 'passed' : ''}>
+                                    <MaterialIcon icon={hint ? 'lens' : 'panorama_fish_eye'} />
+                                    {t(`title_passwordHint_${key}`)}
+                                </li>
+                            );
+                        })}
                     </ul>
                 </div>
                 <ValidatedInput

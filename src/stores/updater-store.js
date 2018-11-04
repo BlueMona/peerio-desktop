@@ -69,34 +69,31 @@ class UpdaterStore {
             }
         });
 
-        ipcRenderer.on(
-            'update-downloaded',
-            (ev, downloadedFile, manifest, mandatory) => {
-                console.log('Update downloaded');
-                this.mandatory = mandatory || clientApp.clientVersionDeprecated;
-                this.scheduleInstallOnQuit();
-                if (this.mandatory) {
-                    this.askToInstall = true;
-                    this.readyToInstall = true;
-                } else {
-                    // Turn on askToInstall flag in 12 hours (and every 12 hours after that)
-                    // to remind to install updates if the app didn't quit.
-                    // We ask nicely 2 times, but the 3rd time the update will be mandatory.
-                    let askCount = 0;
-                    setInterval(() => {
-                        if (this.installing) return;
-                        if (askCount++ >= 2) {
-                            this.mandatory = true;
-                        }
-                        this.askToInstall = true;
-                    }, 12 * 60 * 60 * 1000);
-                    if (!this.readyToInstall) {
-                        warnings.add('title_updateWillBeInstalled');
+        ipcRenderer.on('update-downloaded', (ev, downloadedFile, manifest, mandatory) => {
+            console.log('Update downloaded');
+            this.mandatory = mandatory || clientApp.clientVersionDeprecated;
+            this.scheduleInstallOnQuit();
+            if (this.mandatory) {
+                this.askToInstall = true;
+                this.readyToInstall = true;
+            } else {
+                // Turn on askToInstall flag in 12 hours (and every 12 hours after that)
+                // to remind to install updates if the app didn't quit.
+                // We ask nicely 2 times, but the 3rd time the update will be mandatory.
+                let askCount = 0;
+                setInterval(() => {
+                    if (this.installing) return;
+                    if (askCount++ >= 2) {
+                        this.mandatory = true;
                     }
-                    this.readyToInstall = true;
+                    this.askToInstall = true;
+                }, 12 * 60 * 60 * 1000);
+                if (!this.readyToInstall) {
+                    warnings.add('title_updateWillBeInstalled');
                 }
+                this.readyToInstall = true;
             }
-        );
+        });
 
         ipcRenderer.on('checking-for-update', () => {
             this.checking = true;

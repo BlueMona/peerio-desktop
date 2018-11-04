@@ -55,8 +55,7 @@ $max-signup-input-width: 400px;
     padding: 148px 0 80px 112px;
     background-color: $darkblue;
 
-    @media all and (max-width: $break-width-default),
-      all and (max-height: $break-height-default) {
+    @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
       // stylelint-disable-line
       padding: 148px 0 148px 80px;
     }

@@ -132,16 +132,12 @@ function convertToArrayAndCleanup(emojiJson) {
 
         item.filename = `${relativePngFolder}${keys[k]}.png`;
         // item.code_points.fully_qualified can be null
-        item.characters = (
-            item.code_points.fully_qualified || item.code_points.base
-        )
+        item.characters = (item.code_points.fully_qualified || item.code_points.base)
             .split('-')
             .map(code => String.fromCodePoint(Number.parseInt(code, 16)))
             .join('');
 
-        item.className = `emojione emojione-32-${getCSSCategoryName(item)} _${
-            keys[k]
-        }`;
+        item.className = `emojione emojione-32-${getCSSCategoryName(item)} _${keys[k]}`;
 
         delete item.shortname_alternates;
         delete item.keywords;
@@ -176,18 +172,14 @@ function buildMaps(emojiArray) {
 
     emojiArray.forEach(emoji => {
         if (emoji.shortname in byCanonicalShortname) {
-            throw new Error(
-                `Duplicate shortname detected: '${emoji.shortname}'`
-            );
+            throw new Error(`Duplicate shortname detected: '${emoji.shortname}'`);
         }
         byCanonicalShortname[emoji.shortname] = emoji;
         byAllShortnames[emoji.shortname] = emoji.shortname;
         emoji.tempAliases.forEach(alias => {
             if (alias in byAllShortnames) {
                 throw new Error(
-                    `Duplicate shortname alias detected: '${alias}' => '${
-                        byAllShortnames[alias]
-                    }'`
+                    `Duplicate shortname alias detected: '${alias}' => '${byAllShortnames[alias]}'`
                 );
             }
             byAllShortnames[alias] = emoji.shortname;
@@ -195,9 +187,7 @@ function buildMaps(emojiArray) {
         emoji.tempAscii.forEach(ascii => {
             if (ascii in byAscii) {
                 throw new Error(
-                    `Duplicate ascii sequence detected: '${ascii}' => '${
-                        byAscii[ascii]
-                    }'`
+                    `Duplicate ascii sequence detected: '${ascii}' => '${byAscii[ascii]}'`
                 );
             }
             byAscii[ascii] = emoji.shortname;

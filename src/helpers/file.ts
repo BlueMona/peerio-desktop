@@ -19,11 +19,7 @@ export function selectDownloadFolder(): Promise<string | null> {
             win,
             {
                 buttonLabel: t('button_download') as string, // TODO: remove when t() fixed
-                properties: [
-                    'openDirectory',
-                    'treatPackageAsDirectory',
-                    'createDirectory'
-                ]
+                properties: ['openDirectory', 'treatPackageAsDirectory', 'createDirectory']
             },
             folders => {
                 if (!folders || !folders.length) {
@@ -98,12 +94,7 @@ export function requestDownloadPath(fileName: string): Promise<string> {
             },
             fileSavePath => {
                 if (fileSavePath) resolve(fileSavePath);
-                else
-                    reject(
-                        new errors.UserCancelError(
-                            'User cancelled save dialog.'
-                        )
-                    );
+                else reject(new errors.UserCancelError('User cancelled save dialog.'));
             }
         );
     });
@@ -118,10 +109,7 @@ export function downloadFile(file: File): Promise<boolean> {
             return file.download(p);
         }) // todo: file.cached is a temporary hack
         .then(
-            () =>
-                file.cached &&
-                electron.app.dock &&
-                electron.app.dock.downloadFinished(finalPath)
+            () => file.cached && electron.app.dock && electron.app.dock.downloadFinished(finalPath)
         )
         .then(() => file.cached && electron.shell.showItemInFolder(finalPath));
 }

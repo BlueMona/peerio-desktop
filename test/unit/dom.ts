@@ -28,10 +28,7 @@ describe('dom helper: getAttributeInParentChain', () => {
     });
     it('should fail to find attribute if it is not there', () => {
         const expected = null;
-        const actual = getAttributeInParentChain(
-            mockChildElement,
-            'i do not exist'
-        );
+        const actual = getAttributeInParentChain(mockChildElement, 'i do not exist');
         expect(actual).toEqual(expected);
     });
     it('should find attribute in a tree', () => {
@@ -43,10 +40,7 @@ describe('dom helper: getAttributeInParentChain', () => {
         const actual2 = getAttributeInParentChain(mockChildElement, 'data-id');
         expect(actual2).toEqual(expected);
 
-        const actual3 = getAttributeInParentChain(
-            mockChildElement,
-            'child-data-id'
-        );
+        const actual3 = getAttributeInParentChain(mockChildElement, 'child-data-id');
         expect(actual3).toEqual(expected);
     });
 });

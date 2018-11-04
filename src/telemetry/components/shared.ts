@@ -6,11 +6,7 @@
 
 import { setup } from '~/telemetry/main';
 import routerStore from '~/stores/router-store';
-import {
-    DurationEvent,
-    TextInputEvent,
-    ValidatedInputObject
-} from '~/telemetry/types';
+import { DurationEvent, TextInputEvent, ValidatedInputObject } from '~/telemetry/types';
 import { telemetry } from 'peerio-icebear';
 const { duration, S, errorMessage } = telemetry;
 
@@ -40,10 +36,7 @@ const shared = setup({
         ];
     },
 
-    validatedInputOnBlur: (
-        obj: ValidatedInputObject,
-        errorMsg: string
-    ): TextInputEvent => {
+    validatedInputOnBlur: (obj: ValidatedInputObject, errorMsg: string): TextInputEvent => {
         if (!obj) return null;
 
         // We're only sending onBlur events if the input is errored
@@ -51,8 +44,7 @@ const shared = setup({
 
         // Sign Up page "Username Not Available" is reported onError; do not send onBlur.
         const c = context();
-        if (c === 'Onboarding' && errorMsg === 'error_usernameNotAvailable')
-            return null;
+        if (c === 'Onboarding' && errorMsg === 'error_usernameNotAvailable') return null;
 
         // On Login do not show "wrong AK" text input error; that should be handled by login event itself
         if (c === S.SIGN_IN && errorMsg === 'error_wrongAK') return null;

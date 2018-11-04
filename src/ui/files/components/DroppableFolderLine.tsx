@@ -8,10 +8,7 @@ import { t } from 'peerio-translator';
 import FolderLine, { FolderLineProps } from './FolderLine';
 
 import DragDropTypes from '../helpers/dragDropTypes';
-import {
-    getAllDraggedItems,
-    uploadDroppedFiles
-} from '../helpers/dragDropHelpers';
+import { getAllDraggedItems, uploadDroppedFiles } from '../helpers/dragDropHelpers';
 
 const folderDropSpec: DropTargetSpec<DroppableFolderLineProps> = {
     drop(props, monitor) {
@@ -34,9 +31,7 @@ const folderDropSpec: DropTargetSpec<DroppableFolderLineProps> = {
 
         if (
             props.folder.root.isShared &&
-            fileStore.selectedFilesOrFolders.some(
-                item => item.store.isMainStore
-            )
+            fileStore.selectedFilesOrFolders.some(item => item.store.isMainStore)
         ) {
             (async () => {
                 if (await props.confirmShare()) {
@@ -79,9 +74,7 @@ interface DroppableFolderLineProps extends FolderLineProps {
     })
 )
 @observer
-export default class DroppableFolderLine extends React.Component<
-    DroppableFolderLineProps
-> {
+export default class DroppableFolderLine extends React.Component<DroppableFolderLineProps> {
     render() {
         const {
             connectDropTarget,

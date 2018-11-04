@@ -1,11 +1,7 @@
 import os from 'os';
 import path from 'path';
 
-import {
-    setUrlMap,
-    setTagHandler,
-    setStringReplacement
-} from 'peerio-translator';
+import { setUrlMap, setTagHandler, setStringReplacement } from 'peerio-translator';
 import { config, Config } from 'peerio-icebear';
 import FileStream from 'peerio-icebear/dist/models/files/node-file-stream';
 import StorageEngine from 'peerio-icebear/dist/models/storage/node-json-storage';
@@ -18,9 +14,7 @@ const app = require('electron').app || require('electron').remote.app;
 const packageJson = require(path.join(app.getAppPath(), 'package.json'));
 
 if (!packageJson) {
-    throw new Error(
-        `Unable to find package.json (resources path: ${process.resourcesPath})`
-    );
+    throw new Error(`Unable to find package.json (resources path: ${process.resourcesPath})`);
 }
 if (!packageJson.peerio) {
     throw new Error('Missing "peerio" in package.json');
@@ -76,10 +70,7 @@ for (const name in tagHandlers) {
 
 // replace config-specific strings
 cfg.translator.stringReplacements.forEach(replacementObject => {
-    setStringReplacement(
-        replacementObject.original,
-        replacementObject.replacement
-    );
+    setStringReplacement(replacementObject.original, replacementObject.replacement);
 });
 
 // --- PLATFORM SPECIFIC IMPLEMENTATIONS
@@ -104,10 +95,7 @@ cfg.chat.inlineImageSizeLimit = 10 * 1024 * 1024;
 cfg.chat.inlineImageSizeLimitCutoff = 30 * 1024 * 1024;
 
 cfg.assetPathResolver = fileName => {
-    return path.join(
-        app.getAppPath(),
-        `/node_modules/peerio-icebear/src/assets/${fileName}`
-    );
+    return path.join(app.getAppPath(), `/node_modules/peerio-icebear/src/assets/${fileName}`);
 };
 // --- DEBUG
 cfg.nodeLogFolder = path.join(app.getPath('userData'), 'logs');
@@ -136,13 +124,9 @@ if (isDevEnv) {
 
 // --- DIAGNOSTIC STARTUP LOG
 try {
+    console.log(isDevEnv ? 'DEV environment detected' : 'PROD environment detected');
     console.log(
-        isDevEnv ? 'DEV environment detected' : 'PROD environment detected'
-    );
-    console.log(
-        `Starting app: ${cfg.appId} v${cfg.appVersion} | ${cfg.arch} | ${
-            cfg.platform
-        } | ` +
+        `Starting app: ${cfg.appId} v${cfg.appVersion} | ${cfg.arch} | ${cfg.platform} | ` +
             `${os.platform()}-${os.release()} | ${os.cpus().length} CPUs | ` +
             `${os.totalmem() / 1024 / 1024 / 1024}GB RAM (${+(
                 os.freemem() /

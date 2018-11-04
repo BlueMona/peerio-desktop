@@ -73,10 +73,7 @@ if (
 if (isDevEnv) {
     app.setPath(
         'userData',
-        path.resolve(
-            app.getPath('appData'),
-            `${app.getName().toLowerCase()}_dev`
-        )
+        path.resolve(app.getPath('appData'), `${app.getName().toLowerCase()}_dev`)
     );
 }
 
@@ -87,10 +84,7 @@ const devtools = require('~/main-process/dev-tools');
 const buildContextMenu = require('~/main-process/context-menu').default;
 const buildGlobalShortcuts = require('~/main-process/global-shortcuts');
 const applyMiscHooks = require('~/main-process/misc-hooks');
-const {
-    saveWindowState,
-    getSavedWindowState
-} = require('~/main-process/state-persistance');
+const { saveWindowState, getSavedWindowState } = require('~/main-process/state-persistance');
 const setMainMenu = require('~/main-process/main-menu');
 const { isAppInDMG, handleLaunchFromDMG } = require('~/main-process/dmg');
 const updater = require('./main-process/updater');
@@ -101,10 +95,7 @@ app.commandLine.appendSwitch('disk-cache-size', 200 * 1024 * 1024);
 app.commandLine.appendSwitch('--autoplay-policy', 'no-user-gesture-required');
 
 if (process.env.REMOTE_DEBUG_PORT !== undefined) {
-    app.commandLine.appendSwitch(
-        'remote-debugging-port',
-        process.env.REMOTE_DEBUG_PORT
-    );
+    app.commandLine.appendSwitch('remote-debugging-port', process.env.REMOTE_DEBUG_PORT);
 }
 
 let mustCloseWindow = false;

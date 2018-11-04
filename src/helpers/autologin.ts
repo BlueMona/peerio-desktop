@@ -19,9 +19,7 @@ function _setAutologin(enabled: boolean): void {
             )
             .then(ret => {
                 if (!ret) {
-                    console.error(
-                        'Failed to set autologin (libary returned false).'
-                    );
+                    console.error('Failed to set autologin (libary returned false).');
                     warnings.addSevere('title_autologinSetFail');
                 }
                 User.current.autologinEnabled = true;

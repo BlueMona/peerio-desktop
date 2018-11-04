@@ -20,10 +20,7 @@ class DropTarget extends React.Component {
     fileDropHandler = (list, trees) => {
         if (this.dialogActive || list.success.length === 0) return;
         this._files = list.success;
-        if (
-            routerStore.currentRoute === routerStore.ROUTES.chats &&
-            chatStore.activeChat
-        ) {
+        if (routerStore.currentRoute === routerStore.ROUTES.chats && chatStore.activeChat) {
             this.dialogActive = true;
             return;
         }
@@ -53,12 +50,7 @@ class DropTarget extends React.Component {
         if (routerStore.currentRoute === routerStore.ROUTES.files) return null;
 
         if (this.dialogActive || dragStore.preparingForUpload) {
-            return (
-                <UploadDialog
-                    deactivate={() => this.dialogDeactivate()}
-                    files={this._files}
-                />
-            );
+            return <UploadDialog deactivate={() => this.dialogDeactivate()} files={this._files} />;
         }
 
         if (!dragStore.hovering) return null;

@@ -24,9 +24,7 @@ export default class TwoFADialog extends React.Component {
             () => {
                 User.getLastAuthenticated()
                     .then(lastUser => {
-                        return lastUser
-                            ? autologin.getPassphrase(lastUser.username)
-                            : null;
+                        return lastUser ? autologin.getPassphrase(lastUser.username) : null;
                     })
                     .then(passphrase => {
                         this.isAutologinEnabled = !!passphrase;
@@ -122,8 +120,7 @@ export default class TwoFADialog extends React.Component {
     }
 
     onToggleTrust() {
-        uiStore.prefs.last2FATrustDeviceSetting = !uiStore.prefs
-            .last2FATrustDeviceSetting;
+        uiStore.prefs.last2FATrustDeviceSetting = !uiStore.prefs.last2FATrustDeviceSetting;
     }
 
     render() {

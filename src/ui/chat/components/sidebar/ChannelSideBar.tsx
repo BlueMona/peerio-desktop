@@ -23,9 +23,7 @@ interface ChannelSideBarProps {
 }
 
 @observer
-export default class ChannelSideBar extends React.Component<
-    ChannelSideBarProps
-> {
+export default class ChannelSideBar extends React.Component<ChannelSideBarProps> {
     // Switching between textarea and static text is not really needed, we could always use textarea
     // but there's some bug with chrome or react-toolbox that shifts
     // entire view up a bit if textarea renders on app start
@@ -121,10 +119,7 @@ export default class ChannelSideBar extends React.Component<
                                                 className="purpose-label"
                                                 key="1"
                                             />,
-                                            <div
-                                                key="2"
-                                                className="purpose-text"
-                                            >
+                                            <div key="2" className="purpose-text">
                                                 {chat.purpose}
                                             </div>
                                         ]

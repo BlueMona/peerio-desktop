@@ -75,21 +75,14 @@ class Mail extends React.Component {
                             {t('title_sort')}{' '}
                             <strong>
                                 {
-                                    availableSorts.find(
-                                        s => s.sort === ghostStore.selectedSort
-                                    ).caption
+                                    availableSorts.find(s => s.sort === ghostStore.selectedSort)
+                                        .caption
                                 }
                             </strong>
                         </div>
                         <Menu onSelect={this.handleSort} icon="arrow_drop_down">
                             {availableSorts.map(s => {
-                                return (
-                                    <MenuItem
-                                        key={s.sort}
-                                        value={s.sort}
-                                        caption={s.caption}
-                                    />
-                                );
+                                return <MenuItem key={s.sort} value={s.sort} caption={s.caption} />;
                             })}
                         </Menu>
                     </div>
@@ -112,12 +105,8 @@ class Mail extends React.Component {
                         })}
                     </div>
                 </div>
-                {ghostStore.ghosts.length === 0 && !ghostStore.loading ? (
-                    <ZeroMail />
-                ) : null}
-                {ghostStore.selectedId && !ghostStore.loading
-                    ? this.renderRight()
-                    : null}
+                {ghostStore.ghosts.length === 0 && !ghostStore.loading ? <ZeroMail /> : null}
+                {ghostStore.selectedId && !ghostStore.loading ? this.renderRight() : null}
 
                 <Button icon="add" onClick={this.handleCompose} />
             </div>

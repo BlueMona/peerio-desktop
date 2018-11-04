@@ -45,11 +45,7 @@ class UploadDialog extends React.Component {
     @observable currentFileIndex = -1;
     @computed
     get currentFile() {
-        if (
-            !this.props.files ||
-            this.props.files.length <= this.currentFileIndex
-        )
-            return null;
+        if (!this.props.files || this.props.files.length <= this.currentFileIndex) return null;
         return this.props.files[this.currentFileIndex];
     }
 
@@ -70,9 +66,7 @@ class UploadDialog extends React.Component {
     @computed
     get fileExt() {
         if (!this.currentFile) return '';
-        return fileHelpers.getFileExtension(
-            fileHelpers.getFileName(this.currentFile)
-        );
+        return fileHelpers.getFileExtension(fileHelpers.getFileName(this.currentFile));
     }
 
     @computed
@@ -195,8 +189,7 @@ class UploadDialog extends React.Component {
         if (targetContact) {
             contact = targetContact;
         } else {
-            contact =
-                targetChat.otherParticipants[0] || contactStore.currentUser;
+            contact = targetChat.otherParticipants[0] || contactStore.currentUser;
         }
 
         return (
@@ -269,17 +262,11 @@ class UploadDialog extends React.Component {
                         >
                             {this.fileType === 'img' ? (
                                 <div className="thumbnail">
-                                    <img
-                                        src={this.currentFileForceNoCache}
-                                        alt=""
-                                    />
+                                    <img src={this.currentFileForceNoCache} alt="" />
                                 </div>
                             ) : (
                                 <div className="icon-inner">
-                                    <FileSpriteIcon
-                                        type={this.fileType}
-                                        size="xlarge"
-                                    />
+                                    <FileSpriteIcon type={this.fileType} size="xlarge" />
                                     <T
                                         k="title_previewUnavailable"
                                         tag="div"
@@ -299,11 +286,7 @@ class UploadDialog extends React.Component {
                             />
                             <div className="share-with">
                                 <div className="user-list">
-                                    <T
-                                        k="title_shareWith"
-                                        className="label"
-                                        tag="div"
-                                    />
+                                    <T k="title_shareWith" className="label" tag="div" />
                                     {this.targetTitle}
                                 </div>
                                 <Button

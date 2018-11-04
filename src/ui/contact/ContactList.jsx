@@ -46,11 +46,7 @@ class ContactList extends React.Component {
         return (
             <div data-id={c.username}>
                 {c.isDeleted ? null : (
-                    <Button
-                        icon="forum"
-                        tooltip={t('title_haveAChat')}
-                        onClick={this.startChat}
-                    />
+                    <Button icon="forum" tooltip={t('title_haveAChat')} onClick={this.startChat} />
                 )}
                 {c.isAdded ? (
                     <Button
@@ -110,34 +106,18 @@ class ContactList extends React.Component {
                 {contactStore.uiView.length ? (
                     <div className="contact-list">
                         {contactStore.uiView.map(section => (
-                            <div
-                                key={section.letter}
-                                className="contact-list-section"
-                            >
-                                <div className="contact-list-section-marker">
-                                    {section.letter}
-                                </div>
-                                <List
-                                    className="contact-list-section-content"
-                                    theme="large"
-                                >
+                            <div key={section.letter} className="contact-list-section">
+                                <div className="contact-list-section-marker">{section.letter}</div>
+                                <List className="contact-list-section-content" theme="large">
                                     {section.items.map(c => (
                                         <ListItem
                                             key={c.username}
                                             leftContent={
-                                                <Avatar
-                                                    key="a"
-                                                    contact={c}
-                                                    size="medium"
-                                                />
+                                                <Avatar key="a" contact={c} size="medium" />
                                             }
                                             legend={c.username}
-                                            caption={`${c.firstName} ${
-                                                c.lastName
-                                            }`}
-                                            rightContent={this.contactActions(
-                                                c
-                                            )}
+                                            caption={`${c.firstName} ${c.lastName}`}
+                                            rightContent={this.contactActions(c)}
                                         />
                                     ))}
                                 </List>

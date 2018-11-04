@@ -52,21 +52,13 @@ function startTaskbarOverlay() {
         () => {
             const unreadItems = chatStore.unreadMessages;
             // windows
-            if (
-                typeof remote.getCurrentWindow().setOverlayIcon === 'function'
-            ) {
+            if (typeof remote.getCurrentWindow().setOverlayIcon === 'function') {
                 const overlay = nativeImage.createFromPath(
-                    path.join(
-                        app.getAppPath(),
-                        'build/static/img/taskbar-overlay.png'
-                    )
+                    path.join(app.getAppPath(), 'build/static/img/taskbar-overlay.png')
                 );
                 remote
                     .getCurrentWindow()
-                    .setOverlayIcon(
-                        unreadItems ? overlay : null,
-                        unreadItems ? 'newmessages' : ''
-                    );
+                    .setOverlayIcon(unreadItems ? overlay : null, unreadItems ? 'newmessages' : '');
             }
         },
         { delay: 250 }
@@ -125,8 +117,7 @@ class AppNav extends React.Component {
 
     @computed
     get menuItems() {
-        const hideUpgrade =
-            config.disablePayments || User.current.hasActivePlans;
+        const hideUpgrade = config.disablePayments || User.current.hasActivePlans;
 
         const menuContent = [
             {
@@ -193,9 +184,7 @@ class AppNav extends React.Component {
             const value = m.value.toLowerCase();
             const className = m.className ? m.className : value;
             const route = m.route ? m.route : value;
-            const clickFunction = m.clickFunction
-                ? m.clickFunction
-                : `to${m.value}`;
+            const clickFunction = m.clickFunction ? m.clickFunction : `to${m.value}`;
 
             return (
                 <MenuItem
@@ -205,9 +194,7 @@ class AppNav extends React.Component {
                     className={className}
                     icon={m.icon}
                     customIcon={m.customIcon}
-                    selected={
-                        routerStore.currentRoute === routerStore.ROUTES[route]
-                    }
+                    selected={routerStore.currentRoute === routerStore.ROUTES[route]}
                     onClick={this[clickFunction]}
                 />
             );
@@ -246,20 +233,14 @@ class AppNav extends React.Component {
                         })}
                     />
                     <Menu
-                        customButton={
-                            <Avatar contact={contact} size="medium" />
-                        }
+                        customButton={<Avatar contact={contact} size="medium" />}
                         position="top-left"
                         theme="wide"
                         innerClassName="app-nav-menu"
                     >
                         <MenuHeader
                             leftContent={
-                                <Avatar
-                                    contact={contact}
-                                    size="medium"
-                                    onClick={this.toProfile}
-                                />
+                                <Avatar contact={contact} size="medium" onClick={this.toProfile} />
                             }
                             caption={contact.fullName}
                             legend={contact.username}

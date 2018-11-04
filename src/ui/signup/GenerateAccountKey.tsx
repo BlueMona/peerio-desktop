@@ -41,12 +41,7 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
     get loadingAnimation() {
         const bars = [];
         for (let i = 0; i < 8; i++) {
-            bars.push(
-                <div
-                    key={`bar-${i}`}
-                    className={css('loading-bar', `bar-${i}`)}
-                />
-            );
+            bars.push(<div key={`bar-${i}`} className={css('loading-bar', `bar-${i}`)} />);
         }
         return bars;
     }
@@ -76,19 +71,11 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
             <div className="ak-preview fade-1">
                 <div className="preview-content">
                     <div className="input-container">
-                        <T
-                            k="title_demoPdfUsernameLabel"
-                            className="label"
-                            tag="div"
-                        />
+                        <T k="title_demoPdfUsernameLabel" className="label" tag="div" />
                         <div className="input">{username}</div>
                     </div>
                     <div className="input-container">
-                        <T
-                            k="title_demoPdfAkLabel"
-                            className="label"
-                            tag="div"
-                        />
+                        <T k="title_demoPdfAkLabel" className="label" tag="div" />
                         <div className="input">{this.akDisplay}</div>
                     </div>
                 </div>
@@ -127,19 +114,12 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
         return (
             <div className="mock-login">
                 <div className="head-container">
-                    <img
-                        alt="Peerio logo"
-                        className="logo"
-                        src="static/img/logo-mark.svg"
-                    />
+                    <img alt="Peerio logo" className="logo" src="static/img/logo-mark.svg" />
                     <Mock.Line width={2} shade="verydark" />
                 </div>
 
                 <div className="mock-input-container">
-                    <Mock.TextInput
-                        placeholder={t('title_username')}
-                        active={this.keyReady}
-                    >
+                    <Mock.TextInput placeholder={t('title_username')} active={this.keyReady}>
                         {this.keyReady ? this.props.store.username : null}
                     </Mock.TextInput>
                 </div>
@@ -151,9 +131,7 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
                     <Mock.TextInput placeholder="******" active={this.keyReady}>
                         {this.keyReady ? '**** **** **** **** **** ****' : null}
                     </Mock.TextInput>
-                    {this.keyReady ? (
-                        <MaterialIcon icon="check_circle" />
-                    ) : null}
+                    {this.keyReady ? <MaterialIcon icon="check_circle" /> : null}
                 </div>
 
                 <div
@@ -172,23 +150,13 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
             <div className="generate-account-key">
                 <div className="real-ui-container">
                     <div className="real-ui-content-container">
-                        <T
-                            k="title_generatingAk"
-                            tag="h2"
-                            className="heading"
-                        />
-                        <T
-                            k="title_generatingAkDescription"
-                            tag="div"
-                            className="guide-text"
-                        />
+                        <T k="title_generatingAk" tag="h2" className="heading" />
+                        <T k="title_generatingAkDescription" tag="div" className="guide-text" />
 
                         <div className="main-container">
                             <div className="ak-container">
                                 <div className="ak-content">
-                                    {this.keyReady
-                                        ? this.akDisplay
-                                        : this.loadingAnimation}
+                                    {this.keyReady ? this.akDisplay : this.loadingAnimation}
                                 </div>
                                 <Button
                                     className={css({ hide: !this.keyReady })}
@@ -199,19 +167,13 @@ export default class GenerateAccountKey extends React.Component<SignupStep> {
                             </div>
                             {this.keyReady ? (
                                 <React.Fragment>
-                                    <T
-                                        k="title_akBackupDescription"
-                                        tag="p"
-                                        className="fade-0"
-                                    />
+                                    <T k="title_akBackupDescription" tag="p" className="fade-0" />
                                     {this.akPreview}
                                     <Button
                                         className="skip-backup fade-2"
                                         onClick={this.advanceStep}
                                     >
-                                        {this.props.store.keyBackedUp
-                                            ? 'Next'
-                                            : 'Skip Backup'}
+                                        {this.props.store.keyBackedUp ? 'Next' : 'Skip Backup'}
                                     </Button>
                                 </React.Fragment>
                             ) : (

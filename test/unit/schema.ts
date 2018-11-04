@@ -27,11 +27,7 @@ const paragraphWithWhitespace = chatSchema.node(
 const paragraphWithEmoji = chatSchema.node(
     'doc',
     null,
-    chatSchema.node(
-        'paragraph',
-        null,
-        chatSchema.node('emoji', { shortname: ':grimacing:' })
-    )
+    chatSchema.node('paragraph', null, chatSchema.node('emoji', { shortname: ':grimacing:' }))
 );
 
 describe('chat schema', () => {
@@ -58,9 +54,7 @@ describe('chat schema', () => {
             shouldBeWhitespaceOnly: false
         }
     ].forEach(testCase => {
-        it(`should determine whether node is whitespace only: '${
-            testCase.name
-        }'`, () => {
+        it(`should determine whether node is whitespace only: '${testCase.name}'`, () => {
             const actual = isWhitespaceOnly(testCase.doc);
             expect(actual).toEqual(testCase.shouldBeWhitespaceOnly);
         });

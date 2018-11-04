@@ -14,10 +14,7 @@ describe('Signup: ', function() {
         return this.app.client
             .click('a:nth-of-type(1)')
             .waitForVisible('.signup')
-            .setValue(
-                'div.signup-form > div.profile > div:nth-child(3) input',
-                testUser.username
-            )
+            .setValue('div.signup-form > div.profile > div:nth-child(3) input', testUser.username)
             .setValue(
                 'div.signup-form > div.profile > div:nth-child(4) input',
                 `${testUser.username}@mailinator.com`
@@ -66,10 +63,7 @@ describe('Signup: ', function() {
         return this.app.client
             .click('a:nth-of-type(1)')
             .waitForVisible('.signup')
-            .setValue(
-                'div.signup-form > div.profile > div:nth-child(3) input',
-                testUser.username
-            )
+            .setValue('div.signup-form > div.profile > div:nth-child(3) input', testUser.username)
             .setValue(
                 'div.signup-form > div.profile > div:nth-child(4) input',
                 `${testUser.username}@mailinator.com`
@@ -105,10 +99,7 @@ describe('Signup: ', function() {
         return this.app.client
             .click('a:nth-of-type(1)')
             .waitForVisible('.signup')
-            .setValue(
-                'div.signup-form > div.profile > div:nth-child(3) input',
-                testUser.username
-            )
+            .setValue('div.signup-form > div.profile > div:nth-child(3) input', testUser.username)
             .setValue(
                 'div.signup-form > div.profile > div:nth-child(4) input',
                 `${testUser.username}@mailinator.com`
@@ -143,9 +134,7 @@ describe('Signup: ', function() {
     it('can sign up & create a passphrase', () => {
         return this.app.client
             .click('a:nth-of-type(1)')
-            .waitForEnabled(
-                'div.signup-form > div.profile > div:nth-child(3) input'
-            )
+            .waitForEnabled('div.signup-form > div.profile > div:nth-child(3) input')
             .then(() => {
                 return this.app.client
                     .setValue(
@@ -164,10 +153,7 @@ describe('Signup: ', function() {
                         'div.signup-form > div > div.input-row > div.test-second > div > div.rt-input-input > input',
                         'lastnamebla'
                     )
-                    .waitForEnabled(
-                        'div.signup-nav > button:nth-child(2)',
-                        10000
-                    )
+                    .waitForEnabled('div.signup-nav > button:nth-child(2)', 10000)
                     .click('div.signup-nav > button:nth-child(2)')
                     .waitForVisible(
                         'div.signup-form > div > div:nth-child(4) > div.hint-wrapper',

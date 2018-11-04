@@ -7,14 +7,7 @@ import _ from 'lodash';
 
 import { t } from 'peerio-translator';
 import { chatStore, chatInviteStore } from 'peerio-icebear';
-import {
-    Button,
-    List,
-    ListItem,
-    MaterialIcon,
-    ProgressBar,
-    Tooltip
-} from 'peer-ui';
+import { Button, List, ListItem, MaterialIcon, ProgressBar, Tooltip } from 'peer-ui';
 
 import routerStore from '~/stores/router-store';
 import T from '~/ui/shared-components/T';
@@ -52,10 +45,7 @@ export default class ChatList extends React.Component {
     componentWillUnmount() {
         window.removeEventListener('resize', this.checkScrollHeight);
         if (this.scrollContainerRef)
-            this.scrollContainerRef.removeEventListener(
-                'scroll',
-                this.checkScrollDistance
-            );
+            this.scrollContainerRef.removeEventListener('scroll', this.checkScrollDistance);
         window.removeEventListener('resize', this.checkScrollDistance);
     }
 
@@ -80,8 +70,7 @@ export default class ChatList extends React.Component {
                     caption={`# ${r.name}`}
                     onClick={this.activateChat}
                     rightContent={
-                        (!r.active || r.newMessagesMarkerPos) &&
-                        r.unreadCount > 0 ? (
+                        (!r.active || r.newMessagesMarkerPos) && r.unreadCount > 0 ? (
                             <div className="notification">
                                 {r.unreadCount < 100 ? r.unreadCount : '99+'}
                             </div>
@@ -113,16 +102,11 @@ export default class ChatList extends React.Component {
             if (!c.metaLoaded) return null;
             let rightContent: JSX.Element | null = null;
             let contact =
-                c.otherParticipants.length > 0
-                    ? c.otherParticipants[0]
-                    : c.allParticipants[0];
+                c.otherParticipants.length > 0 ? c.otherParticipants[0] : c.allParticipants[0];
             if (c.isInvite) {
                 rightContent = <T k="title_new" className="badge-new" />;
                 contact = c.contact;
-            } else if (
-                (!c.active || c.newMessagesMarkerPos) &&
-                c.unreadCount > 0
-            ) {
+            } else if ((!c.active || c.newMessagesMarkerPos) && c.unreadCount > 0) {
                 rightContent = (
                     <div className="notification">
                         {c.unreadCount < 100 ? c.unreadCount : '99+'}
@@ -138,14 +122,7 @@ export default class ChatList extends React.Component {
                         unread: c.unreadCount > 0,
                         pinned: c.isFavorite
                     })}
-                    leftContent={
-                        <AvatarWithPopup
-                            key="a"
-                            contact={contact}
-                            size="small"
-                            tooltip
-                        />
-                    }
+                    leftContent={<AvatarWithPopup key="a" contact={contact} size="small" tooltip />}
                     onClick={this.activateChat}
                     rightContent={rightContent}
                 >
@@ -181,10 +158,7 @@ export default class ChatList extends React.Component {
         }, []);
 
         const dmsOffset =
-            roomsOffset +
-            this.allRooms.length * roomHeight +
-            paddingMiddle +
-            buttonHeight;
+            roomsOffset + this.allRooms.length * roomHeight + paddingMiddle + buttonHeight;
         unreadDMs.forEach(i => {
             positionsArray.push(dmsOffset + i * dmHeight);
         });
@@ -290,10 +264,7 @@ export default class ChatList extends React.Component {
         if (!el) return;
 
         const goal = this.goalUnread;
-        if (
-            el.scrollTop >= goal ||
-            el.scrollTop + el.clientHeight >= this.containerTotalHeight
-        ) {
+        if (el.scrollTop >= goal || el.scrollTop + el.clientHeight >= this.containerTotalHeight) {
             return;
         }
 
@@ -304,10 +275,7 @@ export default class ChatList extends React.Component {
     // Room, DM, and button click events
     readonly activateChat = async (ev: React.MouseEvent<HTMLElement>) => {
         chatInviteStore.deactivateInvite();
-        const id = getAttributeInParentChain(
-            ev.target as HTMLElement,
-            'data-chatid'
-        );
+        const id = getAttributeInParentChain(ev.target as HTMLElement, 'data-chatid');
         routerStore.navigateTo(routerStore.ROUTES.chats);
         chatStore.activate(id);
     };
@@ -350,14 +318,8 @@ export default class ChatList extends React.Component {
                         <MaintenanceWarning />
                         <List>
                             <div>
-                                <PlusIcon
-                                    onClick={this.newChannel}
-                                    label={t('title_channels')}
-                                />
-                                <Tooltip
-                                    text={t('title_addRoom')}
-                                    position="right"
-                                />
+                                <PlusIcon onClick={this.newChannel} label={t('title_channels')} />
+                                <Tooltip text={t('title_addRoom')} position="right" />
                             </div>
 
                             <FlipMove duration={200} easing="ease-in-out">
@@ -381,19 +343,14 @@ export default class ChatList extends React.Component {
                                     label={t('title_directMessages')}
                                     onClick={this.newMessage}
                                 />
-                                <Tooltip
-                                    text={t('title_addDirectMessage')}
-                                    position="right"
-                                />
+                                <Tooltip text={t('title_addDirectMessage')} position="right" />
                             </div>
                             {routerStore.isNewChat && (
                                 <ListItem
                                     key="new chat"
-                                    className={css(
-                                        'dm-item',
-                                        'new-dm-list-entry',
-                                        { active: routerStore.isNewChat }
-                                    )}
+                                    className={css('dm-item', 'new-dm-list-entry', {
+                                        active: routerStore.isNewChat
+                                    })}
                                     leftContent={
                                         <div className="new-dm-avatar material-icons">
                                             help_outline
@@ -401,10 +358,7 @@ export default class ChatList extends React.Component {
                                     }
                                 >
                                     <i>{t('title_newDirectMessage')}</i>
-                                    <Tooltip
-                                        text={t('title_newDirectMessage')}
-                                        position="right"
-                                    />
+                                    <Tooltip text={t('title_newDirectMessage')} position="right" />
                                 </ListItem>
                             )}
                             <FlipMove duration={200} easing="ease-in-out">

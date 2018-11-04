@@ -19,9 +19,7 @@ interface InlineSharedFolderProps {
 }
 
 @observer
-export default class InlineSharedFolder extends React.Component<
-    InlineSharedFolderProps
-> {
+export default class InlineSharedFolder extends React.Component<InlineSharedFolderProps> {
     private get volume() {
         return fileStore.folderStore.getById(this.props.folderId) as Volume;
     }
@@ -55,9 +53,7 @@ export default class InlineSharedFolder extends React.Component<
             if (volumeStore.loaded) {
                 return (
                     <div className="inline-files-container inline-shared-folder-container">
-                        <div className="unknown-file">
-                            {t('title_folderUnshared')}
-                        </div>
+                        <div className="unknown-file">{t('title_folderUnshared')}</div>
                     </div>
                 );
             }
@@ -65,26 +61,17 @@ export default class InlineSharedFolder extends React.Component<
         }
         return (
             <div
-                className={css(
-                    'inline-files-container',
-                    'inline-shared-folder-container',
-                    { unshared: !this.isShared }
-                )}
+                className={css('inline-files-container', 'inline-shared-folder-container', {
+                    unshared: !this.isShared
+                })}
             >
                 <div className="inline-files">
                     <div className="shared-file inline-files-topbar">
                         <div className="container">
-                            <div
-                                className="file-name-container clickable"
-                                onClick={this.click}
-                            >
+                            <div className="file-name-container clickable" onClick={this.click}>
                                 <div className="file-icon">
                                     <MaterialIcon
-                                        icon={
-                                            this.isShared
-                                                ? 'folder_shared'
-                                                : 'folder'
-                                        }
+                                        icon={this.isShared ? 'folder_shared' : 'folder'}
                                     />
                                 </div>
                                 <div className="file-name">

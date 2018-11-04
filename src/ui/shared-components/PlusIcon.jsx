@@ -10,9 +10,7 @@ class PlusIcon extends React.PureComponent {
                 })}
                 onClick={this.props.onClick}
             >
-                {this.props.label && (
-                    <span className="label">{this.props.label}</span>
-                )}
+                {this.props.label && <span className="label">{this.props.label}</span>}
                 <span className="plus-icon">+</span>
             </span>
         );

@@ -45,10 +45,7 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                 </div>
                 <div className="description">
                     <T k="title_backupAkReminder" />
-                    <Button
-                        onClick={this.akDownload}
-                        label={t('button_backupNow')}
-                    />
+                    <Button onClick={this.akDownload} label={t('button_backupNow')} />
                 </div>
             </div>
         );
@@ -59,9 +56,7 @@ export default class TermsOfUse extends React.Component<SignupStep> {
     @action.bound
     selectTerm(number) {
         this.selectedTerm = number;
-        telemetry.signup.readMore(
-            this.termsTextContent[this.selectedTerm].titleLeft
-        );
+        telemetry.signup.readMore(this.termsTextContent[this.selectedTerm].titleLeft);
     }
 
     termsTextContent = [
@@ -148,17 +143,11 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                         onClick={() => this.selectTerm(index)}
                     >
                         {term.spriteIcon ? (
-                            <FileSpriteIcon
-                                type={term.spriteIcon}
-                                size="small"
-                            />
+                            <FileSpriteIcon type={term.spriteIcon} size="small" />
                         ) : null}
                         {term.icon ? <MaterialIcon icon={term.icon} /> : null}
                         <span className="question">{term.titleLeft}</span>
-                        <MaterialIcon
-                            className="right-arrow"
-                            icon="keyboard_arrow_right"
-                        />
+                        <MaterialIcon className="right-arrow" icon="keyboard_arrow_right" />
                         <MaterialIcon
                             className={css('left-arrow', {
                                 banish: !isSelected
@@ -189,9 +178,7 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                                 key={`textcontent-${i}`}
                             >
                                 {content.heading ? (
-                                    <h4 className="question">
-                                        {content.heading}
-                                    </h4>
+                                    <h4 className="question">{content.heading}</h4>
                                 ) : null}
                                 <p>{content.paragraph}</p>
                             </React.Fragment>
@@ -247,20 +234,14 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                         {{
                             openPrivacy: text => {
                                 return (
-                                    <Button
-                                        onClick={this.showPrivacyDialog}
-                                        theme="link"
-                                    >
+                                    <Button onClick={this.showPrivacyDialog} theme="link">
                                         {text}
                                     </Button>
                                 );
                             },
                             openTerms: text => {
                                 return (
-                                    <Button
-                                        onClick={this.showTermsDialog}
-                                        theme="link"
-                                    >
+                                    <Button onClick={this.showTermsDialog} theme="link">
                                         {text}
                                     </Button>
                                 );
@@ -272,10 +253,7 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                     <T k="title_signupAgainExplanation" tag="p" />
 
                     <div className="buttons-container">
-                        <Button
-                            onClick={this.confirmCancel}
-                            label={t('button_confirmCancel')}
-                        />
+                        <Button onClick={this.confirmCancel} label={t('button_confirmCancel')} />
                         <Button
                             onClick={this.backToTerms}
                             theme="affirmative"
@@ -322,27 +300,19 @@ export default class TermsOfUse extends React.Component<SignupStep> {
 
                 <div className="real-ui-container">
                     <div className="real-ui-content-container">
-                        <div className="heading">
-                            {t('title_termsOfUseSentenceCase')}
-                        </div>
+                        <div className="heading">{t('title_termsOfUseSentenceCase')}</div>
                         <T k="title_termsDescription" tag="p">
                             {{
                                 openTerms: text => {
                                     return (
-                                        <Button
-                                            onClick={this.showTermsDialog}
-                                            theme="link"
-                                        >
+                                        <Button onClick={this.showTermsDialog} theme="link">
                                             {text}
                                         </Button>
                                     );
                                 },
                                 openPrivacy: text => {
                                     return (
-                                        <Button
-                                            onClick={this.showPrivacyDialog}
-                                            theme="link"
-                                        >
+                                        <Button onClick={this.showPrivacyDialog} theme="link">
                                             {text}
                                         </Button>
                                     );
@@ -351,10 +321,7 @@ export default class TermsOfUse extends React.Component<SignupStep> {
                         </T>
                         <div className="terms-left">{this.termsItems.left}</div>
                         <div className="buttons-container">
-                            <Button
-                                onClick={this.declineTerms}
-                                label={t('button_decline')}
-                            />
+                            <Button onClick={this.declineTerms} label={t('button_decline')} />
                             <Button
                                 onClick={this.acceptTerms}
                                 theme="affirmative"

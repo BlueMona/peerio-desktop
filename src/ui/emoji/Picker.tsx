@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    observable,
-    computed,
-    action,
-    runInAction,
-    IObservableValue
-} from 'mobx';
+import { observable, computed, action, runInAction, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 import { MaterialIcon } from 'peer-ui';
@@ -32,10 +26,7 @@ Object.defineProperty(emojiDataWithRecent, 'recent', {
     get: () => recentList.get()
 });
 
-const categories = [
-    { id: 'recent', name: 'Recently Used' },
-    ...emojiCategories
-];
+const categories = [{ id: 'recent', name: 'Recently Used' }, ...emojiCategories];
 
 function skipNulls(i) {
     if (i === null) return false;
@@ -75,9 +66,7 @@ export default class Picker extends React.Component<{
             clearTimeout(this.clearHoveredEmojiTimer);
         }
         this.hoveredEmoji.set(
-            emojiByCanonicalShortname[
-                e.target.attributes['data-shortname'].value
-            ]
+            emojiByCanonicalShortname[e.target.attributes['data-shortname'].value]
         );
     }
 
@@ -110,11 +99,7 @@ export default class Picker extends React.Component<{
 
     render() {
         return (
-            <div
-                className="emoji-picker"
-                onBlur={this.handleBlur}
-                onMouseDown={this.preventBlur}
-            >
+            <div className="emoji-picker" onBlur={this.handleBlur} onMouseDown={this.preventBlur}>
                 <CategoriesHeader selectedCategory={this.selectedCategory} />
                 <EmojiSearch
                     searchKeyword={this.searchKeyword}
@@ -222,15 +207,12 @@ class EmojiList extends React.Component<{
     handleScroll = _.throttle(() => {
         const candidates = [];
         let closest;
-        const parent = document.getElementsByClassName(
-            `emojis`
-        )[0] as HTMLElement;
+        const parent = document.getElementsByClassName(`emojis`)[0] as HTMLElement;
         for (let i = 0; i < categories.length; i++) {
             const c = document.getElementsByClassName(
                 `category-header ${categories[i].id}`
             )[0] as HTMLElement;
-            if (!c || c.offsetTop > parent.offsetHeight + parent.scrollTop)
-                continue;
+            if (!c || c.offsetTop > parent.offsetHeight + parent.scrollTop) continue;
             candidates.push({ id: categories[i].id, offsetTop: c.offsetTop });
         }
         if (!candidates.length) return;
@@ -257,29 +239,16 @@ class EmojiList extends React.Component<{
                     .map(c => {
                         return (
                             <div key={c.id}>
-                                <div className={`category-header ${c.id}`}>
-                                    {c.name}
-                                </div>
+                                <div className={`category-header ${c.id}`}>{c.name}</div>
                                 {emojiDataWithRecent[c.id]
                                     .map(e => {
-                                        if (
-                                            !e ||
-                                            e.index.indexOf(
-                                                this.props.searchKeyword
-                                            ) < 0
-                                        )
+                                        if (!e || e.index.indexOf(this.props.searchKeyword) < 0)
                                             return null;
                                         return (
                                             <span
-                                                onMouseEnter={
-                                                    this.props.onEmojiMouseEnter
-                                                }
-                                                onMouseLeave={
-                                                    this.props.onEmojiMouseLeave
-                                                }
-                                                onClick={
-                                                    this.props.onEmojiPicked
-                                                }
+                                                onMouseEnter={this.props.onEmojiMouseEnter}
+                                                onMouseLeave={this.props.onEmojiMouseLeave}
+                                                onClick={this.props.onEmojiPicked}
                                                 className={e.className}
                                                 key={e.shortname}
                                                 data-shortname={e.shortname}
@@ -305,8 +274,7 @@ class InfoPane extends React.Component<{
         if (!hoveredEmoji) {
             return (
                 <div className="info-pane default">
-                    <span className="emojione emojione-32-people _1f446" /> Pick
-                    your emoji
+                    <span className="emojione emojione-32-people _1f446" /> Pick your emoji
                 </div>
             );
         }

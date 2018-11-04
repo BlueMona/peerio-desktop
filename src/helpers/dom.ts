@@ -5,10 +5,7 @@
  * @param attribute - attribute name
  * @returns found attribute value or null
  */
-export function getAttributeInParentChain(
-    element: Element,
-    attribute: string
-): string | null {
+export function getAttributeInParentChain(element: Element, attribute: string): string | null {
     let el = element;
 
     while (el) {
@@ -25,10 +22,7 @@ export function getAttributeInParentChain(
  * @param attribute - attribute name
  * @returns found html element or null
  */
-export function getParentWithClass(
-    element: Element,
-    className
-): Element | null {
+export function getParentWithClass(element: Element, className): Element | null {
     let el = element;
 
     while (el) {

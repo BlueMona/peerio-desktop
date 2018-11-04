@@ -23,9 +23,7 @@ interface SharedFolderActionsProps {
 }
 
 @observer
-export default class SharedFolderActions extends React.Component<
-    SharedFolderActionsProps
-> {
+export default class SharedFolderActions extends React.Component<SharedFolderActionsProps> {
     render() {
         return (
             <Menu

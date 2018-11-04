@@ -21,10 +21,7 @@ export default class LocalFileManager {
     }
 
     @action.bound
-    async uploadFileTree(
-        files: string[],
-        targetFolder: FileFolder
-    ): Promise<void> {
+    async uploadFileTree(files: string[], targetFolder: FileFolder): Promise<void> {
         const trees = [];
         try {
             this.preparingForUpload++;

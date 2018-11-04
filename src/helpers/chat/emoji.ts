@@ -80,14 +80,12 @@ Object.values(emojiJson.byCategory).forEach(emojiList => {
 
 Object.keys(emojiJson.byAllShortnames).forEach(alias => {
     // @ts-ignore (assigning a new type)
-    emojiJson.byAllShortnames[alias] =
-        emojiByCanonicalShortname[emojiJson.byAllShortnames[alias]];
+    emojiJson.byAllShortnames[alias] = emojiByCanonicalShortname[emojiJson.byAllShortnames[alias]];
 });
 
 Object.keys(emojiJson.byAscii).forEach(ascii => {
     // @ts-ignore (assigning a new type)
-    emojiJson.byAscii[ascii] =
-        emojiByCanonicalShortname[emojiJson.byAscii[ascii]];
+    emojiJson.byAscii[ascii] = emojiByCanonicalShortname[emojiJson.byAscii[ascii]];
 });
 // -----------------
 
@@ -102,13 +100,11 @@ export const emojiByCategories: EmojiMap = emojiJson.byCategory;
  * @type {{ [shortname : string] : Emoji }}
  */
 // @ts-ignore (assigning the new type to the denormalized data)
-export const emojiByAllShortnames: { [shortname: string]: Emoji } =
-    emojiJson.byAllShortnames;
+export const emojiByAllShortnames: { [shortname: string]: Emoji } = emojiJson.byAllShortnames;
 
 /**
  * Maps _all_ shortnames (including aliases) to emoji. Useful for completions and lookups.
  * @type {{ [ascii : string] : Emoji }}
  */
 // @ts-ignore (assigning the new type to the denormalized data)
-export const emojiByAsciiSequences: { [ascii: string]: Emoji } =
-    emojiJson.byAscii;
+export const emojiByAsciiSequences: { [ascii: string]: Emoji } = emojiJson.byAscii;

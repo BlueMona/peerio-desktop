@@ -33,9 +33,7 @@ class UpdateFailedDialog extends Component {
             <Dialog
                 className="dialog-update-failed"
                 theme="error"
-                active={
-                    updaterStore.lastUpdateFailed && !updaterStore.installing
-                }
+                active={updaterStore.lastUpdateFailed && !updaterStore.installing}
                 title={t('title_updateFailed')}
                 actions={[
                     {

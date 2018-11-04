@@ -13,9 +13,7 @@ interface UserSearchErrorProps {
 }
 
 @observer
-export default class UserSearchError extends React.Component<
-    UserSearchErrorProps
-> {
+export default class UserSearchError extends React.Component<UserSearchErrorProps> {
     invite = () => {
         this.props.onInvite();
     };

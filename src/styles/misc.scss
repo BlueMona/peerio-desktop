@@ -126,8 +126,7 @@ $break-height-default: 900px;
   margin-left: auto;
   margin-right: auto;
 
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     width: 344px;
     padding-top: 128px;
   }
@@ -137,8 +136,7 @@ $break-height-default: 900px;
   padding-right: 168px;
   padding-top: 272px;
 
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     padding-right: 80px;
     padding-top: 128px;
   }

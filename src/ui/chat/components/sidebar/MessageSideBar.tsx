@@ -66,34 +66,27 @@ export default class MessageSideBar extends React.Component {
             <ListItem
                 data-username={entry[0].username}
                 key={entry[0].username}
-                leftContent={
-                    <Avatar key="a" contact={entry[0]} size="small" clickable />
-                }
+                leftContent={<Avatar key="a" contact={entry[0]} size="small" clickable />}
                 caption={entry[0].username}
                 legend={entry[0].fullName}
                 onClick={this.openContact}
             />
         );
     };
-    compareReceipts(
-        r1: [Contact, ReadReceipt] | null,
-        r2: [Contact, ReadReceipt] | null
-    ) {
+    compareReceipts(r1: [Contact, ReadReceipt] | null, r2: [Contact, ReadReceipt] | null) {
         if (!r1) return 1;
         if (!r2) return -1;
-        return r1[0].fullNameAndUsername.localeCompare(
-            r2[0].fullNameAndUsername
-        );
+        return r1[0].fullNameAndUsername.localeCompare(r2[0].fullNameAndUsername);
     }
     getReceipts(msg: Message) {
-        const rEntries = entries(chatStore.activeChat.receipts).map<
-            [Contact, ReadReceipt] | null
-        >(([contactName, readReceipt]) => {
-            if (+msg.id > readReceipt.chatPosition) {
-                return null;
+        const rEntries = entries(chatStore.activeChat.receipts).map<[Contact, ReadReceipt] | null>(
+            ([contactName, readReceipt]) => {
+                if (+msg.id > readReceipt.chatPosition) {
+                    return null;
+                }
+                return [contactStore.getContact(contactName), readReceipt];
             }
-            return [contactStore.getContact(contactName), readReceipt];
-        });
+        );
         rEntries.sort(this.compareReceipts);
 
         return rEntries.map(this.renderReceipt);
@@ -106,11 +99,7 @@ export default class MessageSideBar extends React.Component {
                 <div className="header">
                     <List theme="large no-hover">
                         <div className="title">
-                            <T
-                                k="title_messageInfo"
-                                tag="div"
-                                className="p-list-heading"
-                            />
+                            <T k="title_messageInfo" tag="div" className="p-list-heading" />
                             <Button icon="close" onClick={this.close} />
                         </div>
                         <ListItem
@@ -133,10 +122,7 @@ export default class MessageSideBar extends React.Component {
                     {this.getReceipts(msg)}
                 </List>
 
-                <ContactProfile
-                    ref={this.contactProfileRef}
-                    contact={this.clickedContact}
-                />
+                <ContactProfile ref={this.contactProfileRef} contact={this.clickedContact} />
             </div>
         );
     }

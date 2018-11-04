@@ -16,9 +16,7 @@ class AppNav extends React.Component {
                     tooltipPosition="right"
                     icon={this.props.icon}
                 />
-                <div
-                    className={this.props.showBadge ? 'look-at-me' : 'banish'}
-                />
+                <div className={this.props.showBadge ? 'look-at-me' : 'banish'} />
             </div>
         );
     }

@@ -19,9 +19,7 @@ export function ensureMentions(state: EditorState): EditorState {
             if (node.isText) {
                 const match = mentionEnsurePattern.exec(node.text);
                 if (match) {
-                    const $from = mentionifiedState.doc.resolve(
-                        pos + match.index
-                    );
+                    const $from = mentionifiedState.doc.resolve(pos + match.index);
                     tr.replaceWith(
                         $from.pos,
                         $from.pos + match[0].length,

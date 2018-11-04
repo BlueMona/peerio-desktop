@@ -5,13 +5,7 @@ import css from 'classnames';
 
 import { t } from 'peerio-translator';
 import { User, contactStore, fileStore } from 'peerio-icebear';
-import {
-    Button,
-    Checkbox,
-    CustomIcon,
-    MaterialIcon,
-    ProgressBar
-} from 'peer-ui';
+import { Button, Checkbox, CustomIcon, MaterialIcon, ProgressBar } from 'peer-ui';
 
 import ContactProfile from '~/ui/contact/components/ContactProfile';
 import T from '~/ui/shared-components/T';
@@ -81,8 +75,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
 
         const selectDisabled = this.props.disabledCheckbox;
         const { progress, progressMax, progressPercentage } = folder;
-        const shareInProgress =
-            folder.convertingToVolume || folder.convertingFromFolder;
+        const shareInProgress = folder.convertingToVolume || folder.convertingFromFolder;
 
         return (
             <div
@@ -98,8 +91,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                         'selected-row': folder.selected,
                         'share-in-progress': shareInProgress,
                         'dragged-row': isDragging,
-                        'folder-row-droppable-hovered':
-                            isBeingDraggedOver && canBeDroppedInto
+                        'folder-row-droppable-hovered': isBeingDraggedOver && canBeDroppedInto
                     }
                 )}
             >
@@ -114,9 +106,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                                 disabled: selectDisabled
                             })}
                             checked={folder.selected}
-                            onChange={
-                                selectDisabled ? null : this.toggleSelected
-                            }
+                            onChange={selectDisabled ? null : this.toggleSelected}
                         />
                     ) : (
                         <div className="file-checkbox" />
@@ -126,30 +116,18 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                         {folder.canShare ? (
                             <MaterialIcon icon="folder" />
                         ) : (
-                            <CustomIcon
-                                icon="folder-shared"
-                                hover
-                                selected={folder.selected}
-                            />
+                            <CustomIcon icon="folder-shared" hover selected={folder.selected} />
                         )}
                     </div>
 
-                    <div
-                        className="file-name clickable selectable"
-                        onClick={this.onClickFolder}
-                    >
+                    <div className="file-name clickable selectable" onClick={this.onClickFolder}>
                         {folder.name}
 
-                        {this.props.folderDetailsMini && (
-                            <FileFolderDetailsRow folder={folder} />
-                        )}
+                        {this.props.folderDetailsMini && <FileFolderDetailsRow folder={folder} />}
                     </div>
 
                     {this.props.folderDetails && (
-                        <div
-                            className="file-owner clickable"
-                            onClick={this.openContact}
-                        >
+                        <div className="file-owner clickable" onClick={this.openContact}>
                             {shareInProgress ? (
                                 <T k="title_convertingToShared" />
                             ) : folder.owner === User.current.username ? (
@@ -160,9 +138,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                         </div>
                     )}
 
-                    {this.props.folderDetails && (
-                        <div className="file-uploaded" />
-                    )}
+                    {this.props.folderDetails && <div className="file-uploaded" />}
 
                     {this.props.folderDetails && <div className="file-size" />}
 
@@ -179,10 +155,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                     )}
 
                     {showNavigation && (
-                        <Button
-                            icon="keyboard_arrow_right"
-                            onClick={this.onClickFolder}
-                        />
+                        <Button icon="keyboard_arrow_right" onClick={this.onClickFolder} />
                     )}
                 </div>
 
@@ -208,15 +181,10 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                     </div>
                 )}
 
-                {shareInProgress && (
-                    <ProgressBar value={progress} max={progressMax} />
-                )}
+                {shareInProgress && <ProgressBar value={progress} max={progressMax} />}
 
                 {this.props.folderDetails && (
-                    <ContactProfile
-                        ref={this.contactProfileRef}
-                        contact={this.clickedContact}
-                    />
+                    <ContactProfile ref={this.contactProfileRef} contact={this.clickedContact} />
                 )}
             </div>
         );

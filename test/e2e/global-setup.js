@@ -15,11 +15,7 @@ global.delay = function(duration) {
 };
 
 if (process.env.PEERIO_STAGING_SOCKET_SERVER) {
-    console.log(
-        `Running tests against staging server ${
-            process.env.PEERIO_STAGING_SOCKET_SERVER
-        }`
-    );
+    console.log(`Running tests against staging server ${process.env.PEERIO_STAGING_SOCKET_SERVER}`);
 } else {
     console.log('Running tests against production server.');
 }

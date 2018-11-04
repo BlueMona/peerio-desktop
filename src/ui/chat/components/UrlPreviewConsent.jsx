@@ -88,10 +88,7 @@ class UrlPreviewConsent extends React.Component {
                             onClick={this.onDismiss}
                             theme="secondary"
                         />
-                        <Button
-                            label={t('button_save')}
-                            onClick={this.onSubmitConsent}
-                        />
+                        <Button label={t('button_save')} onClick={this.onSubmitConsent} />
                     </div>
                 </div>
                 {this.firstSave && (

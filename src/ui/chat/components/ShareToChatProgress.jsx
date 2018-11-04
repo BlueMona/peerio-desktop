@@ -24,12 +24,8 @@ class ShareToChatProgress extends React.Component {
         const item = uploads[0] || folders[0];
         const queued = uploads.length + folders.length - 1;
         const { progress, progressMax, progressPercentage } = item;
-        const uploadProgressPercentage = progress
-            ? Math.floor((progress / progressMax) * 100)
-            : 0;
-        const fileType = fileHelpers.getFileIconType(
-            fileHelpers.getFileExtension(item.name)
-        );
+        const uploadProgressPercentage = progress ? Math.floor((progress / progressMax) * 100) : 0;
+        const fileType = fileHelpers.getFileIconType(fileHelpers.getFileExtension(item.name));
 
         return (
             <div className="share-to-chat-progress">
@@ -69,8 +65,7 @@ class ShareToChatProgress extends React.Component {
                                     : `${uploadProgressPercentage}%`}
                         </span>
 
-                        {item.isFolder ? null : !progress || // TODO: mocks show ability to cancel folder share-in-progress as well
-                        progress < progressMax ? (
+                        {item.isFolder ? null : !progress || progress < progressMax ? ( // TODO: mocks show ability to cancel folder share-in-progress as well
                             <Button
                                 icon="cancel"
                                 onClick={() => this.handleCancel(item)}
@@ -79,10 +74,7 @@ class ShareToChatProgress extends React.Component {
                         ) : null}
 
                         {!queued && progress && progress >= progressMax ? (
-                            <MaterialIcon
-                                icon="check"
-                                className="affirmative right-icon"
-                            />
+                            <MaterialIcon icon="check" className="affirmative right-icon" />
                         ) : null}
                     </div>
                 </div>

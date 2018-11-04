@@ -25,12 +25,7 @@ const copy = debounce(
             console.log(modulePath, filePath);
             const fullFilePath = path.join(modulePath, filePath);
             // const filePath = path.relative(modulePath, fullFilePath);
-            const fullDestPath = path.join(
-                cwd,
-                'node_modules',
-                moduleName,
-                filePath
-            );
+            const fullDestPath = path.join(cwd, 'node_modules', moduleName, filePath);
             fse.copy(fullFilePath, fullDestPath, error => {
                 if (error) {
                     console.error('Cannot copy', filePath, error.message);

@@ -81,15 +81,10 @@ export default class FileActions extends React.Component<FileActionsProps> {
 
     shareFile = async () => {
         if (this.props.onActionInProgress) this.props.onActionInProgress();
-        const contacts = await this.shareWithMultipleDialogRef.current.show(
-            null,
-            'sharefiles'
-        );
+        const contacts = await this.shareWithMultipleDialogRef.current.show(null, 'sharefiles');
         if (!contacts || !contacts.length) return;
 
-        contacts.forEach(c =>
-            chatStore.startChatAndShareFiles([c], this.props.file)
-        );
+        contacts.forEach(c => chatStore.startChatAndShareFiles([c], this.props.file));
         if (this.props.onActionComplete) this.props.onActionComplete();
     };
 
@@ -167,9 +162,7 @@ export default class FileActions extends React.Component<FileActionsProps> {
                     active={this.limitedActionsVisible}
                     onDismiss={this.hideLimitedActions}
                 />
-                <ShareWithMultipleDialog
-                    ref={this.shareWithMultipleDialogRef}
-                />
+                <ShareWithMultipleDialog ref={this.shareWithMultipleDialogRef} />
                 <MoveFileDialog ref={this.moveFileDialogRef} />
             </React.Fragment>
         );

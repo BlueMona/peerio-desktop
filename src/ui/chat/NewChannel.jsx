@@ -116,11 +116,7 @@ class NewChannel extends React.Component {
                                 />
                             </div>
                         </div>
-                        <T
-                            k="title_optional"
-                            tag="div"
-                            className="helper-text"
-                        />
+                        <T k="title_optional" tag="div" className="helper-text" />
                     </div>
                     <div className="user-picker-container">
                         <UserPicker

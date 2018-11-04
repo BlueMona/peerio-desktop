@@ -34,11 +34,7 @@ class UserPicker extends React.Component {
 
     @computed
     get showSearchError() {
-        return (
-            this.suggestInviteEmail ||
-            this.showNotFoundError ||
-            this.userAlreadyAdded
-        );
+        return this.suggestInviteEmail || this.showNotFoundError || this.userAlreadyAdded;
     }
 
     @computed
@@ -108,11 +104,7 @@ class UserPicker extends React.Component {
     };
 
     isExcluded(contact) {
-        if (
-            this.props.exceptContacts &&
-            this.props.exceptContacts.includes(contact)
-        )
-            return true;
+        if (this.props.exceptContacts && this.props.exceptContacts.includes(contact)) return true;
         return false;
     }
 
@@ -135,10 +127,7 @@ class UserPicker extends React.Component {
             this.searchUsernameTimeout(this.query);
             return;
         }
-        if (
-            newValLower.length > 1 &&
-            ', '.includes(newValLower[newValLower.length - 1])
-        ) {
+        if (newValLower.length > 1 && ', '.includes(newValLower[newValLower.length - 1])) {
             this.query = newValLower.substr(0, newValLower.length - 1).trim();
             this.tryAcceptUsername();
             return;
@@ -152,9 +141,7 @@ class UserPicker extends React.Component {
         if (e.key === 'Enter' && this.query !== '') {
             // if we are in 1-1 DM selection and user hits enter
             if (this.props.limit === 1) {
-                const c =
-                    this.foundContact ||
-                    (await this.searchUsername(this.query));
+                const c = this.foundContact || (await this.searchUsername(this.query));
                 // if we know for sure contact is there, then go to DM immediately
                 if (c && !c.loading && !c.notFound && !c.isHidden) {
                     this.query = '';
@@ -165,11 +152,7 @@ class UserPicker extends React.Component {
             }
             this.tryAcceptUsername();
         }
-        if (
-            e.key === 'Backspace' &&
-            this.query === '' &&
-            this.selected.length > 0
-        ) {
+        if (e.key === 'Backspace' && this.query === '' && this.selected.length > 0) {
             this.selected.remove(this.selected[this.selected.length - 1]);
         }
     };
@@ -201,9 +184,7 @@ class UserPicker extends React.Component {
             const userHiddenOrNotFound = c.notFound || c.isHidden;
             this.userNotFound = userHiddenOrNotFound ? q : '';
             this.suggestInviteEmail =
-                userHiddenOrNotFound && isEmail && !this.props.noInvite
-                    ? q
-                    : '';
+                userHiddenOrNotFound && isEmail && !this.props.noInvite ? q : '';
             this.showNotFoundError = userHiddenOrNotFound;
             this.foundContact = !userHiddenOrNotFound && c;
         }
@@ -279,17 +260,12 @@ class UserPicker extends React.Component {
         return (
             <div key={subTitle} className="user-list">
                 {!!subTitle && (
-                    <ListHeading
-                        key={subTitle}
-                        caption={`${t(subTitle)} (${items.length})`}
-                    />
+                    <ListHeading key={subTitle} caption={`${t(subTitle)} (${items.length})`} />
                 )}
                 {items.map(c => (
                     <span key={c.username} data-id={c.username}>
                         <ListItem
-                            leftContent={
-                                <Avatar key="a" contact={c} size="medium" />
-                            }
+                            leftContent={<Avatar key="a" contact={c} size="medium" />}
                             caption={c.fullName}
                             legend={c.username}
                             onClick={this.onContactClick}
@@ -311,19 +287,14 @@ class UserPicker extends React.Component {
                     })}
                 >
                     <List clickable>
-                        <ListHeading
-                            key="header"
-                            caption={t('title_selectedFiles')}
-                        />
+                        <ListHeading key="header" caption={t('title_selectedFiles')} />
                         {selectedFiles.map(f => (
                             <ListItem
                                 key={f.id}
                                 leftIcon="insert_drive_file"
                                 caption={f.name}
                                 rightIcon={
-                                    selectedFiles.length > 1
-                                        ? 'remove_circle_outline'
-                                        : undefined
+                                    selectedFiles.length > 1 ? 'remove_circle_outline' : undefined
                                 }
                             />
                         ))}
@@ -353,9 +324,7 @@ class UserPicker extends React.Component {
                             )}
                             <div className="message-search-wrapper">
                                 <div className="message-search-inner">
-                                    {this.props.isDM && (
-                                        <T k="title_to" className="title-to" />
-                                    )}
+                                    {this.props.isDM && <T k="title_to" className="title-to" />}
                                     <div className="new-chat-search">
                                         <MaterialIcon icon="search" />
                                         <div className="chip-wrapper">
@@ -363,13 +332,9 @@ class UserPicker extends React.Component {
                                                 <Chip
                                                     key={c.username}
                                                     className={css({
-                                                        'not-found':
-                                                            c.notFound ||
-                                                            c.isHidden
+                                                        'not-found': c.notFound || c.isHidden
                                                     })}
-                                                    onDeleteClick={() =>
-                                                        this.selected.remove(c)
-                                                    }
+                                                    onDeleteClick={() => this.selected.remove(c)}
                                                     deletable
                                                 >
                                                     {c.loading ? (
@@ -388,52 +353,37 @@ class UserPicker extends React.Component {
                                                     routerStore.isPatientSpace
                                                         ? t('title_Members')
                                                         : routerStore.isNewPatient
-                                                            ? t(
-                                                                  'mcr_title_newPatientRecord'
-                                                              )
-                                                            : t(
-                                                                  'title_userSearch'
-                                                              )
+                                                            ? t('mcr_title_newPatientRecord')
+                                                            : t('title_userSearch')
                                                 }
                                                 value={this.query}
                                                 onChange={this.handleTextChange}
                                                 onKeyDown={this.handleKeyDown}
-                                                autoFocus={
-                                                    !this.props.noAutoFocus
-                                                }
+                                                autoFocus={!this.props.noAutoFocus}
                                             />
                                         </div>
                                         {this.props.limit !== 1 &&
                                             this.props.onAccept &&
                                             !this.isRoomCreation && (
                                                 <Button
-                                                    label={
-                                                        this.props.button ||
-                                                        t('button_go')
-                                                    }
+                                                    label={this.props.button || t('button_go')}
                                                     onClick={this.accept}
                                                     disabled={
                                                         !this.isValid ||
                                                         (this.queryIsEmpty &&
-                                                            this.selected
-                                                                .length === 0)
+                                                            this.selected.length === 0)
                                                     }
                                                     theme="affirmative"
                                                 />
                                             )}
-                                        {(this.contactLoading ||
-                                            this._searchUsernameTimeout) && (
-                                            <ProgressBar
-                                                circular
-                                                size="small"
-                                            />
+                                        {(this.contactLoading || this._searchUsernameTimeout) && (
+                                            <ProgressBar circular size="small" />
                                         )}
                                     </div>
                                 </div>
                                 {this.isRoomCreation && (
                                     <div className="helper-text">
-                                        <T k="title_userSearch" />.{' '}
-                                        <T k="title_optional" />
+                                        <T k="title_userSearch" />. <T k="title_optional" />
                                     </div>
                                 )}
                             </div>
@@ -453,8 +403,7 @@ class UserPicker extends React.Component {
                                 <UserSearchError
                                     userAlreadyAdded={this.userAlreadyAdded}
                                     userNotFound={
-                                        this.showNotFoundError &&
-                                        !this.suggestInviteEmail
+                                        this.showNotFoundError && !this.suggestInviteEmail
                                             ? this.userNotFound
                                             : null
                                     }
@@ -465,16 +414,9 @@ class UserPicker extends React.Component {
                         )}
                         <div className="user-list-container">
                             <List theme="large" clickable>
-                                {this.foundContact &&
-                                    this.renderList(null, [this.foundContact])}
-                                {this.renderList(
-                                    'title_favoriteContacts',
-                                    this.options.favorites
-                                )}
-                                {this.renderList(
-                                    'title_allContacts',
-                                    this.options.normal
-                                )}
+                                {this.foundContact && this.renderList(null, [this.foundContact])}
+                                {this.renderList('title_favoriteContacts', this.options.favorites)}
+                                {this.renderList('title_allContacts', this.options.normal)}
                             </List>
                         </div>
                     </div>

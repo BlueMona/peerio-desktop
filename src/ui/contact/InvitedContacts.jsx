@@ -59,22 +59,15 @@ class InvitedContacts extends React.Component {
                 <div className="contact-list">
                     <div className="contact-list-section">
                         <div className="contact-list-section-marker" />
-                        <List
-                            className="contact-list-section-content"
-                            theme="large"
-                        >
+                        <List className="contact-list-section-content" theme="large">
                             {contactStore.invitedNotJoinedContacts.map(c => (
                                 <ListItem
                                     key={c.email}
                                     leftContent={
-                                        <div className="avatar-invited material-icons">
-                                            person
-                                        </div>
+                                        <div className="avatar-invited material-icons">person</div>
                                     }
                                     caption={c.email}
-                                    legend={`${t('title_invited')} ${moment(
-                                        c.added
-                                    ).fromNow()}`}
+                                    legend={`${t('title_invited')} ${moment(c.added).fromNow()}`}
                                     rightContent={this.contactActions(c)}
                                 />
                             ))}

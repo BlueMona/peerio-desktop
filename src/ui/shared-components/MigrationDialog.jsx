@@ -14,9 +14,7 @@ const MIGRATION_MESSAGES_COUNT = 10;
 const MESSAGE_SPEED = 10000;
 
 for (let i = 1; i <= MIGRATION_MESSAGES_COUNT; i++) {
-    const random = Math.floor(
-        Math.random() * migrationInProgressMessages.length
-    );
+    const random = Math.floor(Math.random() * migrationInProgressMessages.length);
 
     if (i === 2) {
         // TODO: re-enable 2nd message once shared folders are added
@@ -49,9 +47,7 @@ for (let i = 1; i <= MIGRATION_MESSAGES_COUNT; i++) {
 class MigrationDialog extends React.Component {
     componentWillMount() {
         this.dispose = reaction(
-            () =>
-                !fileStore.migration.started &&
-                !fileStore.migration.performedByAnotherClient,
+            () => !fileStore.migration.started && !fileStore.migration.performedByAnotherClient,
             () => this.clearTimer()
         );
     }
@@ -66,9 +62,7 @@ class MigrationDialog extends React.Component {
         electron.dialog.showSaveDialog(
             win,
             {
-                defaultPath: `${
-                    User.current.username
-                }-Peerio-shared-files-list.txt`
+                defaultPath: `${User.current.username}-Peerio-shared-files-list.txt`
             },
             this.saveFile
         );
@@ -76,10 +70,7 @@ class MigrationDialog extends React.Component {
 
     async saveFile(filePath) {
         if (!filePath) return;
-        fs.writeFileSync(
-            filePath,
-            await fileStore.migration.getLegacySharedFilesText()
-        );
+        fs.writeFileSync(filePath, await fileStore.migration.getLegacySharedFilesText());
     }
 
     @observable count = -1;
@@ -110,11 +101,7 @@ class MigrationDialog extends React.Component {
             return (
                 <div className="update-in-progress">
                     <ProgressBar mode="indeterminate" />
-                    <T
-                        k="title_fileUpdateProgressDescription"
-                        tag="p"
-                        className="text"
-                    />
+                    <T k="title_fileUpdateProgressDescription" tag="p" className="text" />
                 </div>
             );
         }
@@ -123,17 +110,11 @@ class MigrationDialog extends React.Component {
             <div className="update-in-progress">
                 <ProgressBar
                     mode="determinate"
-                    value={
-                        fileStore.migration.progress
-                            ? fileStore.migration.progress
-                            : 1
-                    }
+                    value={fileStore.migration.progress ? fileStore.migration.progress : 1}
                     max={100}
                 />
                 <div className="percent">
-                    {fileStore.migration.progress
-                        ? fileStore.migration.progress
-                        : 1}%
+                    {fileStore.migration.progress ? fileStore.migration.progress : 1}%
                 </div>
                 {this.count >= 0 ? (
                     <div className="text">
@@ -141,11 +122,7 @@ class MigrationDialog extends React.Component {
                         <p>{this.currentMessage}</p>
                     </div>
                 ) : (
-                    <T
-                        k="title_fileUpdateProgressDescription"
-                        tag="div"
-                        className="text"
-                    />
+                    <T k="title_fileUpdateProgressDescription" tag="div" className="text" />
                 )}
             </div>
         );
@@ -153,10 +130,7 @@ class MigrationDialog extends React.Component {
 
     render() {
         // don't show migration progress if user has no shared files
-        if (
-            fileStore.migration.started &&
-            !fileStore.migration.hasLegacySharedFiles
-        ) {
+        if (fileStore.migration.started && !fileStore.migration.hasLegacySharedFiles) {
             return null;
         }
 
@@ -182,21 +156,18 @@ class MigrationDialog extends React.Component {
                 active={fileStore.migration.pending}
                 className="migration-dialog"
                 actions={
-                    fileStore.migration.started ||
-                    fileStore.migration.performedByAnotherClient
+                    fileStore.migration.started || fileStore.migration.performedByAnotherClient
                         ? null
                         : migrationDialogActions
                 }
                 title={
-                    fileStore.migration.started ||
-                    fileStore.migration.performedByAnotherClient
+                    fileStore.migration.started || fileStore.migration.performedByAnotherClient
                         ? t('title_fileUpdateProgress')
                         : t('title_upgradeFileSystem')
                 }
                 theme="primary"
             >
-                {fileStore.migration.started ||
-                fileStore.migration.performedByAnotherClient ? (
+                {fileStore.migration.started || fileStore.migration.performedByAnotherClient ? (
                     this.renderProgress()
                 ) : (
                     <div>

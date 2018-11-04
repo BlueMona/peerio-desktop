@@ -63,9 +63,7 @@ class Settings extends React.Component {
             ] = () => {
                 routerStore.navigateTo(routerStore.ROUTES[button.route]);
             });
-            const className = button.className
-                ? button.className
-                : button.route;
+            const className = button.className ? button.className : button.route;
 
             this.buttonElements.push(
                 <Button
@@ -80,9 +78,7 @@ class Settings extends React.Component {
     }
 
     componentWillMount() {
-        this.disposeRouterListener = window.router.listen(
-            this.handleRouteChange
-        );
+        this.disposeRouterListener = window.router.listen(this.handleRouteChange);
     }
 
     componentWillUnmount() {

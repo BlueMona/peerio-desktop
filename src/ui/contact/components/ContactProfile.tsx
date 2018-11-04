@@ -61,9 +61,7 @@ class ContactProfileBody extends React.Component<ContactProfileProps> {
         if (c.notFound) {
             return (
                 <div className="contact-profile">
-                    <div className="row notfound">
-                        {t('error_usernameNotFound')}
-                    </div>
+                    <div className="row notfound">{t('error_usernameNotFound')}</div>
                 </div>
             );
         }
@@ -79,11 +77,7 @@ class ContactProfileBody extends React.Component<ContactProfileProps> {
                     <Avatar contact={c} size="full" />
                     <div className="account-profile-container">
                         {c.isDeleted ? (
-                            <T
-                                k="title_accountDeleted"
-                                className="deleted-account"
-                                tag="div"
-                            />
+                            <T k="title_accountDeleted" className="deleted-account" tag="div" />
                         ) : null}
                         <div className="full-name selectable">
                             {c.firstName} {c.lastName}
@@ -126,9 +120,7 @@ class ContactProfileBody extends React.Component<ContactProfileProps> {
 }
 
 @observer
-export default class ContactProfile extends React.Component<
-    ContactProfileProps
-> {
+export default class ContactProfile extends React.Component<ContactProfileProps> {
     @observable dialogVisible;
     @action.bound
     openDialog() {
@@ -145,9 +137,7 @@ export default class ContactProfile extends React.Component<
                 title={t('title_settingsProfile')}
                 active={this.dialogVisible}
                 onCancel={this.closeDialog}
-                actions={[
-                    { label: t('button_close'), onClick: this.closeDialog }
-                ]}
+                actions={[{ label: t('button_close'), onClick: this.closeDialog }]}
             >
                 <ContactProfileBody {...this.props} />
             </Dialog>

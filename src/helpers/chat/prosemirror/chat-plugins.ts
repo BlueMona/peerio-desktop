@@ -1,11 +1,6 @@
 import os from 'os';
 
-import {
-    exitCode,
-    toggleMark,
-    chainCommands,
-    baseKeymap
-} from 'prosemirror-commands';
+import { exitCode, toggleMark, chainCommands, baseKeymap } from 'prosemirror-commands';
 import { keymap } from 'prosemirror-keymap';
 import { undo, redo, history } from 'prosemirror-history';
 import { undoInputRule, inputRules, InputRule } from 'prosemirror-inputrules';
@@ -14,10 +9,7 @@ import { gapCursor } from 'prosemirror-gapcursor';
 import { EditorState, Transaction } from 'prosemirror-state';
 
 import { chatSchema } from '~/helpers/chat/prosemirror/chat-schema';
-import {
-    emojiByAllShortnames,
-    emojiByAsciiSequences
-} from '~/helpers/chat/emoji';
+import { emojiByAllShortnames, emojiByAsciiSequences } from '~/helpers/chat/emoji';
 import { emojiPlugin } from '~/helpers/chat/prosemirror/emoji-plugin';
 import { ensuredInputRules } from '~/helpers/chat/prosemirror/ensured-input-rules';
 
@@ -33,9 +25,7 @@ const chatKeys = {
             if (dispatch) {
                 dispatch(
                     state.tr
-                        .replaceSelectionWith(
-                            chatSchema.nodes.hard_break.create()
-                        )
+                        .replaceSelectionWith(chatSchema.nodes.hard_break.create())
                         .scrollIntoView()
                 );
             }
@@ -78,19 +68,16 @@ const chatKeymap = keymap(chatKeys);
 // leaf nodes that don't contain text), then @something followed by whitespace.
 // TODO: we may also want to break on things other than whitespace but still apply the rule?
 const mentionInputRulePattern = /(?<=^|\s|\u{fffc})@([a-zA-Z0-9_]{1,32})(\s)$/u;
-const mentionInputRule = new InputRule(
-    mentionInputRulePattern,
-    (state, match, start, end) => {
-        const s = state.schema;
+const mentionInputRule = new InputRule(mentionInputRulePattern, (state, match, start, end) => {
+    const s = state.schema;
 
-        const replacement = [
-            s.node('mention', { username: match[1].toLowerCase() }),
-            s.text(match[2]) // use the same kind of trailing whitespace in the replacement.
-        ];
+    const replacement = [
+        s.node('mention', { username: match[1].toLowerCase() }),
+        s.text(match[2]) // use the same kind of trailing whitespace in the replacement.
+    ];
 
-        return state.tr.replaceWith(start, end, replacement);
-    }
-);
+    return state.tr.replaceWith(start, end, replacement);
+});
 
 // Match (but don't include) the start of the input, or any kind of whitespace,
 // or the unicode object replacement character (used by InputRule to replace
@@ -119,10 +106,7 @@ const asciiPattern = Object.keys(emojiByAsciiSequences) // take all the ascii se
 // or the unicode object replacement character (used by InputRule to replace
 // leaf nodes that don't contain text), then any of the ascii emoji sequences,
 // followed by whitespace.
-const emojiAsciiInputRulePattern = new RegExp(
-    `(?<=^|\\s|\u{fffc})(${asciiPattern})(\\s)$`,
-    'u'
-);
+const emojiAsciiInputRulePattern = new RegExp(`(?<=^|\\s|\u{fffc})(${asciiPattern})(\\s)$`, 'u');
 const emojiAsciiInputRule = new InputRule(
     emojiAsciiInputRulePattern,
     (state, match, start, end) => {

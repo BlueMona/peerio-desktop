@@ -42,16 +42,9 @@ export default class MessageList extends React.Component {
             loading => {
                 if (loading) {
                     this.lastTopElement = null;
-                    for (
-                        let i = 0;
-                        i < this.containerRef.current.childNodes.length;
-                        i++
-                    ) {
-                        const el = this.containerRef.current.childNodes[
-                            i
-                        ] as HTMLElement;
-                        if (el.classList[0] !== 'message-content-wrapper')
-                            continue;
+                    for (let i = 0; i < this.containerRef.current.childNodes.length; i++) {
+                        const el = this.containerRef.current.childNodes[i] as HTMLElement;
+                        if (el.classList[0] !== 'message-content-wrapper') continue;
                         this.lastTopElement = el;
                         break;
                     }
@@ -64,17 +57,14 @@ export default class MessageList extends React.Component {
                     if (!this.lastTopElement) return;
                     // todo: animate
                     this.containerRef.current.scrollTop =
-                        this.lastTopElement.offsetTop -
-                        this.lastTopElementOffset -
-                        25;
+                        this.lastTopElement.offsetTop - this.lastTopElementOffset - 25;
                     this.lastTopElement = null;
                 }
             }
         );
         // reaction to jump to recent from history mode
         this._initialLoadReaction = reaction(
-            () =>
-                chatStore.activeChat && chatStore.activeChat.loadingInitialPage,
+            () => chatStore.activeChat && chatStore.activeChat.loadingInitialPage,
             () => {
                 clientApp.isReadingNewestMessages = true;
                 this.lastTopElement = null;
@@ -82,8 +72,7 @@ export default class MessageList extends React.Component {
         );
         // reaction to paging down to cancel top scroll fix
         this._botLoadReaction = reaction(
-            () =>
-                chatStore.activeChat && chatStore.activeChat.loadingBottomPage,
+            () => chatStore.activeChat && chatStore.activeChat.loadingBottomPage,
             () => {
                 this.lastTopElement = null;
             }
@@ -144,10 +133,7 @@ export default class MessageList extends React.Component {
     }
 
     onImageLoaded = () => {
-        if (
-            clientApp.isReadingNewestMessages &&
-            !chatStore.activeChat.canGoDown
-        )
+        if (clientApp.isReadingNewestMessages && !chatStore.activeChat.canGoDown)
             this.scrollToBottom();
     };
 
@@ -160,15 +146,13 @@ export default class MessageList extends React.Component {
         // we can't handle scroll if content height is too small
         if (el.scrollHeight <= el.clientHeight) return;
 
-        const distanceToBottom =
-            el.scrollHeight - el.scrollTop - el.clientHeight;
+        const distanceToBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
         const distanceToTop = el.scrollTop;
         // console.log(distanceToTop, distanceToBottom);
 
         // detecting sticking state
         clientApp.isReadingNewestMessages =
-            distanceToBottom < this.stickDistance &&
-            !chatStore.activeChat.canGoDown;
+            distanceToBottom < this.stickDistance && !chatStore.activeChat.canGoDown;
 
         // detecting if we have scrolled up by one "page" or more
         this.pageScrolledUp = distanceToBottom > el.clientHeight;
@@ -214,15 +198,10 @@ export default class MessageList extends React.Component {
             if (m.firstOfTheDay) {
                 const ts = m.timestamp.toLocaleDateString();
                 ret.push(
-                    <div
-                        key={`marker${i}${ts}${m.id}`}
-                        className="marker-wrapper"
-                    >
+                    <div key={`marker${i}${ts}${m.id}`} className="marker-wrapper">
                         <div className="marker" />
                         <div className="content">
-                            {ts === new Date().toLocaleDateString()
-                                ? t('title_today')
-                                : ts}
+                            {ts === new Date().toLocaleDateString() ? t('title_today') : ts}
                         </div>
                         <div className="marker" />
                     </div>
@@ -247,10 +226,7 @@ export default class MessageList extends React.Component {
                 chat.showNewMessagesMarker
             ) {
                 ret.push(
-                    <div
-                        key={`newmsgsmarker${i}${m.id}`}
-                        className="marker-wrapper new-messages"
-                    >
+                    <div key={`newmsgsmarker${i}${m.id}`} className="marker-wrapper new-messages">
                         <div className="marker" />
                         <div className="content">{t('title_newMessages')}</div>
                     </div>
@@ -303,11 +279,7 @@ export default class MessageList extends React.Component {
             >
                 {this.renderChatStart()}
                 {chatStore.activeChat.loadingInitialPage ? (
-                    <ProgressBar
-                        circular
-                        theme="multicolor"
-                        className="messages-progress-bar"
-                    />
+                    <ProgressBar circular theme="multicolor" className="messages-progress-bar" />
                 ) : (
                     this.renderMessages()
                 )}

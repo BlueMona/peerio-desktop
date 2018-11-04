@@ -54,11 +54,7 @@ class ConfirmFolderDeleteDialog extends React.Component {
 
         return (
             <Dialog
-                title={
-                    <T k="dialog_deleteFolderTitle">
-                        {{ folderName: this.folder.name }}
-                    </T>
-                }
+                title={<T k="dialog_deleteFolderTitle">{{ folderName: this.folder.name }}</T>}
                 active={this.visible}
                 actions={dialogActions}
                 onCancel={this.close}

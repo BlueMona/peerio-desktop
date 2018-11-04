@@ -1,22 +1,9 @@
 import React from 'react';
-import {
-    action,
-    computed,
-    observable,
-    reaction,
-    IReactionDisposer
-} from 'mobx';
+import { action, computed, observable, reaction, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 
-import {
-    Button,
-    CustomIcon,
-    Dialog,
-    MaterialIcon,
-    ProgressBar,
-    Tooltip
-} from 'peer-ui';
+import { Button, CustomIcon, Dialog, MaterialIcon, ProgressBar, Tooltip } from 'peer-ui';
 import { chatStore, chatInviteStore } from 'peerio-icebear';
 import { t } from 'peerio-translator';
 
@@ -84,9 +71,7 @@ export default class ChatView extends React.Component {
      */
     sendMessage(text: string): void {
         try {
-            chatStore.activeChat
-                .sendMessage(text)
-                .catch(() => ChatView.playErrorSound());
+            chatStore.activeChat.sendMessage(text).catch(() => ChatView.playErrorSound());
         } catch (err) {
             console.error(err);
         }
@@ -113,9 +98,7 @@ export default class ChatView extends React.Component {
     sendAck(): void {
         try {
             this.scrollToBottom();
-            chatStore.activeChat
-                .sendAck()
-                .catch(() => ChatView.playErrorSound());
+            chatStore.activeChat.sendAck().catch(() => ChatView.playErrorSound());
         } catch (err) {
             console.error(err);
         }
@@ -156,8 +139,7 @@ export default class ChatView extends React.Component {
     };
 
     showChatNameEditor = () => {
-        if (!(chatStore.activeChat.canIAdmin && chatStore.activeChat.isChannel))
-            return;
+        if (!(chatStore.activeChat.canIAdmin && chatStore.activeChat.isChannel)) return;
         this.chatNameEditorVisible = true;
     };
 
@@ -220,13 +202,9 @@ export default class ChatView extends React.Component {
                                     <MaterialIcon icon="edit" />
                                 ) : null}
                                 {chat.isChannel ? (
-                                    ELEMENTS.chatView.title(
-                                        ELEMENTS.chatEditor.displayName(chat)
-                                    )
+                                    ELEMENTS.chatView.title(ELEMENTS.chatEditor.displayName(chat))
                                 ) : (
-                                    <div className="title-content">
-                                        {chat.name}
-                                    </div>
+                                    <div className="title-content">{chat.name}</div>
                                 )}
                             </div>
                         )}
@@ -254,9 +232,7 @@ export default class ChatView extends React.Component {
                             >
                                 <CustomIcon
                                     active={chat.isFavorite}
-                                    icon={
-                                        chat.isFavorite ? 'pin-on' : 'pin-off'
-                                    }
+                                    icon={chat.isFavorite ? 'pin-on' : 'pin-off'}
                                     className="small"
                                     hover={!chat.isFavorite}
                                 />
@@ -324,10 +300,7 @@ export default class ChatView extends React.Component {
 
     @computed
     get pageScrolledUp() {
-        return (
-            this.messageListRef.current &&
-            this.messageListRef.current.pageScrolledUp
-        );
+        return this.messageListRef.current && this.messageListRef.current.pageScrolledUp;
     }
 
     render() {
@@ -365,8 +338,7 @@ export default class ChatView extends React.Component {
                         </div>
                     ) : (
                         <div className="messages-container">
-                            {chatStore.chats.length === 0 &&
-                            !chatStore.loading ? null : (
+                            {chatStore.chats.length === 0 && !chatStore.loading ? null : (
                                 <MessageList ref={this.messageListRef} />
                             )}
                             {this.shareInProgress ? (
@@ -376,15 +348,11 @@ export default class ChatView extends React.Component {
                                 />
                             ) : null}
                             <MessageInput
-                                readonly={
-                                    !chat || !chat.metaLoaded || chat.isReadOnly
-                                }
+                                readonly={!chat || !chat.metaLoaded || chat.isReadOnly}
                                 placeholder={
                                     chat
                                         ? t('title_messageInputPlaceholder', {
-                                              chatName: `${
-                                                  chat.isChannel ? '# ' : ''
-                                              }${chat.name}`
+                                              chatName: `${chat.isChannel ? '# ' : ''}${chat.name}`
                                           })
                                         : null
                                 }

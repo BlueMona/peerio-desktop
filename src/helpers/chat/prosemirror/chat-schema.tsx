@@ -76,8 +76,7 @@ export const chatSchema = new Schema(
                 toReact(node) {
                     const content = node.textContent;
                     const { href } = parseUrls(content)[0];
-                    if (!href)
-                        throw new Error(`Invalid parsed href for '${content}'`);
+                    if (!href) throw new Error(`Invalid parsed href for '${content}'`);
                     return <a href={href}>{content}</a>;
                 }
             },
@@ -168,12 +167,9 @@ export const chatSchema = new Schema(
                 // implementation lets us trivially get the emoji plaintext using
                 // the view element's .textContent.
                 toDOM(node) {
-                    const emoji =
-                        emojiByCanonicalShortname[node.attrs.shortname];
+                    const emoji = emojiByCanonicalShortname[node.attrs.shortname];
                     if (!emoji) {
-                        console.warn(
-                            `emoji data not found for ${node.attrs.shortname}`
-                        );
+                        console.warn(`emoji data not found for ${node.attrs.shortname}`);
                         return [
                             'img',
                             {
@@ -197,12 +193,9 @@ export const chatSchema = new Schema(
                     ];
                 },
                 toReact(node) {
-                    const emoji =
-                        emojiByCanonicalShortname[node.attrs.shortname];
+                    const emoji = emojiByCanonicalShortname[node.attrs.shortname];
                     if (!emoji) {
-                        console.warn(
-                            `emoji data not found for ${node.attrs.shortname}`
-                        );
+                        console.warn(`emoji data not found for ${node.attrs.shortname}`);
                         return (
                             <img
                                 className="emojione"
@@ -226,11 +219,7 @@ export const chatSchema = new Schema(
         },
         marks: {
             em: {
-                parseDOM: [
-                    { tag: 'i' },
-                    { tag: 'em' },
-                    { style: 'font-style=italic' }
-                ],
+                parseDOM: [{ tag: 'i' }, { tag: 'em' }, { style: 'font-style=italic' }],
                 toDOM() {
                     return ['em'];
                 }
@@ -255,8 +244,7 @@ export const chatSchema = new Schema(
                     // @ts-ignore (bad typings for 'node')
                     {
                         tag: 'b',
-                        getAttrs: node =>
-                            node.style.fontWeight !== 'normal' && null
+                        getAttrs: node => node.style.fontWeight !== 'normal' && null
                     },
                     // Incidentally, the `&& null` part in some of these parseDOM
                     // rules is confusing. getAttrs is used both to provide
@@ -269,8 +257,7 @@ export const chatSchema = new Schema(
                     // @ts-ignore (bad typings for 'node')
                     {
                         style: 'font-weight',
-                        getAttrs: value =>
-                            /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null
+                        getAttrs: value => /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null
                     }
                 ],
                 toDOM() {
@@ -281,11 +268,7 @@ export const chatSchema = new Schema(
     } as any /* bad typings */
 );
 
-export const emptyDoc = chatSchema.node(
-    'doc',
-    null,
-    chatSchema.node('paragraph')
-);
+export const emptyDoc = chatSchema.node('doc', null, chatSchema.node('paragraph'));
 
 /**
  * Return whether the document is in its initial state.
@@ -299,17 +282,11 @@ export function isEmpty(doc: Node): boolean {
  */
 export function isWhitespaceOnly(node: Node): boolean {
     if (node.isBlock) {
-        if (
-            node.type === chatSchema.nodes.paragraph ||
-            node.type === chatSchema.nodes.doc
-        ) {
+        if (node.type === chatSchema.nodes.paragraph || node.type === chatSchema.nodes.doc) {
             if (node.content.size > 0) {
                 // if we're a paragraph node or a doc with content, we're whitespace if our contents are whitespace.
                 // eslint-disable-next-line dot-notation, (inner content array not exposed in api)
-                return node.content['content'].reduce(
-                    (p, c) => p && isWhitespaceOnly(c),
-                    true
-                );
+                return node.content['content'].reduce((p, c) => p && isWhitespaceOnly(c), true);
             }
             // if we're a paragraph node or a doc with no content, we're whitespace.
             return true;

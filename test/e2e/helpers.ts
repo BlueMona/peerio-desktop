@@ -80,10 +80,7 @@ export async function login(context: Context): Promise<void> {
         fs.readFileSync(`${userDataPath}/system_tinydb.json`).toString()
     );
     delete systemTinyDb[`${testUser.username}:passcode`];
-    fs.writeFileSync(
-        `${userDataPath}/system_tinydb.json`,
-        JSON.stringify(systemTinyDb)
-    );
+    fs.writeFileSync(`${userDataPath}/system_tinydb.json`, JSON.stringify(systemTinyDb));
     const returning = await context.app.client.isVisible('.welcome-back');
 
     if (returning) {

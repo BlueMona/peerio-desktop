@@ -18,19 +18,15 @@ class EmojiImage extends React.Component {
     render() {
         return (
             <img
-                className={css(
-                    'emoji-image',
-                    this.props.size,
-                    this.props.className
-                )}
+                className={css('emoji-image', this.props.size, this.props.className)}
                 title={this.props.emoji}
                 src={
                     this.props.size === 'large'
-                        ? emojiByCanonicalShortname[
-                              `:${this.props.emoji}:`
-                          ].filename.replace('/png/', '/png/2x/')
-                        : emojiByCanonicalShortname[`:${this.props.emoji}:`]
-                              .filename
+                        ? emojiByCanonicalShortname[`:${this.props.emoji}:`].filename.replace(
+                              '/png/',
+                              '/png/2x/'
+                          )
+                        : emojiByCanonicalShortname[`:${this.props.emoji}:`].filename
                 }
             />
         );

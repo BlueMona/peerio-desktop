@@ -36,8 +36,7 @@
   }
 
   // stylelint-disable-next-line
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     height: 36px;
     width: 36px;
   }
@@ -71,8 +70,7 @@
     }
   }
 
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     height: 8px;
   }
 }
@@ -144,8 +142,7 @@
     }
   }
 
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     padding: $padding-default 44px $padding-default $padding-default;
 
     .mock-circle {
@@ -203,8 +200,7 @@
   }
 
   // stylelint-disable-next-line
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     margin-left: $margin-default;
 
     .material-icons {
@@ -235,8 +231,7 @@
   }
 
   // stylelint-disable-next-line
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     height: 40px;
   }
 }
@@ -274,8 +269,7 @@
   }
 
   // stylelint-disable-next-line
-  @media all and (max-width: $break-width-default),
-    all and (max-height: $break-height-default) {
+  @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
     padding: $padding-small;
     font-size: 16px;
   }

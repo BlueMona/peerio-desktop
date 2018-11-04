@@ -5,9 +5,7 @@ import DragPreview from './DragPreview';
 import DragDropTypes from '../helpers/dragDropTypes';
 import { getAllDraggedItems } from '../helpers/dragDropHelpers';
 
-function getItemStyles(props: {
-    currentOffset?: { x: number; y: number };
-}): React.CSSProperties {
+function getItemStyles(props: { currentOffset?: { x: number; y: number } }): React.CSSProperties {
     const { currentOffset } = props;
     if (!currentOffset) {
         return {
@@ -55,9 +53,7 @@ interface DragPreviewLayerProps {
     };
 })
 @observer
-export default class DragPreviewLayer extends React.Component<
-    DragPreviewLayerProps
-> {
+export default class DragPreviewLayer extends React.Component<DragPreviewLayerProps> {
     render() {
         const { isDragging, canDrop, itemType } = this.props;
 
@@ -74,11 +70,7 @@ export default class DragPreviewLayer extends React.Component<
         return (
             <div className="files-dragpreviewlayer">
                 <div style={getItemStyles(this.props)}>
-                    <DragPreview
-                        files={files}
-                        folders={folders}
-                        canDrop={canDrop}
-                    />
+                    <DragPreview files={files} folders={folders} canDrop={canDrop} />
                 </div>
             </div>
         );

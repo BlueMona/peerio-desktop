@@ -6,8 +6,7 @@ const secret = require('peerio-icebear/dist/crypto/secret');
 const { observable, action } = require('mobx');
 const { observer } = require('mobx-react');
 const css = require('classnames');
-const ChatKegDb = require('peerio-icebear/dist/models/kegs/chat-keg-db')
-    .default;
+const ChatKegDb = require('peerio-icebear/dist/models/kegs/chat-keg-db').default;
 
 @observer
 class KegEditor extends React.Component {
@@ -77,10 +76,7 @@ class KegEditor extends React.Component {
                 this.keg = resp; // in case decrypt fails
                 if (resp.payload instanceof ArrayBuffer) {
                     const key = this.selectedDb.boot.keys[resp.keyId].key;
-                    resp.payload = secret.decryptString(
-                        new Uint8Array(resp.payload),
-                        key
-                    );
+                    resp.payload = secret.decryptString(new Uint8Array(resp.payload), key);
                 }
                 resp.payload = JSON.parse(resp.payload);
                 this.keg = resp; // to trigger mobx render
@@ -100,11 +96,7 @@ class KegEditor extends React.Component {
 
     render() {
         if (!User.current) {
-            return (
-                <div className="authenticate-first-warning">
-                    Authenticate first, buddy.
-                </div>
-            );
+            return <div className="authenticate-first-warning">Authenticate first, buddy.</div>;
         }
         return (
             <div className="keg-edit-container">
@@ -116,9 +108,7 @@ class KegEditor extends React.Component {
                                 title={db.id}
                                 onClick={() => this.loadKegIds(db.id)}
                                 className={css('list-item', {
-                                    active:
-                                        this.selectedDb &&
-                                        this.selectedDb.id === db.id
+                                    active: this.selectedDb && this.selectedDb.id === db.id
                                 })}
                             >
                                 {db.name}
@@ -186,9 +176,7 @@ function ChatInfo(props) {
                     </div>
                 ))
             ) : (
-                <div className="keg-chip selectable">
-                    {User.current.username}
-                </div>
+                <div className="keg-chip selectable">{User.current.username}</div>
             )}
         </div>
     );

@@ -13,13 +13,8 @@ class EmailPicker extends React.Component {
 
     handleTextChange = newVal => {
         const newValLower = newVal.toLocaleLowerCase();
-        if (
-            newValLower.length > 1 &&
-            ', '.includes(newValLower[newValLower.length - 1])
-        ) {
-            this.query = newValLower
-                .substr(0, newValLower.length - 1)
-                .replace(/,\s*$/);
+        if (newValLower.length > 1 && ', '.includes(newValLower[newValLower.length - 1])) {
+            this.query = newValLower.substr(0, newValLower.length - 1).replace(/,\s*$/);
             this.validate();
         } else {
             this.query = newValLower.trim();
@@ -37,15 +32,8 @@ class EmailPicker extends React.Component {
 
     handleKeyDown = e => {
         if (e.key === 'Enter' && this.query !== '') this.validate();
-        if (
-            e.key === 'Backspace' &&
-            this.query === '' &&
-            this.props.ghost.recipients.length > 0
-        ) {
-            this.props.ghost.recipients.splice(
-                this.props.ghost.recipients.length - 1,
-                1
-            );
+        if (e.key === 'Backspace' && this.query === '' && this.props.ghost.recipients.length > 0) {
+            this.props.ghost.recipients.splice(this.props.ghost.recipients.length - 1, 1);
         }
     };
 
@@ -56,9 +44,7 @@ class EmailPicker extends React.Component {
                     <Chip
                         key={c}
                         deletable
-                        onDeleteClick={() =>
-                            this.props.ghost.recipients.splice(pos, 1)
-                        }
+                        onDeleteClick={() => this.props.ghost.recipients.splice(pos, 1)}
                     >
                         {c}
                     </Chip>

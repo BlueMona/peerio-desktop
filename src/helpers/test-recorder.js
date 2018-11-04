@@ -10,9 +10,7 @@ const csspath = require('cssman');
 let actions = [];
 
 function recordUI() {
-    console.log(
-        '👀 ⏺ Started recording for tests. Stop with stopRecording() to print results.'
-    );
+    console.log('👀 ⏺ Started recording for tests. Stop with stopRecording() to print results.');
 
     window.onclick = ev => {
         actions.push({ event: 'click', selector: csspath(ev.target) });

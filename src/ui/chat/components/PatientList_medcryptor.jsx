@@ -62,14 +62,8 @@ class PatientList extends React.Component {
         return (
             <List>
                 <div>
-                    <PlusIcon
-                        onClick={this.newPatient}
-                        label={t('mcr_title_patientFiles')}
-                    />
-                    <Tooltip
-                        text={t('mcr_button_addPatient')}
-                        position="right"
-                    />
+                    <PlusIcon onClick={this.newPatient} label={t('mcr_title_patientFiles')} />
+                    <Tooltip text={t('mcr_button_addPatient')} position="right" />
                 </div>
                 <FlipMove duration={200} easing="ease-in-out">
                     {routerStore.isNewPatient && (

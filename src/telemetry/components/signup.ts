@@ -101,10 +101,8 @@ const signup = setup({
         ];
     },
 
-    durationCreateAccount: (
-        currentStep: number,
-        startTime: number
-    ): DurationEvent => CREATE_ACCOUNT_STEPS[currentStep](startTime),
+    durationCreateAccount: (currentStep: number, startTime: number): DurationEvent =>
+        CREATE_ACCOUNT_STEPS[currentStep](startTime),
 
     // GenerateAccountKey.tsx
     copyAk: [

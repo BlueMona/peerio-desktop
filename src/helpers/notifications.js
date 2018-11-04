@@ -26,14 +26,12 @@ class MessageNotification {
         this.lastMessageText = props.lastMessageText;
         this.counter = props.unreadCount;
         this.translationKeyword = 'Messages';
-        this.userDesktopNotificationCondition =
-            uiStore.prefs.messageDesktopNotificationsEnabled;
+        this.userDesktopNotificationCondition = uiStore.prefs.messageDesktopNotificationsEnabled;
         this.userSoundsCondition = uiStore.prefs.messageSoundsEnabled;
     }
 
     send() {
-        if (this.userDesktopNotificationCondition)
-            this.showDesktopNotification();
+        if (this.userDesktopNotificationCondition) this.showDesktopNotification();
         if (this.userSoundsCondition) this.playSound();
     }
 
@@ -82,10 +80,7 @@ class MessageNotification {
 
         // icon needed for Windows, looks weird on Mac
         if (config.os !== 'Darwin')
-            props.icon = path.join(
-                app.getAppPath(),
-                'build/static/img/notification-icon.png'
-            );
+            props.icon = path.join(app.getAppPath(), 'build/static/img/notification-icon.png');
 
         const notification = new Notification(title, props);
         notification.onclick = this.handleClick;
@@ -96,8 +91,7 @@ class MessageNotification {
 class MentionNotification extends MessageNotification {
     constructor(props) {
         super(props);
-        this.userDesktopNotificationCondition =
-            uiStore.prefs.mentionDesktopNotificationsEnabled;
+        this.userDesktopNotificationCondition = uiStore.prefs.mentionDesktopNotificationsEnabled;
         this.userSoundsCondition = uiStore.prefs.mentionSoundsEnabled;
         this.translationKeyword = 'Mentions';
         this.counter =
@@ -110,8 +104,7 @@ class MentionNotification extends MessageNotification {
 class DMNotification extends MessageNotification {
     constructor(props) {
         super(props);
-        this.userDesktopNotificationCondition =
-            uiStore.prefs.mentionDesktopNotificationsEnabled;
+        this.userDesktopNotificationCondition = uiStore.prefs.mentionDesktopNotificationsEnabled;
         this.userSoundsCondition = uiStore.prefs.mentionSoundsEnabled;
         this.translationKeyword = 'DMs';
         this.counter =
@@ -136,14 +129,12 @@ function sendMessageNotification(props) {
 class InviteNotification {
     constructor(props) {
         this.invite = props.invite;
-        this.userDesktopNotificationCondition =
-            uiStore.prefs.inviteDesktopNotificationsEnabled;
+        this.userDesktopNotificationCondition = uiStore.prefs.inviteDesktopNotificationsEnabled;
         this.userSoundsCondition = uiStore.prefs.messageSoundsEnabled;
     }
 
     send() {
-        if (this.userDesktopNotificationCondition)
-            this.showDesktopNotification();
+        if (this.userDesktopNotificationCondition) this.showDesktopNotification();
         if (this.userSoundsCondition) this.playSound();
     }
 
@@ -183,9 +174,7 @@ class InviteNotification {
                     chatInviteStore.activateInvite(this.invite.kegDbId);
                     if (chatInviteStore.activeInvite) {
                         chatStore.deactivateCurrentChat();
-                        routerStore.navigateTo(
-                            routerStore.ROUTES.channelInvite
-                        );
+                        routerStore.navigateTo(routerStore.ROUTES.channelInvite);
                     }
                 }
             );
@@ -201,10 +190,7 @@ class InviteNotification {
 
         // icon needed for Windows, looks weird on Mac
         if (config.os !== 'Darwin')
-            props.icon = path.join(
-                app.getAppPath(),
-                'build/static/img/notification-icon.png'
-            );
+            props.icon = path.join(app.getAppPath(), 'build/static/img/notification-icon.png');
 
         const notification = new Notification(title, props);
         notification.onclick = this.handleClick;
@@ -225,8 +211,7 @@ class InviteAcceptedNotification {
     }
 
     send() {
-        if (this.userDesktopNotificationCondition)
-            this.showDesktopNotification();
+        if (this.userDesktopNotificationCondition) this.showDesktopNotification();
         if (this.userSoundsCondition) this.playSound();
     }
 
@@ -263,9 +248,7 @@ class InviteAcceptedNotification {
                     chatInviteStore.activateInvite(this.invite.kegDbId);
                     if (chatInviteStore.activeInvite) {
                         chatStore.deactivateCurrentChat();
-                        routerStore.navigateTo(
-                            routerStore.ROUTES.channelInvite
-                        );
+                        routerStore.navigateTo(routerStore.ROUTES.channelInvite);
                     }
                 }
             );
@@ -281,10 +264,7 @@ class InviteAcceptedNotification {
 
         // icon needed for Windows, looks weird on Mac
         if (config.os !== 'Darwin')
-            props.icon = path.join(
-                app.getAppPath(),
-                'build/static/img/notification-icon.png'
-            );
+            props.icon = path.join(app.getAppPath(), 'build/static/img/notification-icon.png');
 
         const notification = new Notification(title, props);
         notification.onclick = this.handleClick;

@@ -15,9 +15,7 @@ Object.values(emojiByCanonicalShortname).forEach(emoji => {
 });
 
 const emojiRegex = new RegExp(
-    `[${unicodeSequences
-        .map(seq => seq.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&'))
-        .join('')}]`,
+    `[${unicodeSequences.map(seq => seq.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&')).join('')}]`,
     'gu'
 );
 
@@ -74,9 +72,9 @@ export function emojiPlugin() {
     const unicodeToImg = (unicode: string) => {
         const emoji = unicodeToEmoji[unicode];
         if (!emoji) return unicode;
-        return `<img class="emojione" alt="${emoji.characters}" title="${
-            emoji.shortname
-        }" src="${emoji.filename}" />`;
+        return `<img class="emojione" alt="${emoji.characters}" title="${emoji.shortname}" src="${
+            emoji.filename
+        }" />`;
     };
 
     // Our plugin intercepts both pasted HTML and pasted plaintext; it does an
@@ -103,10 +101,7 @@ export function emojiPlugin() {
                         const wrapped = $(el);
 
                         const text: string = wrapped.text();
-                        const replacement = text.replace(
-                            emojiRegex,
-                            unicodeToImg
-                        );
+                        const replacement = text.replace(emojiRegex, unicodeToImg);
                         if (replacement !== text) {
                             wrapped.replaceWith(replacement);
                         }
@@ -136,9 +131,7 @@ export function emojiPlugin() {
                         // eslint-disable-next-line no-cond-assign
                         while ((match = emojiRegex.exec(block))) {
                             if (match.index > lastIndex) {
-                                result.push(
-                                    block.slice(lastIndex, match.index)
-                                );
+                                result.push(block.slice(lastIndex, match.index));
                             }
 
                             const emoji = unicodeToEmoji[match[0]];
@@ -153,14 +146,10 @@ export function emojiPlugin() {
                                 result.push(block.slice(lastIndex));
                             }
 
-                            const p = dom.appendChild(
-                                document.createElement('p')
-                            );
+                            const p = dom.appendChild(document.createElement('p'));
                             for (const fragment of result) {
                                 if (typeof fragment === 'string') {
-                                    p.appendChild(
-                                        document.createTextNode(fragment)
-                                    );
+                                    p.appendChild(document.createTextNode(fragment));
                                 } else {
                                     // Note that this mirrors the values returned by
                                     // toDOM and toReact in the chat schema, and the
@@ -168,9 +157,7 @@ export function emojiPlugin() {
                                     // transformPastedHTML above -- if any of them
                                     // change, the change should be reflected
                                     // everywhere!
-                                    const img = p.appendChild(
-                                        document.createElement('img')
-                                    );
+                                    const img = p.appendChild(document.createElement('img'));
                                     img.className = 'emojione';
                                     img.alt = fragment.characters;
                                     img.title = fragment.shortname;
@@ -181,9 +168,7 @@ export function emojiPlugin() {
                             // If we didn't find any emoji, no need for complex
                             // logic to build up the dom tag -- just set its
                             // textContent.
-                            dom.appendChild(
-                                document.createElement('p')
-                            ).textContent = block;
+                            dom.appendChild(document.createElement('p')).textContent = block;
                         }
                     });
                 return parser.parseSlice(dom);

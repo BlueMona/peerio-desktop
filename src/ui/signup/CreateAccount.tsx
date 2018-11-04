@@ -33,9 +33,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
 
     componentDidMount() {
         this.usernameReaction = reaction(
-            () =>
-                this.props.store.firstNameValid &&
-                this.props.store.lastNameValid,
+            () => this.props.store.firstNameValid && this.props.store.lastNameValid,
             bothValid => {
                 if (bothValid) {
                     this.suggestUsernames();
@@ -79,10 +77,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
     advanceDisabled = () => {
         switch (this.currentStep) {
             case 0:
-                return (
-                    !this.props.store.firstNameValid ||
-                    !this.props.store.lastNameValid
-                );
+                return !this.props.store.firstNameValid || !this.props.store.lastNameValid;
             case 1:
                 return !this.props.store.usernameValid;
             case 2:
@@ -226,12 +221,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
                     <Mock.Line width={4} shade="verydark" />
                     <Mock.Line width={2} shade="verydark" />
                 </div>
-                <Mock.ChatEntry
-                    key="name-1"
-                    color="blue"
-                    heading={4}
-                    lines={[6]}
-                />
+                <Mock.ChatEntry key="name-1" color="blue" heading={4} lines={[6]} />
                 <Mock.ChatEntry
                     key="name-2"
                     className="popout"
@@ -239,18 +229,8 @@ export default class CreateAccount extends React.Component<SignupStep> {
                     heading={name}
                     lines={t('title_demoNamePurpose')}
                 />
-                <Mock.ChatEntry
-                    key="name-3"
-                    color="yellow"
-                    heading={3}
-                    lines={[6, 6]}
-                />
-                <Mock.ChatEntry
-                    key="name-4"
-                    color="blue"
-                    heading={4}
-                    lines={[6]}
-                />
+                <Mock.ChatEntry key="name-3" color="yellow" heading={3} lines={[6, 6]} />
+                <Mock.ChatEntry key="name-4" color="blue" heading={4} lines={[6]} />
                 <Mock.ChatInput />
             </React.Fragment>
         );
@@ -291,11 +271,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
                     <React.Fragment>
                         <Divider />
                         <div className="username-suggestions">
-                            <T
-                                k="title_available"
-                                tag="span"
-                                className="guide-text"
-                            />
+                            <T k="title_available" tag="span" className="guide-text" />
                             {this.usernameSuggestions.map(name => {
                                 return (
                                     <span
@@ -349,9 +325,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
         const sampleHeading = (
             <React.Fragment>
                 <span className="full-name">
-                    {`${this.props.store.firstName} ${
-                        this.props.store.lastName
-                    }`}
+                    {`${this.props.store.firstName} ${this.props.store.lastName}`}
                 </span>&nbsp;
                 <span className="username">@{this.props.store.username}</span>
             </React.Fragment>
@@ -375,24 +349,9 @@ export default class CreateAccount extends React.Component<SignupStep> {
 
         return (
             <React.Fragment>
-                <Mock.ChatEntry
-                    key="user-1"
-                    color="purple"
-                    heading={2}
-                    lines={[4, 6]}
-                />
-                <Mock.ChatEntry
-                    key="user-2"
-                    color="greyblue"
-                    heading={2}
-                    lines={[1]}
-                />
-                <Mock.ChatEntry
-                    key="user-3"
-                    color="blue"
-                    heading={2}
-                    lines={[4]}
-                />
+                <Mock.ChatEntry key="user-1" color="purple" heading={2} lines={[4, 6]} />
+                <Mock.ChatEntry key="user-2" color="greyblue" heading={2} lines={[1]} />
+                <Mock.ChatEntry key="user-3" color="blue" heading={2} lines={[4]} />
                 <Mock.ChatEntry
                     className={css({ highlight: usernameValid })}
                     key="user-4"
@@ -438,8 +397,7 @@ export default class CreateAccount extends React.Component<SignupStep> {
 
     @action.bound
     onSubscriptionChange() {
-        this.props.store.subscribeNewsletter = !this.props.store
-            .subscribeNewsletter;
+        this.props.store.subscribeNewsletter = !this.props.store.subscribeNewsletter;
         telemetry.signup.clickNewsletter(this.props.store.subscribeNewsletter);
     }
 

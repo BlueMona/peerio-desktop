@@ -16,13 +16,7 @@ interface CircleProps extends MockProps {
 export class Circle extends React.Component<CircleProps> {
     render() {
         return (
-            <div
-                className={css(
-                    this.props.className,
-                    this.props.color || 'blue',
-                    'mock-circle'
-                )}
-            >
+            <div className={css(this.props.className, this.props.color || 'blue', 'mock-circle')}>
                 {this.props.children}
             </div>
         );
@@ -82,9 +76,7 @@ export class ChatEntry extends React.Component<ChatEntryProps> {
     render() {
         return (
             <div className={css('mock-chat-entry', this.props.className)}>
-                <Circle color={this.props.color}>
-                    {this.props.circleContent}
-                </Circle>
+                <Circle color={this.props.color}>{this.props.circleContent}</Circle>
                 <div className="text">
                     {this.heading}
                     <div className="body">{this.lines}</div>
@@ -133,8 +125,7 @@ export class TextInput extends React.Component<TextInputProps> {
                 <div className="label" />
                 <div
                     className={css('text', {
-                        placeholder:
-                            !!this.props.placeholder && !this.props.children
+                        placeholder: !!this.props.placeholder && !this.props.children
                     })}
                 >
                     {this.props.children || this.props.placeholder}

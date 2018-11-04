@@ -3,13 +3,7 @@ import { requestDownloadPath } from '~/helpers/file';
 const React = require('react');
 const { observable } = require('mobx');
 const { observer } = require('mobx-react');
-const {
-    Button,
-    Dialog,
-    MaterialIcon,
-    Switch,
-    ProgressBar
-} = require('peer-ui');
+const { Button, Dialog, MaterialIcon, Switch, ProgressBar } = require('peer-ui');
 const { User, saveAccountKeyBackup } = require('peerio-icebear');
 const { t } = require('peerio-translator');
 const autologin = require('~/helpers/autologin');
@@ -59,9 +53,7 @@ export default class SecuritySettings extends React.Component {
     backupAccountKey = async () => {
         let path = '';
         try {
-            path = await requestDownloadPath(
-                `${User.current.username}-${t('title_appName')}.pdf`
-            );
+            path = await requestDownloadPath(`${User.current.username}-${t('title_appName')}.pdf`);
         } catch (err) {
             // user cancel
         }
@@ -146,9 +138,7 @@ export default class SecuritySettings extends React.Component {
                 <T k="title_AKDetail" tag="p" />
                 <div className="account-key-toggle">
                     {this.passphraseVisible ? (
-                        <span className="selectable monospace">
-                            {User.current.passphrase}
-                        </span>
+                        <span className="selectable monospace">{User.current.passphrase}</span>
                     ) : (
                         <span>••••••••••••••••••••••••••••••••••••••••••</span>
                     )}&nbsp;&nbsp;
@@ -179,11 +169,7 @@ export default class SecuritySettings extends React.Component {
     renderAutologinSection() {
         return (
             <section className="with-bg">
-                <T
-                    k="title_securityDeviceSettings"
-                    tag="div"
-                    className="title"
-                />
+                <T k="title_securityDeviceSettings" tag="div" className="title" />
                 <T k="title_securityDeviceSettingsDetail" tag="p" />
                 <Switch
                     checked={User.current.autologinEnabled}
@@ -201,11 +187,7 @@ export default class SecuritySettings extends React.Component {
                 <p>
                     <T k="title_2FADetailDesktop" />
                     <a onClick={this.openAuthApps}>
-                        <Button
-                            icon="help"
-                            tooltip={t('title_readMore')}
-                            theme="no-hover"
-                        />
+                        <Button icon="help" tooltip={t('title_readMore')} theme="no-hover" />
                     </a>
                     <Dialog
                         active={this.authAppsDialogActive}
@@ -229,10 +211,7 @@ export default class SecuritySettings extends React.Component {
                                 <div>
                                     <T k="title_scanQRCode" tag="div" />
                                     <br />
-                                    <img
-                                        alt={this.twoFASecret}
-                                        src={this.twoFAQRCode}
-                                    />
+                                    <img alt={this.twoFASecret} src={this.twoFAQRCode} />
                                     <a onClick={this.toggleQRCode}>
                                         <T
                                             k="button_2FAShowSecret"
@@ -245,11 +224,7 @@ export default class SecuritySettings extends React.Component {
                                 <div>
                                     <T k="title_pasteTOTPKey" tag="div" />
                                     <br />
-                                    <T
-                                        k="title_2FASecretKey"
-                                        className="dark-label"
-                                        tag="div"
-                                    />
+                                    <T k="title_2FASecretKey" className="dark-label" tag="div" />
 
                                     <div className="bold selectable">
                                         {this.twoFASecret}
@@ -301,10 +276,7 @@ export default class SecuritySettings extends React.Component {
             <section className="with-bg">
                 <T k="title_2FA" className="title" tag="div" />
                 <p>
-                    <MaterialIcon
-                        icon="check_circle"
-                        className="icon-affirmative icon-large"
-                    />
+                    <MaterialIcon icon="check_circle" className="icon-affirmative icon-large" />
                     &nbsp;&nbsp;
                     <T k="title_2FAEnabledThanks" />
                 </p>
@@ -316,10 +288,7 @@ export default class SecuritySettings extends React.Component {
                     theme="primary"
                 />
                 <div className="text-right">
-                    <Button
-                        label={t('button_disable')}
-                        onClick={this.disable2fa}
-                    />
+                    <Button label={t('button_disable')} onClick={this.disable2fa} />
                 </div>
             </section>
         );

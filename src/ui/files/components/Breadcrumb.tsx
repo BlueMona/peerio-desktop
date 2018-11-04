@@ -38,11 +38,9 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
     }
 
     componentDidMount() {
-        this._watchFolder = reaction(
-            () => this.props.folder,
-            this.ellipsizeFolderNames,
-            { fireImmediately: true }
-        );
+        this._watchFolder = reaction(() => this.props.folder, this.ellipsizeFolderNames, {
+            fireImmediately: true
+        });
         window.addEventListener('resize', this.ellipsizeFolderNames, false);
     }
 
@@ -56,9 +54,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
     get folderWidths() {
         const array: string[] = [];
         this.folderPath.forEach(folder => {
-            folder.name
-                ? array.push(folder.name)
-                : array.push(t('title_files'));
+            folder.name ? array.push(folder.name) : array.push(t('title_files'));
         });
 
         return this.calcTextWidths(array);
@@ -72,9 +68,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
     get folderWidthsWithEllipsized(): number[] {
         const array: string[] = [];
         this.folderPath.forEach(folder => {
-            folder.name
-                ? array.push(folder.name)
-                : array.push(t('title_files'));
+            folder.name ? array.push(folder.name) : array.push(t('title_files'));
         });
 
         for (let i = 0; i <= this.foldersToEllipsize; i++) {
@@ -93,9 +87,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
 
         array.forEach(folder => {
             const thisWidth = context.measureText(folder).width;
-            widthArray.push(
-                thisWidth < FOLDER_MAX_WIDTH ? thisWidth : FOLDER_MAX_WIDTH
-            );
+            widthArray.push(thisWidth < FOLDER_MAX_WIDTH ? thisWidth : FOLDER_MAX_WIDTH);
         });
 
         return widthArray;
@@ -120,19 +112,12 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
     }
 
     ellipsizeFolderNames = () => {
-        const breadcrumbContainer = document.getElementsByClassName(
-            'breadcrumb-container'
-        )[0];
+        const breadcrumbContainer = document.getElementsByClassName('breadcrumb-container')[0];
 
         // 48px subtracted to take into account the width of the three-dots button
         // 32px subtracted to take into account the left margin of the breadcrumb
         const containerWidth =
-            parseInt(
-                window
-                    .getComputedStyle(breadcrumbContainer)
-                    .getPropertyValue('width'),
-                10
-            ) -
+            parseInt(window.getComputedStyle(breadcrumbContainer).getPropertyValue('width'), 10) -
             48 -
             32;
 
@@ -185,9 +170,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
                         )}
                         <div className="breadcrumb-entry">
                             <span className="folder-name selected-count">
-                                <T k="title_selected" tag="span" /> ({
-                                    selectedCount
-                                })
+                                <T k="title_selected" tag="span" /> ({selectedCount})
                             </span>
                         </div>
                     </div>
@@ -197,9 +180,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
                             <Crumb
                                 key={`${f.id}-${f.name}`}
                                 displayText={
-                                    i > this.foldersToEllipsize
-                                        ? f.name || t('title_files')
-                                        : '...'
+                                    i > this.foldersToEllipsize ? f.name || t('title_files') : '...'
                                 }
                                 folder={f}
                                 onClick={onFolderClick}

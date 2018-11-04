@@ -76,19 +76,15 @@ async function handleLaunchFromDMG() {
                         // Note: the docs are currently wrong, if non-admin user cancels
                         // authorization, an exception gets thrown rather than returning
                         // false. We don't mind.
-                        console.log(
-                            'User cancelled moving to Applications folder'
-                        );
+                        console.log('User cancelled moving to Applications folder');
                     }
                 } catch (ex) {
                     console.error(ex);
                     dialog.showMessageBox(
                         {
                             type: 'error',
-                            message:
-                                'Failed to copy the app into the Applications folder',
-                            detail:
-                                'Please copy it manually by dragging the app icon.',
+                            message: 'Failed to copy the app into the Applications folder',
+                            detail: 'Please copy it manually by dragging the app icon.',
                             buttons: ['Quit']
                         },
                         () => {
@@ -124,10 +120,7 @@ function isAppInDMG() {
             resolve(isInDMG);
             return;
         }
-        if (
-            process.platform !== 'darwin' ||
-            !process.execPath.startsWith('/Volumes')
-        ) {
+        if (process.platform !== 'darwin' || !process.execPath.startsWith('/Volumes')) {
             isInDMG = false;
             resolve(false);
             return;

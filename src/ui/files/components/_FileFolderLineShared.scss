@@ -15,9 +15,7 @@ $row-height: 48px;
   border-spacing: 0;
 
   &.with-banner {
-    height: calc(
-      100vh - #{$file-top-ui-height} - #{$pending-files-banner-height}
-    );
+    height: calc(100vh - #{$file-top-ui-height} - #{$pending-files-banner-height});
   }
 
   .row-container {

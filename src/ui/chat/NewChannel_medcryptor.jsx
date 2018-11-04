@@ -132,18 +132,14 @@ class NewChannel extends React.Component {
             <div className="new-channel create-new-chat">
                 <div className="chat-creation-header">
                     <div className="title">{ELEMENTS.newChannel.title}</div>
-                    <div className="description">
-                        {ELEMENTS.newChannel.description}
-                    </div>
+                    <div className="description">{ELEMENTS.newChannel.description}</div>
                 </div>
                 <div className="new-channel-inputs">
                     <div className="message-search-wrapper-new-channel message-search-wrapper">
                         <div className="new-chat-search">
                             <div className="chip-wrapper">
                                 <Input
-                                    placeholder={t(
-                                        STRINGS.newChannel.channelName
-                                    )}
+                                    placeholder={t(STRINGS.newChannel.channelName)}
                                     value={this.channelName}
                                     onChange={this.handleNameChange}
                                     maxLength={config.chat.maxChatNameLength}
@@ -152,20 +148,15 @@ class NewChannel extends React.Component {
                         </div>
                         <div className="helper-text" />
                     </div>
-                    {routerStore.isPatientSpace ||
-                    routerStore.isNewPatient ? null : (
+                    {routerStore.isPatientSpace || routerStore.isNewPatient ? null : (
                         <div className="message-search-wrapper-new-channel message-search-wrapper">
                             <div className="new-chat-search">
                                 <div className="chip-wrapper">
                                     <Input
-                                        placeholder={t(
-                                            STRINGS.newChannel.channelPurpose
-                                        )}
+                                        placeholder={t(STRINGS.newChannel.channelPurpose)}
                                         value={this.purpose}
                                         onChange={this.handlePurposeChange}
-                                        maxLength={
-                                            config.chat.maxChatPurposeLength
-                                        }
+                                        maxLength={config.chat.maxChatPurposeLength}
                                         autoFocus
                                     />
                                 </div>

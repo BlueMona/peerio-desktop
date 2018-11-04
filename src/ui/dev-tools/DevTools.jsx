@@ -30,11 +30,7 @@ class DevTools extends React.Component {
     render() {
         return (
             <div className="dev-tools-root">
-                <link
-                    key="dev_tools_style"
-                    rel="stylesheet"
-                    href="./dev-tools-style.css"
-                />
+                <link key="dev_tools_style" rel="stylesheet" href="./dev-tools-style.css" />
                 <div className="top-bar">
                     <Menu icon="menu" className="menu" position="top-left">
                         <MenuItem
@@ -48,11 +44,7 @@ class DevTools extends React.Component {
                             onClick={this.gotoKegEditor}
                         />
                         <Divider />
-                        <MenuItem
-                            icon="close"
-                            caption="Close"
-                            onClick={this.quit}
-                        />
+                        <MenuItem icon="close" caption="Close" onClick={this.quit} />
                     </Menu>
                     <div className="separator" />
                     {socket.connected ? (

@@ -25,15 +25,7 @@ class FileSpriteIcon extends React.Component {
 
     render() {
         const fileIconType = `ic-file-${this.props.type}-${this.props.size}`;
-        return (
-            <div
-                className={css(
-                    'file-sprite-icon',
-                    fileIconType,
-                    this.pxResolution
-                )}
-            />
-        );
+        return <div className={css('file-sprite-icon', fileIconType, this.pxResolution)} />;
     }
 }
 

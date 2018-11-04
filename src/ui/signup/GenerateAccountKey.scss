@@ -198,8 +198,7 @@
     }
 
     // stylelint-disable-next-line
-    @media all and (max-width: $break-width-default),
-      all and (max-height: $break-height-default) {
+    @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
       .head-container {
         img {
           height: 48px;

@@ -10,11 +10,7 @@ export default class WarningDisplayBase<T = {}> extends React.Component<T> {
     @computed
     get isVisible() {
         const w = warnings.current;
-        return !!(
-            w &&
-            w.level === this.level &&
-            w.state === warningStates.SHOWING
-        );
+        return !!(w && w.level === this.level && w.state === warningStates.SHOWING);
     }
 
     constructor(level: string, props: T) {

@@ -67,9 +67,7 @@ class PatientSidebar extends React.Component {
             return <T k="title_new" className="badge-new" />;
         } else if ((!r.active || r.newMessagesMarkerPos) && r.unreadCount > 0) {
             return (
-                <div className="notification">
-                    {r.unreadCount < 100 ? r.unreadCount : '99+'}
-                </div>
+                <div className="notification">{r.unreadCount < 100 ? r.unreadCount : '99+'}</div>
             );
         }
 
@@ -111,11 +109,7 @@ class PatientSidebar extends React.Component {
                         unread: c.unreadCount > 0,
                         pinned: c.isFavorite
                     })}
-                    leftContent={
-                        <div className="new-dm-avatar material-icons">
-                            people
-                        </div>
-                    }
+                    leftContent={<div className="new-dm-avatar material-icons">people</div>}
                     onClick={this.activateChat}
                     rightContent={this.calculateRightContent(c)}
                 >
@@ -132,9 +126,7 @@ class PatientSidebar extends React.Component {
                     <div className="navigate-back">
                         <Button onClick={this.goBack} icon="arrow_back" />
                     </div>
-                    <div className="patient-name">
-                        {chatStore.spaces.currentSpaceName}
-                    </div>
+                    <div className="patient-name">{chatStore.spaces.currentSpaceName}</div>
 
                     <List clickable>
                         <div>
@@ -148,22 +140,16 @@ class PatientSidebar extends React.Component {
                             {this.isNewInternalRoom && (
                                 <ListItem
                                     key="new chat"
-                                    className={css(
-                                        'room-item',
-                                        'new-room-list-entry',
-                                        { active: this.isNewInternalRoom }
-                                    )}
+                                    className={css('room-item', 'new-room-list-entry', {
+                                        active: this.isNewInternalRoom
+                                    })}
                                     leftContent={
                                         <div className="new-dm-avatar material-icons">
                                             help_outline
                                         </div>
                                     }
                                 >
-                                    <i>
-                                        {t(
-                                            'mcr_title_newInternalRoomPlaceholder'
-                                        )}
-                                    </i>
+                                    <i>{t('mcr_title_newInternalRoomPlaceholder')}</i>
                                 </ListItem>
                             )}
                             {this.internalRoomMap}
@@ -182,22 +168,16 @@ class PatientSidebar extends React.Component {
                             {this.isPatientSpaceRoom && (
                                 <ListItem
                                     key="new chat"
-                                    className={css(
-                                        'dm-item',
-                                        'new-dm-list-entry',
-                                        { active: this.isPatientSpaceRoom }
-                                    )}
+                                    className={css('dm-item', 'new-dm-list-entry', {
+                                        active: this.isPatientSpaceRoom
+                                    })}
                                     leftContent={
                                         <div className="new-dm-avatar material-icons">
                                             help_outline
                                         </div>
                                     }
                                 >
-                                    <i>
-                                        {t(
-                                            'mcr_title_newPatientRoomPlaceholder'
-                                        )}
-                                    </i>
+                                    <i>{t('mcr_title_newPatientRoomPlaceholder')}</i>
                                 </ListItem>
                             )}
                             {this.patientRoomMap}

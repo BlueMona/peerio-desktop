@@ -2,20 +2,10 @@ const React = require('react');
 const { observable, computed, action } = require('mobx');
 const { observer } = require('mobx-react');
 const { chatStore, contactStore, User } = require('peerio-icebear');
-const {
-    Avatar,
-    Dialog,
-    Input,
-    List,
-    ListItem,
-    MaterialIcon
-} = require('peer-ui');
+const { Avatar, Dialog, Input, List, ListItem, MaterialIcon } = require('peer-ui');
 const T = require('~/ui/shared-components/T');
 const { t } = require('peerio-translator');
-const {
-    getChannelByEvent,
-    getContactByEvent
-} = require('~/helpers/icebear-dom');
+const { getChannelByEvent, getContactByEvent } = require('~/helpers/icebear-dom');
 
 /**
  * onSelectContact
@@ -41,8 +31,7 @@ class ShareWithDialog extends React.Component {
     @computed
     get channels() {
         let result = chatStore.channels;
-        if (this.query)
-            result = result.filter(c => c.name.startsWith(this.query));
+        if (this.query) result = result.filter(c => c.name.startsWith(this.query));
         return result;
     }
 
@@ -65,10 +54,7 @@ class ShareWithDialog extends React.Component {
     renderChannel = c => {
         return (
             <div data-channelid={c.id} key={c.id}>
-                <ListItem
-                    onClick={this.onChannelClick}
-                    caption={`# ${c.name}`}
-                />
+                <ListItem onClick={this.onChannelClick} caption={`# ${c.name}`} />
             </div>
         );
     };
@@ -87,9 +73,7 @@ class ShareWithDialog extends React.Component {
     };
 
     render() {
-        const dialogActions = [
-            { label: t('button_close'), onClick: this.cancelDialog }
-        ];
+        const dialogActions = [{ label: t('button_close'), onClick: this.cancelDialog }];
 
         return (
             <Dialog
@@ -119,10 +103,7 @@ class ShareWithDialog extends React.Component {
                                 <T k="title_channels" />
                                 &nbsp;({this.channels.length})
                             </div>
-                            <List
-                                className="list-chats list-channels"
-                                clickable
-                            >
+                            <List className="list-chats list-channels" clickable>
                                 {this.channels.map(this.renderChannel)}
                             </List>
                         </div>

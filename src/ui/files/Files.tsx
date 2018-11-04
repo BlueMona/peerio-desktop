@@ -1,13 +1,7 @@
 import React from 'react';
 import css from 'classnames';
 import { observer } from 'mobx-react';
-import {
-    observable,
-    action,
-    computed,
-    reaction,
-    IReactionDisposer
-} from 'mobx';
+import { observable, action, computed, reaction, IReactionDisposer } from 'mobx';
 import { DropTarget } from 'react-dnd';
 import _ from 'lodash';
 
@@ -44,10 +38,7 @@ interface FilesProps {
     {
         drop(_props, monitor) {
             if (monitor.didDrop()) return; // drop was already handled by eg. a droppable folder line
-            uploadDroppedFiles(
-                monitor.getItem().files,
-                fileStore.folderStore.currentFolder
-            );
+            uploadDroppedFiles(monitor.getItem().files, fileStore.folderStore.currentFolder);
         }
     },
     (connect, monitor) => ({
@@ -92,8 +83,7 @@ export default class Files extends React.Component<FilesProps> {
         // icebear will call this function to confirm file deletion
         fileStore.bulk.deleteFilesConfirmator = (files, sharedFiles) => {
             let msg = t('title_confirmRemoveFiles', { count: files.length });
-            if (sharedFiles.length)
-                msg += `\n\n${t('title_confirmRemoveSharedFiles')}`;
+            if (sharedFiles.length) msg += `\n\n${t('title_confirmRemoveSharedFiles')}`;
             return confirm(msg);
         };
 
@@ -104,11 +94,7 @@ export default class Files extends React.Component<FilesProps> {
         fileStore.bulk.pickPathSelector = pickSavePath;
 
         // Show uploadFiles beacons if user has no files
-        if (
-            fileStore.loaded &&
-            !fileStore.files.length &&
-            !fileStore.folderStore.folders.length
-        ) {
+        if (fileStore.loaded && !fileStore.files.length && !fileStore.folderStore.folders.length) {
             beaconStore.addBeacons('uploadFiles');
         }
 
@@ -180,11 +166,7 @@ export default class Files extends React.Component<FilesProps> {
             )
                 continue;
             renderedItems.push(
-                <DraggableLine
-                    fileOrFolder={f}
-                    key={f.id}
-                    confirmShare={this.confirmShare}
-                />
+                <DraggableLine fileOrFolder={f} key={f.id} confirmShare={this.confirmShare} />
             );
         }
         return renderedItems;
@@ -192,10 +174,7 @@ export default class Files extends React.Component<FilesProps> {
 
     @computed
     get allAreSelected() {
-        return (
-            this.items.length &&
-            !this.items.some(i => !i.selected && !i.isShared)
-        );
+        return this.items.length && !this.items.some(i => !i.selected && !i.isShared);
     }
 
     readonly confirmShare = () => {
@@ -210,9 +189,7 @@ export default class Files extends React.Component<FilesProps> {
         }
 
         const distanceToBottom =
-            this.container.scrollHeight -
-            this.container.scrollTop -
-            this.container.clientHeight;
+            this.container.scrollHeight - this.container.scrollTop - this.container.clientHeight;
         if (distanceToBottom < 250) {
             this.renderedItemsCount += this.pageSize;
         }
@@ -257,17 +234,13 @@ export default class Files extends React.Component<FilesProps> {
                     'hide-in-progress': this.removedFolderNotifToHide
                 })}
             >
-                <T k="title_removedFromFolder">
-                    {{ folderName: 'Design files' }}
-                </T>
+                <T k="title_removedFromFolder">{{ folderName: 'Design files' }}</T>
                 <Button icon="close" onClick={this.dismissRemovedFolderNotif} />
             </div>
         );
     }
 
-    readonly refConfirmFolderDeleteDialog = (
-        ref: ConfirmFolderDeleteDialog | null
-    ) => {
+    readonly refConfirmFolderDeleteDialog = (ref: ConfirmFolderDeleteDialog | null) => {
         fileStore.bulk.deleteFolderConfirmator = ref && ref.show;
     };
 
@@ -303,9 +276,7 @@ export default class Files extends React.Component<FilesProps> {
                             {/* blank space for file icon image */}
                             <div className="file-name">{t('title_name')}</div>
                             <div className="file-owner">{t('title_owner')}</div>
-                            <div className="file-uploaded">
-                                {t('title_uploaded')}
-                            </div>
+                            <div className="file-uploaded">{t('title_uploaded')}</div>
                             <div className="file-size">{t('title_size')}</div>
                             <div className="file-actions" />
                         </div>
@@ -315,8 +286,7 @@ export default class Files extends React.Component<FilesProps> {
                         {currentFolder.convertingToVolume && (
                             <div
                                 className={css('file-ui-subheader', 'row', {
-                                    'converting-to-volume':
-                                        currentFolder.convertingToVolume
+                                    'converting-to-volume': currentFolder.convertingToVolume
                                 })}
                             >
                                 <div className="file-checkbox percent-in-progress">
@@ -326,10 +296,7 @@ export default class Files extends React.Component<FilesProps> {
                                 <div className="file-share-info">
                                     {currentFolder.convertingToVolume && (
                                         <span>
-                                            <T
-                                                k="title_filesInQueue"
-                                                tag="span"
-                                            />&nbsp;
+                                            <T k="title_filesInQueue" tag="span" />&nbsp;
                                             {/* } (34 <T k="title_filesLeftCount" tag="span" />) */}
                                         </span>
                                     )}
@@ -359,13 +326,9 @@ export default class Files extends React.Component<FilesProps> {
                                     })}
                                 >
                                     {this.renderedItems}
-                                    {fileStore.loaded &&
-                                    currentFolder.isEmpty ? (
+                                    {fileStore.loaded && currentFolder.isEmpty ? (
                                         <ZeroFiles
-                                            isRoot={
-                                                currentFolder.isRoot &&
-                                                !currentFolder.isShared
-                                            }
+                                            isRoot={currentFolder.isRoot && !currentFolder.isShared}
                                         />
                                     ) : null}
                                 </div>
@@ -374,9 +337,7 @@ export default class Files extends React.Component<FilesProps> {
                     </div>
                 </div>
                 <ShareConfirmDialog ref={this.shareConfirmDialogRef} />
-                <ConfirmFolderDeleteDialog
-                    ref={this.refConfirmFolderDeleteDialog}
-                />
+                <ConfirmFolderDeleteDialog ref={this.refConfirmFolderDeleteDialog} />
             </div>
         );
     }

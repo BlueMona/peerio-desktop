@@ -11,8 +11,7 @@ div.login {
   .mock-ui-container {
     padding: 148px 112px 80px 0;
 
-    @media all and (max-width: $break-width-default),
-      all and (max-height: $break-height-default) {
+    @media all and (max-width: $break-width-default), all and (max-height: $break-height-default) {
       padding: 148px 80px 148px 0;
     }
   }

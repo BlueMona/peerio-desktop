@@ -55,8 +55,7 @@ interface MessageProps {
  */
 @observer
 export default class Message extends React.Component<MessageProps> {
-    @observable.shallow
-    errorData: { error: Error; info: React.ErrorInfo } | null = null;
+    @observable.shallow errorData: { error: Error; info: React.ErrorInfo } | null = null;
     @observable allowShowSendingState = false;
     @observable resendInProgress = false;
 
@@ -78,9 +77,7 @@ export default class Message extends React.Component<MessageProps> {
     @observable clickedContact;
     @action.bound
     onClickContact(ev) {
-        this.clickedContact = contactStore.getContact(
-            ev.target.attributes['data-username'].value
-        );
+        this.clickedContact = contactStore.getContact(ev.target.attributes['data-username'].value);
         this.contactProfileRef.current!.openDialog();
     }
 
@@ -128,9 +125,7 @@ export default class Message extends React.Component<MessageProps> {
             // HACK: React error boundaries only catch errors in children, so we
             // wrap this throw in a createElement.
             return React.createElement(() => {
-                throw new Error(
-                    "Can't render rich text and message has no plaintext!"
-                );
+                throw new Error("Can't render rich text and message has no plaintext!");
             });
         }
 
@@ -139,14 +134,11 @@ export default class Message extends React.Component<MessageProps> {
         // it if it's necessary.
         legacyProcessMessageForDisplay =
             legacyProcessMessageForDisplay ||
-            require('~/helpers/chat/legacy-process-message-for-display')
-                .processMessageForDisplay;
+            require('~/helpers/chat/legacy-process-message-for-display').processMessageForDisplay;
         return (
             <p
                 // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={legacyProcessMessageForDisplay(
-                    message
-                )}
+                dangerouslySetInnerHTML={legacyProcessMessageForDisplay(message)}
                 className="selectable"
             />
         );
@@ -173,9 +165,7 @@ export default class Message extends React.Component<MessageProps> {
         return (
             <div className="system-message selectable">
                 <p>{systemMessages.getSystemMessageText(m)}</p>
-                {m.systemData.action === 'join' && (
-                    <IdentityVerificationNotice extraMargin />
-                )}
+                {m.systemData.action === 'join' && <IdentityVerificationNotice extraMargin />}
             </div>
         );
     }
@@ -185,12 +175,7 @@ export default class Message extends React.Component<MessageProps> {
     };
     renderReceipts(m) {
         if (!m.receipts || !m.receipts.length) {
-            return (
-                <div
-                    key={`${m.tempId || m.id}receipts`}
-                    className="receipt-wrapper"
-                />
-            );
+            return <div key={`${m.tempId || m.id}receipts`} className="receipt-wrapper" />;
         }
         // yeah, we skip receipts signature errors so the 3 + X math won't really work that well in some cases
         // but it's ok, signature error is not a common thing, and there's a task in tracker to deal with this someday
@@ -212,16 +197,10 @@ export default class Message extends React.Component<MessageProps> {
         }
 
         return (
-            <div
-                key={`${m.tempId || m.id}receipts`}
-                className="receipt-wrapper"
-            >
+            <div key={`${m.tempId || m.id}receipts`} className="receipt-wrapper">
                 {renderMe}
                 {m.receipts.length > 6 && (
-                    <div
-                        onClick={this.openMessageInfo}
-                        className="plus-receipts"
-                    >
+                    <div onClick={this.openMessageInfo} className="plus-receipts">
                         +{m.receipts.length - 3}
                     </div>
                 )}
@@ -264,24 +243,16 @@ export default class Message extends React.Component<MessageProps> {
             >
                 <div className="message-content-wrapper-inner">
                     {this.props.light ? (
-                        <div className="timestamp">
-                            {time.format(m.timestamp).split(' ')[0]}
-                        </div>
+                        <div className="timestamp">{time.format(m.timestamp).split(' ')[0]}</div>
                     ) : (
-                        <AvatarWithPopup
-                            contact={m.sender}
-                            size="medium"
-                            tooltip
-                        />
+                        <AvatarWithPopup contact={m.sender} size="medium" tooltip />
                     )}
                     <div className="message-content">
                         {this.props.light ? null : (
                             <div className="meta-data">
                                 <div className="user selectable">
                                     {m.sender.fullName}&nbsp;
-                                    <span className="username selectable">
-                                        {m.sender.username}
-                                    </span>
+                                    <span className="username selectable">{m.sender.username}</span>
                                 </div>
                                 <div className="timestamp selectable">
                                     {time.format(m.timestamp)}
@@ -289,9 +260,7 @@ export default class Message extends React.Component<MessageProps> {
                             </div>
                         )}
                         <div className="message-body">
-                            {m.systemData || m.files || m.folders
-                                ? null
-                                : MessageComponent}
+                            {m.systemData || m.files || m.folders ? null : MessageComponent}
                             {m.files || m.folders ? (
                                 <div className="inline-files-and-optional-message">
                                     {m.folders
@@ -311,15 +280,11 @@ export default class Message extends React.Component<MessageProps> {
                                     {m.files ? (
                                         <InlineFiles
                                             files={m.files}
-                                            onImageLoaded={
-                                                this.props.onImageLoaded
-                                            }
+                                            onImageLoaded={this.props.onImageLoaded}
                                         />
                                     ) : null}
                                     {!!m.text && (
-                                        <div className="optional-message">
-                                            {MessageComponent}
-                                        </div>
+                                        <div className="optional-message">{MessageComponent}</div>
                                     )}
                                 </div>
                             ) : null}
@@ -330,9 +295,7 @@ export default class Message extends React.Component<MessageProps> {
                                       <UrlPreview
                                           key={ind} // eslint-disable-line react/no-array-index-key
                                           urlData={urlData}
-                                          onImageLoaded={
-                                              this.props.onImageLoaded
-                                          }
+                                          onImageLoaded={this.props.onImageLoaded}
                                       />
                                   ))
                                 : null}
@@ -341,43 +304,24 @@ export default class Message extends React.Component<MessageProps> {
                         </div>
                         {/* m.inlineImages.map(url => (
                             <img key={url} className="inline-image" onLoad={this.props.onImageLoaded} src={url} />)) */}
-                        {m.sendError ||
-                        (this.allowShowSendingState && m.sending) ? (
+                        {m.sendError || (this.allowShowSendingState && m.sending) ? (
                             <div
                                 className={css('send-error-options', {
                                     'send-in-progress': m.sending
                                 })}
                             >
-                                <MaterialIcon
-                                    icon={
-                                        m.sending
-                                            ? 'autorenew'
-                                            : 'error_outline'
-                                    }
-                                />
+                                <MaterialIcon icon={m.sending ? 'autorenew' : 'error_outline'} />
                                 <T
-                                    k={
-                                        m.sending
-                                            ? 'title_sendRetry'
-                                            : 'error_messageNotSent'
-                                    }
+                                    k={m.sending ? 'title_sendRetry' : 'error_messageNotSent'}
                                     className="send-error-text"
                                 />
                                 <a
-                                    onClick={
-                                        m.sending
-                                            ? null
-                                            : () => this.handleRetry(m)
-                                    }
+                                    onClick={m.sending ? null : () => this.handleRetry(m)}
                                     className={css({ disabled: m.sending })}
                                 >
                                     <T k="button_tryAgain" />
                                 </a>
-                                <a
-                                    onClick={() =>
-                                        this.props.chat.removeMessage(m)
-                                    }
-                                >
+                                <a onClick={() => this.props.chat.removeMessage(m)}>
                                     <T k="button_remove" />
                                 </a>
                             </div>
@@ -387,24 +331,13 @@ export default class Message extends React.Component<MessageProps> {
                 </div>
                 {invalidSign ? (
                     <div className="invalid-sign-warning">
-                        <MaterialIcon
-                            icon="error_outline_circle"
-                            className="warning-icon"
-                        />
-                        <div className="content">
-                            {t('error_invalidMessageSignature')}
-                        </div>
-                        <Button
-                            href={urls.msgSignature}
-                            label={t('title_readMore')}
-                        />
+                        <MaterialIcon icon="error_outline_circle" className="warning-icon" />
+                        <div className="content">{t('error_invalidMessageSignature')}</div>
+                        <Button href={urls.msgSignature} label={t('title_readMore')} />
                     </div>
                 ) : null}
 
-                <ContactProfile
-                    ref={this.contactProfileRef}
-                    contact={this.clickedContact}
-                />
+                <ContactProfile ref={this.contactProfileRef} contact={this.clickedContact} />
             </div>
         );
     }
@@ -429,9 +362,7 @@ function renderError(
                         <p>{errorData.error.toString()}</p>
                         <br />
                         <p>
-                            <strong>
-                                {t('error_messageErrorMessageInfo')}:
-                            </strong>
+                            <strong>{t('error_messageErrorMessageInfo')}:</strong>
                         </p>
                         {// We can't just stringify the message keg, it's not plain data and can be circular
                         /* eslint-disable prefer-template, react/no-array-index-key */
@@ -440,24 +371,12 @@ function renderError(
                                 {[
                                     `${t('error_messageErrorSenderName')}: ` +
                                         (msg.sender && msg.sender.username),
-                                    `${t('error_messageErrorMessageId')}: ${
-                                        msg.id
-                                    }`,
+                                    `${t('error_messageErrorMessageId')}: ${msg.id}`,
                                     `${t('error_messageErrorTimestamp')}: ` +
-                                        (msg.timestamp &&
-                                            msg.timestamp.toLocaleString()),
-                                    `${t(
-                                        'error_messageErrorMessagePlaintext'
-                                    )}: ${msg.text}`,
-                                    `${t(
-                                        'error_messageErrorMessageRichtext'
-                                    )}: ` +
-                                        (msg.richText &&
-                                            JSON.stringify(
-                                                msg.richText,
-                                                undefined,
-                                                2
-                                            ))
+                                        (msg.timestamp && msg.timestamp.toLocaleString()),
+                                    `${t('error_messageErrorMessagePlaintext')}: ${msg.text}`,
+                                    `${t('error_messageErrorMessageRichtext')}: ` +
+                                        (msg.richText && JSON.stringify(msg.richText, undefined, 2))
                                 ].map((l, i) => <li key={i}>{l}</li>)}
                             </ul>
                         ) : (
@@ -467,9 +386,7 @@ function renderError(
                         }
                         <br />
                         <p>
-                            <strong>
-                                {t('error_messageErrorAdditionalInfo')}:
-                            </strong>
+                            <strong>{t('error_messageErrorAdditionalInfo')}:</strong>
                         </p>
                         <p>{errorData.info && errorData.info.componentStack}</p>
                     </div>

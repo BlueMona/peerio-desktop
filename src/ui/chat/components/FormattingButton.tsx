@@ -49,10 +49,7 @@ class FormattingButton {
                     update(view) {
                         if (self.view !== view) self.view = view; // terrible hack, but desperate times...
                         runInAction(() => {
-                            self.active = isMarkActive(
-                                view.state,
-                                self.markType
-                            );
+                            self.active = isMarkActive(view.state, self.markType);
                         });
                     }
                 };
@@ -78,11 +75,9 @@ class FormattingButton {
         return (
             <div
                 onClick={this.handleClick}
-                className={css(
-                    'formatting-button',
-                    `formatting-button-${markType.name}`,
-                    { 'formatting-button-active': active }
-                )}
+                className={css('formatting-button', `formatting-button-${markType.name}`, {
+                    'formatting-button-active': active
+                })}
             >
                 {label}
             </div>
@@ -95,8 +90,7 @@ class FormattingButton {
  */
 function isMarkActive(state: EditorState, markType: MarkType): boolean {
     const { from, $from, to, empty } = state.selection;
-    if (empty)
-        return markType.isInSet(state.storedMarks || $from.marks()) != null;
+    if (empty) return markType.isInSet(state.storedMarks || $from.marks()) != null;
     return state.doc.rangeHasMark(from, to, markType);
 }
 

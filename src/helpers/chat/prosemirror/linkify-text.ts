@@ -29,18 +29,11 @@ export function linkify(state: EditorState): EditorState {
                 // because of our weird approach, instead of iterating through
                 // the matches we just grab the first one each time.
                 if (matches.length > 0) {
-                    const $from = linkifiedState.doc.resolve(
-                        pos + matches[0].index
-                    );
+                    const $from = linkifiedState.doc.resolve(pos + matches[0].index);
                     tr.replaceWith(
                         $from.pos,
                         $from.pos + matches[0].text.length,
-                        chatSchema.node(
-                            'link',
-                            null,
-                            chatSchema.text(matches[0].text),
-                            node.marks
-                        )
+                        chatSchema.node('link', null, chatSchema.text(matches[0].text), node.marks)
                     );
                     didMatch = true;
                 }

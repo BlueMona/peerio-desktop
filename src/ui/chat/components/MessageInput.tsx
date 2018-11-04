@@ -144,8 +144,7 @@ export default class MessageInput extends React.Component<MessageInputProps> {
             !this.wheelOverJumpToBottom &&
             (this.props.messageListScrolledUp ||
                 chatStore.activeChat.canGoDown ||
-                (!clientApp.isReadingNewestMessages &&
-                    chatStore.activeChat.unreadCount > 0))
+                (!clientApp.isReadingNewestMessages && chatStore.activeChat.unreadCount > 0))
         );
     }
 
@@ -169,10 +168,7 @@ export default class MessageInput extends React.Component<MessageInputProps> {
                 })}
                 onWheel={this.handleWheelOverJumpToBottom}
             >
-                <Button
-                    icon="keyboard_arrow_down"
-                    onClick={this.props.onJumpToBottom}
-                />
+                <Button icon="keyboard_arrow_down" onClick={this.props.onJumpToBottom} />
                 {chat.unreadCount > 0 && (
                     <div className="unread-badge">
                         {chat.unreadCount < 100 ? chat.unreadCount : '99+'}
@@ -185,10 +181,7 @@ export default class MessageInput extends React.Component<MessageInputProps> {
     render() {
         if (this.uploadDialogActive) {
             return (
-                <UploadDialog
-                    deactivate={this.deactivateUploadDialog}
-                    files={this.selectedFiles}
-                />
+                <UploadDialog deactivate={this.deactivateUploadDialog} files={this.selectedFiles} />
             );
         }
         const chat = chatStore.activeChat;
@@ -200,11 +193,7 @@ export default class MessageInput extends React.Component<MessageInputProps> {
                     })}
                     ref={this.setSnackbarRef}
                 />
-                <div
-                    className="message-input"
-                    onDrop={this.preventDrop}
-                    onPaste={this.onPaste}
-                >
+                <div className="message-input" onDrop={this.preventDrop} onPaste={this.onPaste}>
                     <Menu
                         position="bottom-left"
                         icon="add_circle_outline"

@@ -10,9 +10,7 @@ interface SideBarSectionProps {
 }
 
 @observer
-export default class SideBarSection extends React.Component<
-    SideBarSectionProps
-> {
+export default class SideBarSection extends React.Component<SideBarSectionProps> {
     render() {
         return (
             <div
@@ -30,11 +28,7 @@ export default class SideBarSection extends React.Component<
                     <div className="section-title">{this.props.title}</div>
                     {this.props.onToggle && (
                         <MaterialIcon
-                            icon={
-                                this.props.open
-                                    ? 'arrow_drop_up'
-                                    : 'arrow_drop_down'
-                            }
+                            icon={this.props.open ? 'arrow_drop_up' : 'arrow_drop_down'}
                         />
                     )}
                 </div>

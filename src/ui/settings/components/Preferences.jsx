@@ -27,8 +27,7 @@ class Preferences extends React.Component {
     }
 
     onMessageSoundsChanged(ev) {
-        if (ev.target.checked === true)
-            uiStore.prefs.mentionSoundsEnabled = false;
+        if (ev.target.checked === true) uiStore.prefs.mentionSoundsEnabled = false;
         uiStore.prefs.messageSoundsEnabled = ev.target.checked;
     }
 
@@ -38,8 +37,7 @@ class Preferences extends React.Component {
     }
 
     onMessageDesktopNotificationsChanged(ev) {
-        if (ev.target.checked === true)
-            uiStore.prefs.mentionDesktopNotificationsEnabled = false;
+        if (ev.target.checked === true) uiStore.prefs.mentionDesktopNotificationsEnabled = false;
         uiStore.prefs.messageDesktopNotificationsEnabled = ev.target.checked;
     }
 
@@ -106,31 +104,21 @@ class Preferences extends React.Component {
                     />
                 </section>
                 <section className="section-divider">
-                    <div className="title">
-                        {t('title_desktopNotifications')}
-                    </div>
+                    <div className="title">{t('title_desktopNotifications')}</div>
                     <p>{t('title_desktopNotificationsDetail')}</p>
                     <Switch
-                        checked={
-                            uiStore.prefs.messageDesktopNotificationsEnabled
-                        }
+                        checked={uiStore.prefs.messageDesktopNotificationsEnabled}
                         label={t('title_messageDesktopNotificationsMessage')}
                         onChange={this.onMessageDesktopNotificationsChanged}
                     />
                     <Switch
-                        checked={
-                            uiStore.prefs.mentionDesktopNotificationsEnabled
-                        }
+                        checked={uiStore.prefs.mentionDesktopNotificationsEnabled}
                         label={t('title_mentionDesktopNotificationsMessage')}
-                        disabled={
-                            this.mentionDesktopNotificationsSwitchDisabled
-                        }
+                        disabled={this.mentionDesktopNotificationsSwitchDisabled}
                         onChange={this.onMentionDesktopNotificationsChanged}
                     />
                     <Switch
-                        checked={
-                            uiStore.prefs.inviteDesktopNotificationsEnabled
-                        }
+                        checked={uiStore.prefs.inviteDesktopNotificationsEnabled}
                         label={t('title_inviteDesktopNotificationsMessage')}
                         onChange={this.onInviteDesktopNotificationsChanged}
                     />
@@ -155,9 +143,7 @@ class Preferences extends React.Component {
                         checked={uiStore.prefs.peerioContentEnabled}
                         onChange={this.onPeerioContentPreviewToggle}
                     />
-                    <p className="narrow smalltext">
-                        {t('title_showImagePreviewsDescription2')}
-                    </p>
+                    <p className="narrow smalltext">{t('title_showImagePreviewsDescription2')}</p>
                     <Switch
                         label={t('title_showLargeImages', {
                             size: fileStore.inlineImageSizeLimitFormatted
@@ -176,9 +162,7 @@ class Preferences extends React.Component {
                     <div className="warning">
                         <MaterialIcon icon="security" />
                         <div>
-                            <span>
-                                {t('title_EnableUrlPreviewWarning')}&nbsp;
-                            </span>
+                            <span>{t('title_EnableUrlPreviewWarning')}&nbsp;</span>
                             <T k="title_learnMore" />
                         </div>
                     </div>

@@ -20,10 +20,7 @@ try {
 
 const service = cfg.keychainService;
 
-export async function saveSecret(
-    username: string,
-    passphrase: string
-): Promise<boolean> {
+export async function saveSecret(username: string, passphrase: string): Promise<boolean> {
     if (!keytar) return false;
     try {
         await keytar.setPassword(service, username, passphrase);

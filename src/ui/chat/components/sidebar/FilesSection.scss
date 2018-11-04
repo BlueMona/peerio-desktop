@@ -55,9 +55,7 @@
       content: ' ';
       position: absolute;
       height: 1px;
-      width: calc(
-        100% - 80px
-      ); // full width - 48px icon width - 2x $margin-default
+      width: calc(100% - 80px); // full width - 48px icon width - 2x $margin-default
       right: 0;
       bottom: 0;
       background-color: $divider-dark;

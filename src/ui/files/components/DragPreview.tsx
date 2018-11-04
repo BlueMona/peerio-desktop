@@ -25,9 +25,7 @@ export default class DragPreview extends React.Component<DragPreviewProps> {
         if (filesAndFoldersCount === 1) {
             if (files.length > 0) {
                 displayName = files[0].name;
-                iconComponent = (
-                    <FileSpriteIcon type={files[0].iconType} size="medium" />
-                );
+                iconComponent = <FileSpriteIcon type={files[0].iconType} size="medium" />;
             } else {
                 displayName = folders[0].name;
                 iconComponent = <MaterialIcon icon="folder" />;

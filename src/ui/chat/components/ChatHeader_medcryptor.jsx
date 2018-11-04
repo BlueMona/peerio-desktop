@@ -4,8 +4,7 @@ const { observer } = require('mobx-react');
 const { chatStore } = require('peerio-icebear');
 const T = require('~/ui/shared-components/T');
 const { MaterialIcon } = require('peer-ui');
-const AvatarWithPopup = require('~/ui/contact/components/AvatarWithPopup')
-    .default;
+const AvatarWithPopup = require('~/ui/contact/components/AvatarWithPopup').default;
 const IdentityVerificationNotice = require('~/ui/chat/components/IdentityVerificationNotice')
     .default;
 
@@ -48,39 +47,22 @@ class ChatHeader extends React.Component {
             <div className="messages-start">
                 <div className="avatars">
                     {this.displayParticipants.map(c => (
-                        <AvatarWithPopup
-                            size="large"
-                            key={c.username}
-                            contact={c}
-                            tooltip
-                        />
+                        <AvatarWithPopup size="large" key={c.username} contact={c} tooltip />
                     ))}
                 </div>
                 {chatStore.activeChat.isInSpace ? (
                     chatStore.spaces.isPatientRoomOpen ? (
-                        <T
-                            k="mcr_title_chatHeaderPatientRoom"
-                            tag="div"
-                            className="title"
-                        >
+                        <T k="mcr_title_chatHeaderPatientRoom" tag="div" className="title">
                             {{ patientName: chatStore.spaces.currentSpaceName }}
                         </T>
                     ) : (
-                        <T
-                            k="mcr_title_chatHeaderInternalRoom"
-                            tag="div"
-                            className="title"
-                        >
+                        <T k="mcr_title_chatHeaderInternalRoom" tag="div" className="title">
                             {{ roomName: chat.nameInSpace }}
                         </T>
                     )
                 ) : (
                     <T
-                        k={
-                            chat.isChannel
-                                ? 'title_chatBeginningRoom'
-                                : 'title_chatBeginning'
-                        }
+                        k={chat.isChannel ? 'title_chatBeginningRoom' : 'title_chatBeginning'}
                         tag="div"
                         className="title"
                     >

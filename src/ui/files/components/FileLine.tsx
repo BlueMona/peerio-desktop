@@ -74,10 +74,7 @@ export default class FileLine extends React.Component<FileLineProps> {
         let msg = t('title_confirmRemoveFilename', {
             name: this.props.file.name
         });
-        if (
-            this.props.file.shared &&
-            isFileOwnedByCurrentUser(this.props.file)
-        ) {
+        if (this.props.file.shared && isFileOwnedByCurrentUser(this.props.file)) {
             msg += `\n\n${t('title_confirmRemoveSharedFiles')}`;
         }
         if (confirm(msg)) {
@@ -92,9 +89,7 @@ export default class FileLine extends React.Component<FileLineProps> {
 
     @action.bound
     openContact() {
-        this.clickedContact = contactStore.getContact(
-            this.props.file.fileOwner
-        );
+        this.clickedContact = contactStore.getContact(this.props.file.fileOwner);
         this.contactProfileRef.current.openDialog();
     }
 
@@ -107,19 +102,13 @@ export default class FileLine extends React.Component<FileLineProps> {
                 which *does* need the container to hold elements other than .row
             */
             <div
-                className={css(
-                    'row-container',
-                    'file-row-container',
-                    this.props.className,
-                    {
-                        hover: this.hovered,
-                        selected: file.selected,
-                        'selected-row': file.selected,
-                        'waiting-3rd-party':
-                            !file.uploading && !file.readyForDownload,
-                        'dragged-row': isDragging
-                    }
-                )}
+                className={css('row-container', 'file-row-container', this.props.className, {
+                    hover: this.hovered,
+                    selected: file.selected,
+                    'selected-row': file.selected,
+                    'waiting-3rd-party': !file.uploading && !file.readyForDownload,
+                    'dragged-row': isDragging
+                })}
             >
                 <div className="row">
                     {this.props.checkbox ? (
@@ -134,35 +123,22 @@ export default class FileLine extends React.Component<FileLineProps> {
 
                     <div
                         className="file-icon"
-                        onClick={
-                            this.props.clickToSelect
-                                ? this.toggleSelected
-                                : this.download
-                        }
+                        onClick={this.props.clickToSelect ? this.toggleSelected : this.download}
                     >
                         <FileSpriteIcon type={file.iconType} size="medium" />
                     </div>
 
                     <div
                         className="file-name"
-                        onClick={
-                            this.props.clickToSelect
-                                ? this.toggleSelected
-                                : this.download
-                        }
+                        onClick={this.props.clickToSelect ? this.toggleSelected : this.download}
                     >
                         {file.name}
 
-                        {this.props.fileDetailsMini && (
-                            <FileFolderDetailsRow file={file} />
-                        )}
+                        {this.props.fileDetailsMini && <FileFolderDetailsRow file={file} />}
                     </div>
 
                     {this.props.fileDetails && (
-                        <div
-                            className="file-owner clickable"
-                            onClick={this.openContact}
-                        >
+                        <div className="file-owner clickable" onClick={this.openContact}>
                             {file.fileOwner === User.current.username
                                 ? `${t('title_you')}`
                                 : file.fileOwner}
@@ -170,17 +146,12 @@ export default class FileLine extends React.Component<FileLineProps> {
                     )}
 
                     {this.props.fileDetails && (
-                        <div
-                            className="file-uploaded"
-                            title={file.uploadedAt.toLocaleString()}
-                        >
+                        <div className="file-uploaded" title={file.uploadedAt.toLocaleString()}>
                             {file.uploadTimeFormatted}
                             {file.isLegacy && (
                                 <div className="badge-old-version">
                                     <T k="title_pending" />
-                                    <Tooltip
-                                        text={t('title_oldVersionTooltip')}
-                                    />
+                                    <Tooltip text={t('title_oldVersionTooltip')} />
                                 </div>
                             )}
                         </div>
@@ -209,10 +180,7 @@ export default class FileLine extends React.Component<FileLineProps> {
                 ) : null}
 
                 {this.props.fileDetails && (
-                    <ContactProfile
-                        ref={this.contactProfileRef}
-                        contact={this.clickedContact}
-                    />
+                    <ContactProfile ref={this.contactProfileRef} contact={this.clickedContact} />
                 )}
             </div>
         );

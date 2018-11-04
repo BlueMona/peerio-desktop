@@ -109,9 +109,7 @@ export default class AddOrRenameFolderDialog extends React.Component {
 
         return (
             <Dialog
-                title={t(
-                    this.folderToRename ? 'button_rename' : 'button_newFolder'
-                )}
+                title={t(this.folderToRename ? 'button_rename' : 'button_newFolder')}
                 active
                 size="small"
                 actions={dialogActions}

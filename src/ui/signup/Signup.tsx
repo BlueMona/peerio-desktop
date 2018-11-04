@@ -42,22 +42,10 @@ export default class Signup extends React.Component {
 
     get steps() {
         return [
-            <CreateAccount
-                store={this.profileStore}
-                onComplete={this.advanceStep}
-            />,
-            <GenerateAccountKey
-                store={this.profileStore}
-                onComplete={this.advanceStep}
-            />,
-            <TermsOfUse
-                store={this.profileStore}
-                onComplete={this.advanceStep}
-            />,
-            <ShareUsageData
-                store={this.profileStore}
-                onComplete={this.advanceStep}
-            />
+            <CreateAccount store={this.profileStore} onComplete={this.advanceStep} />,
+            <GenerateAccountKey store={this.profileStore} onComplete={this.advanceStep} />,
+            <TermsOfUse store={this.profileStore} onComplete={this.advanceStep} />,
+            <ShareUsageData store={this.profileStore} onComplete={this.advanceStep} />
         ];
     }
 
@@ -75,10 +63,7 @@ export default class Signup extends React.Component {
         u.passphrase = this.profileStore.passphrase;
 
         // DEV MODE ONLY
-        if (
-            config.devAutologin &&
-            config.devAutologin.signupPassphraseOverride
-        ) {
+        if (config.devAutologin && config.devAutologin.signupPassphraseOverride) {
             u.passphrase = config.devAutologin.signupPassphraseOverride;
         }
 
@@ -105,10 +90,7 @@ export default class Signup extends React.Component {
             .then(async () => {
                 const { keyBackedUp } = this.profileStore;
                 keyBackedUp && (await User.current.setAccountKeyBackedUp());
-                const {
-                    consentUsageData,
-                    subscribeNewsletter
-                } = this.profileStore;
+                const { consentUsageData, subscribeNewsletter } = this.profileStore;
                 User.current.saveSettings(settings => {
                     settings.dataCollection = consentUsageData;
                     settings.subscribeToPromoEmails = subscribeNewsletter;

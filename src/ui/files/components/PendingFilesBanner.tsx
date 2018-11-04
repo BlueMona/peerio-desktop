@@ -13,13 +13,11 @@ export default function PendingFilesBanner() {
             <div className="banner-note">
                 {/* No sense in localizing the text below for this very temporary banner */}
                 <div className="title">
-                    Files marked "pending" will be removed by November 15th
-                    2018.
+                    Files marked "pending" will be removed by November 15th 2018.
                 </div>
                 <div className="subtitle">
-                    Encourage the owners of these files to sign into Peerio to
-                    migrate, or download and re-upload these files to keep a
-                    copy.
+                    Encourage the owners of these files to sign into Peerio to migrate, or download
+                    and re-upload these files to keep a copy.
                 </div>
             </div>
             <div className="banner-buttons">

@@ -51,9 +51,7 @@ class ModifyShareDialog extends React.Component {
 
     render() {
         if (!this.visible) return false;
-        const dialogActions = [
-            { label: t('button_close'), onClick: this.close }
-        ];
+        const dialogActions = [{ label: t('button_close'), onClick: this.close }];
 
         return (
             <Dialog
@@ -141,15 +139,9 @@ class ModifyShareListItem extends ListItem {
                 </div>
 
                 {this.isClicked ? (
-                    <T
-                        k="title_unshareUserWarning"
-                        tag="div"
-                        className="remove-user-warning"
-                    >
+                    <T k="title_unshareUserWarning" tag="div" className="remove-user-warning">
                         {{
-                            fileCount: this.props.folder.store.getFilesSharedBy(
-                                c.username
-                            ).length,
+                            fileCount: this.props.folder.store.getFilesSharedBy(c.username).length,
                             user: c.firstName
                         }}
                     </T>

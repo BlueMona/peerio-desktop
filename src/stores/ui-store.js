@@ -99,13 +99,9 @@ class UIStore {
     // should be called only once, after user has been authenticated first time
     // currently authenticated app root component calls it on mount
     async init() {
-        this.pendingFilesBannerVisible = !(await TinyDb.user.getValue(
-            PENDING_FILES_BANNER_KEY
-        ));
+        this.pendingFilesBannerVisible = !(await TinyDb.user.getValue(PENDING_FILES_BANNER_KEY));
         await Promise.all(
-            Object.keys(this.prefs).map(key =>
-                this.observePreference(key, 'user', this.prefs)
-            )
+            Object.keys(this.prefs).map(key => this.observePreference(key, 'user', this.prefs))
         );
         await Promise.all(
             Object.keys(this.sharedPrefs).map(key =>
@@ -118,10 +114,7 @@ class UIStore {
         // from true to false, if we have peerioContentEnabled undefined
         // and peerioContentConsented set to true, that means user
         // has expressed agreement to display content
-        if (
-            this.prefs.peerioContentEnabled === null &&
-            this.prefs.peerioContentConsented
-        ) {
+        if (this.prefs.peerioContentEnabled === null && this.prefs.peerioContentConsented) {
             this.prefs.peerioContentEnabled = true;
         }
 

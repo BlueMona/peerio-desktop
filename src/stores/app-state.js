@@ -9,11 +9,7 @@ class AppState {
 
     @action.bound
     changeOnlineStatus() {
-        console.log(
-            `Chromium reports state change to: ${
-                navigator.onLine ? 'ONLINE' : 'OFFLINE'
-            }`
-        );
+        console.log(`Chromium reports state change to: ${navigator.onLine ? 'ONLINE' : 'OFFLINE'}`);
         this.isOnline = navigator.onLine;
     }
 

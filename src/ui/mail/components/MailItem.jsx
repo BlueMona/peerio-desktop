@@ -23,16 +23,12 @@ class MailItem extends React.Component {
             >
                 <div className="mail-item-content">
                     <div className="subject-container">
-                        <strong className="item-subject">
-                            {this.props.subject}
-                        </strong>
+                        <strong className="item-subject">{this.props.subject}</strong>
                         {this.props.date}
                     </div>
                     <div>{this.props.recipient}</div>
                     <div className="firstline-container">
-                        <div className="item-firstline">
-                            {this.props.firstLine}
-                        </div>
+                        <div className="item-firstline">{this.props.firstLine}</div>
                     </div>
                 </div>
                 {/* <Menu icon="more_vert" className="flex-shrink-0">

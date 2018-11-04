@@ -22,17 +22,12 @@ class PendingDM extends React.Component {
 
     render() {
         if (!chatStore.activeChat) return null;
-        const c =
-            chatStore.activeChat.contact ||
-            chatStore.activeChat.otherParticipants[0];
+        const c = chatStore.activeChat.contact || chatStore.activeChat.otherParticipants[0];
         if (!c) return null;
 
         return (
             <div className="pending-dm">
-                <PendingDMHeader
-                    isNewUser={chatStore.activeChat.isReceived}
-                    contact={c}
-                />
+                <PendingDMHeader isNewUser={chatStore.activeChat.isReceived} contact={c} />
 
                 <div className="button-container">
                     <Button onClick={this.onDismiss}>

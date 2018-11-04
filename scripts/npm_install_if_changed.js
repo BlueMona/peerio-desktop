@@ -10,9 +10,7 @@ try {
         // don't care
     }
     const actual = execSync(
-        process.platform === 'darwin'
-            ? 'md5 -q package.json'
-            : 'md5sum package.json'
+        process.platform === 'darwin' ? 'md5 -q package.json' : 'md5sum package.json'
     );
     if (existing.toString() !== actual.toString()) {
         console.log('package.json has changed, running npm install.');

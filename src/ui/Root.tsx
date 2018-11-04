@@ -43,9 +43,7 @@ export default class Root extends React.Component {
     get snackbarVisible() {
         return (
             (!routerStore.currentRoute.startsWith(routerStore.ROUTES.chats) &&
-                !routerStore.currentRoute.startsWith(
-                    routerStore.ROUTES.patients
-                )) ||
+                !routerStore.currentRoute.startsWith(routerStore.ROUTES.patients)) ||
             !chatStore.activeChat
         );
     }
@@ -107,11 +105,7 @@ export default class Root extends React.Component {
     render() {
         return (
             <div>
-                <div
-                    className={`status-bar ${
-                        this.showOfflineNotification ? 'visible' : ''
-                    }`}
-                >
+                <div className={`status-bar ${this.showOfflineNotification ? 'visible' : ''}`}>
                     {this.showOfflineNotification ? (
                         <ProgressBar circular theme="light" size="small" />
                     ) : null}

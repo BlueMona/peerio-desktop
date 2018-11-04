@@ -21,9 +21,7 @@ export type ShareContext = 'sharefiles' | 'sharefolders' | '';
  * like "selected", etc., which currently just reside on the models proper.)
  */
 
-export function isFileOrFolderMoveable(
-    fileOrFolder: File | FileFolder
-): boolean {
+export function isFileOrFolderMoveable(fileOrFolder: File | FileFolder): boolean {
     // if the root folder doesn't have any folders in it, we can't move anything anywhere.
     if (!fileStore.folderStore.root.hasNested) return false;
     // if a folder is shared, it's not moveable.
@@ -57,11 +55,9 @@ export const handleSearch = action((val: string) => {
     fileStore.searchQuery = val;
 });
 
-export const toggleFileOrFolderSelected = action(
-    (fileOrFolder: File | FileFolder) => {
-        fileOrFolder.selected = !fileOrFolder.selected;
-    }
-);
+export const toggleFileOrFolderSelected = action((fileOrFolder: File | FileFolder) => {
+    fileOrFolder.selected = !fileOrFolder.selected;
+});
 
 export const setCurrentFolder = action((folder: FileFolder) => {
     if (folder !== fileStore.folderStore.currentFolder) {

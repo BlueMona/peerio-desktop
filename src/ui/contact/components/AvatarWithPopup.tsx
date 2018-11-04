@@ -11,9 +11,7 @@ interface AvatarWithPopupProps {
 }
 
 @observer
-export default class AvatarWithPopup extends React.Component<
-    AvatarWithPopupProps
-> {
+export default class AvatarWithPopup extends React.Component<AvatarWithPopupProps> {
     dialogRef!: ContactProfile;
 
     setDialogRef = (ref: ContactProfile | null) => {

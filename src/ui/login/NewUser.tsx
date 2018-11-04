@@ -46,28 +46,14 @@ export default class NewUser extends React.Component<NewUserProps> {
                 </div>
                 <div className="content-parent">
                     <div className="content">
-                        <T
-                            k="title_newUserWelcome"
-                            tag="h2"
-                            className="heading"
-                        />
-                        <T
-                            k="title_newUserWelcomeDescription"
-                            tag="p"
-                            className="guide-text"
-                        />
+                        <T k="title_newUserWelcome" tag="h2" className="heading" />
+                        <T k="title_newUserWelcomeDescription" tag="p" className="guide-text" />
 
                         <div className="buttons-container">
-                            <Button
-                                theme="affirmative"
-                                onClick={this.goToSignup}
-                            >
+                            <Button theme="affirmative" onClick={this.goToSignup}>
                                 {t('button_CreateAccount')}
                             </Button>
-                            <Button
-                                theme="affirmative secondary"
-                                onClick={this.goToLogin}
-                            >
+                            <Button theme="affirmative secondary" onClick={this.goToLogin}>
                                 {t('button_login')}
                             </Button>
                         </div>

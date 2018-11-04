@@ -34,9 +34,7 @@ const emailMatcher = new EmailMatcher({ tagBuilder: {} });
 /**
  * @param text The string to search for URL matches.
  */
-export function parseUrls(
-    text: string
-): { text: string; index: number; href: string }[] {
+export function parseUrls(text: string): { text: string; index: number; href: string }[] {
     return urlMatcher
         .parseMatches(text)
         .concat(emailMatcher.parseMatches(text))

@@ -1,13 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-    action,
-    computed,
-    observable,
-    reaction,
-    when,
-    IReactionDisposer
-} from 'mobx';
+import { action, computed, observable, reaction, when, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 import { t } from 'peerio-translator';
@@ -56,9 +49,7 @@ interface RectanglePosition {
 }
 
 @observer
-export default class Beacon extends React.Component<
-    SpotBeaconProps | AreaBeaconProps
-> {
+export default class Beacon extends React.Component<SpotBeaconProps | AreaBeaconProps> {
     @computed
     get active() {
         return beaconStore.activeBeacon === this.props.name;
@@ -75,7 +66,7 @@ export default class Beacon extends React.Component<
     @action.bound
     setChildContent() {
         const originalChild = React.Children.only(this.props.children) || null;
-        if (!originalChild) return null;
+        if (!originalChild) return;
 
         // This will error if the child is a stateless functional component, which cannot be given a ref
         this.childContent = React.cloneElement(originalChild, {
@@ -153,8 +144,7 @@ export default class Beacon extends React.Component<
     // If not defined, it is the greater of the child content's width and height.
     @computed
     get circleSize() {
-        if (this.props.type === 'spot' && !!this.props.size)
-            return this.props.size;
+        if (this.props.type === 'spot' && !!this.props.size) return this.props.size;
         const { height, width } = this.contentRect;
         return height > width ? height + 8 : width + 8;
     }
@@ -230,8 +220,7 @@ export default class Beacon extends React.Component<
         Rectangle's positioning
         This is one of the trickier calculations, in part because it's completely different for Area and Spot Beacons
     */
-    @observable
-    rectangleRef: React.RefObject<HTMLDivElement> = React.createRef();
+    @observable rectangleRef: React.RefObject<HTMLDivElement> = React.createRef();
 
     @computed
     get rectangleDimensions() {
@@ -365,8 +354,7 @@ export default class Beacon extends React.Component<
     // Clicking the content of the bubble in a SpotBeacon
     contentClick = () => {
         this.beaconFadeout();
-        if (this.props.type === 'spot' && !!this.props.onContentClick)
-            this.props.onContentClick();
+        if (this.props.type === 'spot' && !!this.props.onContentClick) this.props.onContentClick();
     };
 
     // Fading out current beacon is called on both beaconClick and contentClick
@@ -378,9 +366,7 @@ export default class Beacon extends React.Component<
 
     beaconContent() {
         const title = this.props.title || t(`title_${this.props.name}_beacon`);
-        const description =
-            this.props.description ||
-            t(`description_${this.props.name}_beacon`);
+        const description = this.props.description || t(`description_${this.props.name}_beacon`);
 
         return (
             <div
@@ -428,10 +414,7 @@ export default class Beacon extends React.Component<
 
         const beaconContent = this.beaconContent();
 
-        return [
-            this.childContent,
-            ReactDOM.createPortal(beaconContent, appRoot)
-        ];
+        return [this.childContent, ReactDOM.createPortal(beaconContent, appRoot)];
     }
 }
 
@@ -443,15 +426,7 @@ interface ArrowProps {
 @observer
 class Arrow extends React.Component<ArrowProps> {
     render() {
-        return (
-            <div
-                className={css(
-                    'arrow',
-                    this.props.classNames,
-                    this.props.position
-                )}
-            />
-        );
+        return <div className={css('arrow', this.props.classNames, this.props.position)} />;
     }
 }
 
@@ -467,11 +442,7 @@ class Bubble extends React.Component<BubbleProps> {
     render() {
         return (
             <div
-                className={css(
-                    'circle',
-                    this.props.classNames,
-                    this.props.position
-                )}
+                className={css('circle', this.props.classNames, this.props.position)}
                 style={{
                     height: this.props.size,
                     width: this.props.size

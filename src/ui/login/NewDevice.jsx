@@ -39,16 +39,13 @@ class NewDevice extends React.Component {
      */
     @action
     createPasscode() {
-        if (this.passcodeStore.hasErrors || this.busy)
-            return Promise.resolve(false);
+        if (this.passcodeStore.hasErrors || this.busy) return Promise.resolve(false);
         this.busy = true;
-        return User.current
-            .setPasscode(this.passcodeStore.passcode)
-            .then(() => {
-                this.busy = false;
-                warnings.add('warning_passcodeAdded');
-                window.router.push('/app/chats');
-            });
+        return User.current.setPasscode(this.passcodeStore.passcode).then(() => {
+            this.busy = false;
+            warnings.add('warning_passcodeAdded');
+            window.router.push('/app/chats');
+        });
     }
 
     /**
@@ -69,17 +66,10 @@ class NewDevice extends React.Component {
                     <img className="logo" src="static/img/logo-white.png" />
                     <div className="signup-form">
                         <div className="passcode">
-                            <div className="signup-title">
-                                {t('title_newDeviceSetup')}
-                            </div>
-                            <div className="signup-subtitle">
-                                {t('title_createPassword')}
-                            </div>
+                            <div className="signup-title">{t('title_newDeviceSetup')}</div>
+                            <div className="signup-subtitle">{t('title_createPassword')}</div>
                             <p>
-                                <T
-                                    k="title_passwordIntro"
-                                    className="signup-title"
-                                />
+                                <T k="title_passwordIntro" className="signup-title" />
                             </p>
                             <p>{t('title_passwordSkip')}</p>
                             <Passcode

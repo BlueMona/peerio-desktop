@@ -18,9 +18,7 @@ export default function makeEmojiSuggestions(getView: () => EditorView) {
         source(matchData) {
             // TODO: use emoji index or split shortname by "_" instead of startsWith; maybe selecta-style matching?
             return shortnames
-                .filter(name =>
-                    name.startsWith(matchData.match[1].toLowerCase())
-                )
+                .filter(name => name.startsWith(matchData.match[1].toLowerCase()))
                 .map(name => ({ emoji: emojiByAllShortnames[name], name }));
         },
         formatter: data => (

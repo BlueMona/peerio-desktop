@@ -53,10 +53,7 @@ export default (
                 <Route path="channel-invite" component={ChannelInvite} />
                 <Route path="new-chat" component={NewChat} />
                 <Route path="new-channel" component={NewChannel} />
-                <Route
-                    path="pending-dm-dismissed"
-                    component={PendingDMDismissed}
-                />
+                <Route path="pending-dm-dismissed" component={PendingDMDismissed} />
                 <Route path="new-patient" component={NewChannel} />
             </Route>
             <Route path="patients" component={Patient}>

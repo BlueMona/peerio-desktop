@@ -7,11 +7,7 @@ $arrow-size: 12px;
 
   // Circular cut-out effect is made by using a transparent radial-background with a very quick color transition
   // Somewhat hacky but there aren't really better alternatives
-  background: radial-gradient(
-    circle at $x $y,
-    transparent 50%,
-    $peerio-purple 51%
-  );
+  background: radial-gradient(circle at $x $y, transparent 50%, $peerio-purple 51%);
 }
 
 /*

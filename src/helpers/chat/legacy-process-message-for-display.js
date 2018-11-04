@@ -19,8 +19,7 @@ function highlightMentions(str) {
     // eslint-disable-next-line no-return-assign
     return str.replace(
         ownMentionRegex ||
-            (ownMentionRegex = contactStore.getContact(User.current.username)
-                .mentionRegex),
+            (ownMentionRegex = contactStore.getContact(User.current.username).mentionRegex),
         '<span class="mention self">$&</span>'
     );
 }

@@ -25,15 +25,13 @@ export function placeholder(
 
             return {
                 update(view) {
-                    if (view.state.doc.eq(emptyState))
-                        view.dom.classList.add(emptyClassName);
+                    if (view.state.doc.eq(emptyState)) view.dom.classList.add(emptyClassName);
                     else view.dom.classList.remove(emptyClassName);
                 },
                 destroy() {
                     if (editorView && editorView.dom) {
                         editorView.dom.classList.remove(emptyClassName);
-                        delete (editorView.dom as HTMLElement).dataset
-                            .placeholder;
+                        delete (editorView.dom as HTMLElement).dataset.placeholder;
                     }
                 }
             };

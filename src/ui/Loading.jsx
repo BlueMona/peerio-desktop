@@ -13,8 +13,7 @@ const messages = [
     'title_randomMessage3',
     'title_randomMessage4'
 ];
-const randomMessage =
-    messages[crypto.cryptoUtil.getRandomNumber(0, messages.length - 1)];
+const randomMessage = messages[crypto.cryptoUtil.getRandomNumber(0, messages.length - 1)];
 
 @observer
 class Loading extends React.Component {

@@ -29,17 +29,11 @@ export default class FilesSection extends React.Component<FilesSectionProps> {
     @action.bound
     async share(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const fileId = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-fileid'
-        );
+        const fileId = getAttributeInParentChain(ev.currentTarget, 'data-fileid');
         const file = fileStore.getByIdInChat(fileId, chatStore.activeChat.id);
         await file.ensureLoaded();
         if (this.isUnmounted || file.deleted) return;
-        const contacts = await this.shareWithMultipleDialog.current!.show(
-            null,
-            'sharefiles'
-        );
+        const contacts = await this.shareWithMultipleDialog.current!.show(null, 'sharefiles');
         if (!contacts || !contacts.length) return;
         contacts.forEach(c => chatStore.startChatAndShareFiles([c], file));
     }
@@ -55,10 +49,7 @@ export default class FilesSection extends React.Component<FilesSectionProps> {
     @action.bound
     async download(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const fileId = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-fileid'
-        );
+        const fileId = getAttributeInParentChain(ev.currentTarget, 'data-fileid');
         const file = fileStore.getByIdInChat(fileId, chatStore.activeChat.id);
         await file.ensureLoaded();
         if (file.deleted) return;
@@ -109,16 +100,12 @@ export default class FilesSection extends React.Component<FilesSectionProps> {
                 data-fileid={file.fileId}
                 className="sidebar-file-container"
                 onClick={this.download}
-                leftContent={
-                    <FileSpriteIcon type={file.iconType} size="large" />
-                }
+                leftContent={<FileSpriteIcon type={file.iconType} size="large" />}
                 rightContent={this.menu(file)}
             >
                 <div className="meta">
                     <div className="file-name-container">
-                        <span className="file-name">
-                            {file.nameWithoutExtension}
-                        </span>
+                        <span className="file-name">{file.nameWithoutExtension}</span>
                         <span className="file-ext">.{file.ext}</span>
                     </div>
                     <div className="file-shared-by">{file.fileOwner}</div>

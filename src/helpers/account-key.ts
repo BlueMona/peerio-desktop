@@ -7,9 +7,7 @@ export async function saveAkPdf(store, telemetryObj) {
     const { username, firstName, lastName, passphrase } = store;
     let path = '';
     try {
-        path = await requestDownloadPath(
-            `${username}-${t('title_appName')}.pdf`
-        );
+        path = await requestDownloadPath(`${username}-${t('title_appName')}.pdf`);
         telemetry.shared.confirmDownloadAk(telemetryObj);
     } catch (err) {
         // user cancel
@@ -17,11 +15,6 @@ export async function saveAkPdf(store, telemetryObj) {
     }
 
     if (path) {
-        saveAccountKeyBackup(
-            path,
-            `${firstName} ${lastName}`,
-            username,
-            passphrase
-        );
+        saveAccountKeyBackup(path, `${firstName} ${lastName}`, username, passphrase);
     }
 }

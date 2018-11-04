@@ -35,10 +35,7 @@ class Onboarding extends React.Component {
     @observable waiting = false;
 
     get items() {
-        const {
-            currentInvitedPeopleBonus,
-            maxInvitedPeopleBonus
-        } = User.current;
+        const { currentInvitedPeopleBonus, maxInvitedPeopleBonus } = User.current;
         return [
             createOnboardingItem(
                 'mail',
@@ -151,19 +148,13 @@ class Onboarding extends React.Component {
                         })}
                     </p>
                     <div className="onboarding-to-dos">
-                        {this.items
-                            .filter(item => !item.valueFn())
-                            .map(this.renderItem)}
-                        {this.items
-                            .filter(item => item.valueFn())
-                            .map(this.renderItem)}
+                        {this.items.filter(item => !item.valueFn()).map(this.renderItem)}
+                        {this.items.filter(item => item.valueFn()).map(this.renderItem)}
                     </div>
                     <div className="usage-cloud-container">
                         <UsageCloud />
                     </div>
-                    <div className="onboarding-info">
-                        {t('title_onboardingLink')}
-                    </div>
+                    <div className="onboarding-info">{t('title_onboardingLink')}</div>
                 </div>
             </div>
         );

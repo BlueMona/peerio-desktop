@@ -38,22 +38,15 @@ class Contacts extends React.Component {
         const isAllActive =
             routerStore.currentRoute === routerStore.ROUTES.contacts &&
             contactStore.uiViewFilter === 'all';
-        const isInvitedActive =
-            routerStore.currentRoute === routerStore.ROUTES.invitedContacts;
+        const isInvitedActive = routerStore.currentRoute === routerStore.ROUTES.invitedContacts;
         return (
             <div className="contacts">
                 <div className="feature-navigation-list">
                     <div className="list">
                         <List clickable>
                             <div>
-                                <PlusIcon
-                                    onClick={this.toAddNew}
-                                    label={t('title_contacts')}
-                                />
-                                <Tooltip
-                                    text={t('button_addAContact')}
-                                    position="right"
-                                />
+                                <PlusIcon onClick={this.toAddNew} label={t('title_contacts')} />
+                                <Tooltip text={t('button_addAContact')} position="right" />
                             </div>
                             <ListItem
                                 leftIcon="star"

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    observable,
-    action,
-    computed,
-    reaction,
-    IReactionDisposer
-} from 'mobx';
+import { observable, action, computed, reaction, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import { t } from 'peerio-translator';
 import { Button, Dialog, MaterialIcon } from 'peer-ui';
@@ -86,8 +80,7 @@ export default class MoveFileDialog extends React.Component {
     @computed
     get legacyFileSelected(): boolean {
         return (
-            (this.itemToMove && this.itemToMove.isLegacy) ||
-            fileStore.bulk.hasLegacyObjectsSelected
+            (this.itemToMove && this.itemToMove.isLegacy) || fileStore.bulk.hasLegacyObjectsSelected
         );
     }
 
@@ -106,9 +99,7 @@ export default class MoveFileDialog extends React.Component {
         if (
             targetFolder.root.isShared &&
             ((this.itemToMove && this.itemToMove.store.isMainStore) ||
-                fileStore.selectedFilesOrFolders.some(
-                    item => item.store.isMainStore
-                ))
+                fileStore.selectedFilesOrFolders.some(item => item.store.isMainStore))
         ) {
             // we hide folder selection dialog immediately to prevent flicker
             this.dialogRef.current.hideWithoutAnimation();
@@ -191,9 +182,7 @@ export default class MoveFileDialog extends React.Component {
                         noActions
                         noSelectionCounter
                     />
-                    <div className="move-folders-container">
-                        {this.visibleFolders}
-                    </div>
+                    <div className="move-folders-container">{this.visibleFolders}</div>
                 </Dialog>
             </div>
         );
@@ -231,11 +220,7 @@ class FolderRow extends React.Component<FolderRowProps> {
                 className={css('move-file-row', { disabled })}
             >
                 <Button
-                    icon={
-                        isSelected
-                            ? 'radio_button_checked'
-                            : 'radio_button_unchecked'
-                    }
+                    icon={isSelected ? 'radio_button_checked' : 'radio_button_unchecked'}
                     onClick={this.handleSelect}
                     theme="small"
                     selected={isSelected}

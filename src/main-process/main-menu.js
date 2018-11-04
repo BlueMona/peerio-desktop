@@ -33,9 +33,7 @@ const helpMenu = {
         {
             label: 'Support', // don't use https: url due to weird redirect issues
             click() {
-                require('electron').shell.openExternal(
-                    config.translator.urlMap.helpCenter
-                );
+                require('electron').shell.openExternal(config.translator.urlMap.helpCenter);
             }
         }
     ]

@@ -29,11 +29,7 @@ import { Button } from 'peer-ui';
 import { chatStore } from 'peerio-icebear';
 import { Contact } from 'peerio-icebear/dist/models';
 
-import {
-    chatSchema,
-    isWhitespaceOnly,
-    emptyDoc
-} from '~/helpers/chat/prosemirror/chat-schema';
+import { chatSchema, isWhitespaceOnly, emptyDoc } from '~/helpers/chat/prosemirror/chat-schema';
 
 import { Emoji } from '~/helpers/chat/emoji';
 import { chatPlugins } from '~/helpers/chat/prosemirror/chat-plugins';
@@ -83,8 +79,7 @@ function insertEmoji(
 ) {
     const type = chatSchema.nodes.emoji;
     const { $from } = state.selection;
-    if (!$from.parent.canReplaceWith($from.index(), $from.index(), type))
-        return false;
+    if (!$from.parent.canReplaceWith($from.index(), $from.index(), type)) return false;
     if (dispatch) {
         dispatch(
             state.tr.replaceSelectionWith(
@@ -164,9 +159,7 @@ export default class MessageInputProseMirror extends React.Component<{
             );
         }
 
-        this.usernameSuggestions = makeUsernameSuggestions(
-            () => this.editorView
-        );
+        this.usernameSuggestions = makeUsernameSuggestions(() => this.editorView);
         this.emojiSuggestions = makeEmojiSuggestions(() => this.editorView);
 
         // Note the ordering: the suggestions plugin has to come before the
@@ -187,9 +180,7 @@ export default class MessageInputProseMirror extends React.Component<{
 
                     if (dispatch) {
                         const linkifiedState = linkify(state);
-                        const mentionifiedState = ensureMentions(
-                            linkifiedState
-                        );
+                        const mentionifiedState = ensureMentions(linkifiedState);
 
                         // For the plaintext version of our message, we grab the
                         // view element's `textContent` -- ProseMirror nodes
@@ -219,10 +210,7 @@ export default class MessageInputProseMirror extends React.Component<{
                             br.insertAdjacentText('afterend', '\n');
                         });
 
-                        this.props.onSend(
-                            mentionifiedState.doc.toJSON(),
-                            domClone.textContent
-                        );
+                        this.props.onSend(mentionifiedState.doc.toJSON(), domClone.textContent);
                         this.clearEditor();
                     }
 
@@ -260,9 +248,7 @@ export default class MessageInputProseMirror extends React.Component<{
         if (this.props.placeholder !== prevProps.placeholder) {
             this.editorView.updateState(
                 this.editorView.state.reconfigure({
-                    plugins: this.getConfiguredPlugins(
-                        this.editorView.state.doc
-                    )
+                    plugins: this.getConfiguredPlugins(this.editorView.state.doc)
                 })
             );
         }
@@ -310,9 +296,7 @@ export default class MessageInputProseMirror extends React.Component<{
 
             view.state.doc = Node.fromJSON(chatSchema, savedState);
             view.setProps({
-                state: view.state.apply(
-                    view.state.tr.setSelection(Selection.atEnd(view.state.doc))
-                )
+                state: view.state.apply(view.state.tr.setSelection(Selection.atEnd(view.state.doc)))
             });
             view.focus();
         } catch (err) {

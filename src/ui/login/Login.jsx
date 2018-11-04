@@ -3,13 +3,7 @@ import * as telemetry from '~/telemetry';
 const React = require('react');
 const { Component } = require('react');
 const { Button } = require('peer-ui');
-const {
-    config,
-    socket,
-    User,
-    validation,
-    warnings
-} = require('peerio-icebear');
+const { config, socket, User, validation, warnings } = require('peerio-icebear');
 const { observable, computed, when } = require('mobx');
 const { observer } = require('mobx-react');
 const { t } = require('peerio-translator');
@@ -75,8 +69,7 @@ class Login extends Component {
                 if (dev.navigateTo) {
                     when(
                         () =>
-                            routerStore.currentRoute &&
-                            routerStore.currentRoute.startsWith('/app'),
+                            routerStore.currentRoute && routerStore.currentRoute.startsWith('/app'),
                         () => routerStore.navigateTo(dev.navigateTo)
                     );
                 }
@@ -161,9 +154,7 @@ class Login extends Component {
         }
         this.loginStore.busy = true;
         const user = new User();
-        user.username =
-            this.loginStore.username ||
-            this.loginStore.lastAuthenticatedUser.username;
+        user.username = this.loginStore.username || this.loginStore.lastAuthenticatedUser.username;
         user.passphrase = this.loginStore.passcodeOrPassphrase;
         user.autologinEnabled = isAutologin;
         User.current = user;
@@ -190,10 +181,7 @@ class Login extends Component {
                 // Error messages in snackbar
                 if (user.blacklisted) {
                     errorMsg = 'error_accountSuspendedTitle';
-                    warnings.addSevere(
-                        'error_accountSuspendedText',
-                        'error_accountSuspendedTitle'
-                    );
+                    warnings.addSevere('error_accountSuspendedText', 'error_accountSuspendedTitle');
                 }
                 if (user.deleted) {
                     errorMsg = 'title_accountDeleted';
@@ -227,11 +215,7 @@ class Login extends Component {
     getWelcomeBlock = () => {
         return (
             <div className="welcome-back">
-                <T
-                    k="title_welcomeBackFirstnameExclamation"
-                    tag="h2"
-                    className="heading"
-                >
+                <T k="title_welcomeBackFirstnameExclamation" tag="h2" className="heading">
                     {{
                         firstName:
                             this.loginStore.lastAuthenticatedUser.firstName ||
@@ -245,10 +229,7 @@ class Login extends Component {
                             this.loginStore.lastAuthenticatedUser.username,
                         switchUser: text => {
                             return (
-                                <a
-                                    className="clickable"
-                                    onClick={this.unsetLastUser}
-                                >
+                                <a className="clickable" onClick={this.unsetLastUser}>
                                     {text}
                                 </a>
                             );
@@ -266,37 +247,21 @@ class Login extends Component {
                 <div className="mock-ui-container">
                     <div className="mock-app-ui">
                         <div className="row top">
-                            <Mock.Line
-                                shade="verydark"
-                                width={1}
-                                className="tall"
-                            />
-                            <Mock.Line
-                                shade="verydark"
-                                width={1}
-                                className="tall"
-                            />
+                            <Mock.Line shade="verydark" width={1} className="tall" />
+                            <Mock.Line shade="verydark" width={1} className="tall" />
                         </div>
 
                         <div className="row profile">
                             <Mock.Avatar />
                             <div className="profile-text">
                                 <div className="lines-container">
-                                    <Mock.Line
-                                        shade="medium"
-                                        width={3}
-                                        className="tall"
-                                    />
+                                    <Mock.Line shade="medium" width={3} className="tall" />
                                     <Mock.Line shade="light" width={2} />
                                     <Mock.Line shade="light" width={3} />
                                 </div>
 
                                 <div className="lines-container">
-                                    <Mock.Line
-                                        shade="medium"
-                                        width={3}
-                                        className="tall"
-                                    />
+                                    <Mock.Line shade="medium" width={3} className="tall" />
                                     <Mock.Line shade="light" width={6} />
                                     <Mock.Line shade="light" width={3} />
                                 </div>
@@ -319,9 +284,7 @@ class Login extends Component {
                         {this.loginStore.lastAuthenticatedUser ? (
                             this.getWelcomeBlock()
                         ) : (
-                            <h2 className="heading">
-                                {t('title_welcomeBackPeriod')}
-                            </h2>
+                            <h2 className="heading">{t('title_welcomeBackPeriod')}</h2>
                         )}
                         <PoweredByLogin />
                         <ValidatedInput
@@ -344,11 +307,7 @@ class Login extends Component {
                         />
                         <div className="password">
                             <ValidatedInput
-                                type={
-                                    this.loginStore.passwordVisible
-                                        ? 'text'
-                                        : 'password'
-                                }
+                                type={this.loginStore.passwordVisible ? 'text' : 'password'}
                                 label={t('title_AccountKey')}
                                 position="1"
                                 store={this.loginStore}
@@ -360,8 +319,7 @@ class Login extends Component {
                                 telemetry={{
                                     item: 'ACCOUNT_KEY',
                                     location: 'SIGN_IN',
-                                    sublocation: this.loginStore
-                                        .lastAuthenticatedUser
+                                    sublocation: this.loginStore.lastAuthenticatedUser
                                         ? 'WELCOME_BACK'
                                         : 'SIGN_IN'
                                 }}

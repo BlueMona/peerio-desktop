@@ -50,22 +50,14 @@ class Account extends React.Component {
         ];
         return (
             <div className="settings-container-account">
-                {config.disablePayments ||
-                User.current.hasActivePlans ? null : (
+                {config.disablePayments || User.current.hasActivePlans ? null : (
                     <section className="upgrade-message-container">
-                        <div className="message">
-                            {t('title_upgradeMessage')}
-                        </div>
-                        <Button
-                            label={t('button_upgrade')}
-                            onClick={this.toUpgrade}
-                        />
+                        <div className="message">{t('title_upgradeMessage')}</div>
+                        <Button label={t('button_upgrade')} onClick={this.toUpgrade} />
                     </section>
                 )}
                 <section className="section-divider">
-                    <div className="title">
-                        {t('title_promoConsentRequestTitle')}
-                    </div>
+                    <div className="title">{t('title_promoConsentRequestTitle')}</div>
                     <Switch
                         checked={User.current.settings.subscribeToPromoEmails}
                         label={t('title_promoConsent')}
@@ -82,10 +74,7 @@ class Account extends React.Component {
                     />
                 </section>
                 <section className="delete-account">
-                    <Button
-                        label={t('button_accountDelete')}
-                        onClick={this.showConfirmDelete}
-                    />
+                    <Button label={t('button_accountDelete')} onClick={this.showConfirmDelete} />
                 </section>
                 <Dialog
                     active={this.deleteAccountDialogActive}

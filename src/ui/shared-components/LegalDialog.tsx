@@ -38,9 +38,7 @@ export default class LegalDialog extends React.Component<{
     }
 
     render() {
-        const dialogActions = [
-            { label: t('button_ok'), onClick: this.hideDialog }
-        ];
+        const dialogActions = [{ label: t('button_ok'), onClick: this.hideDialog }];
         return (
             <Dialog
                 active={this.show}

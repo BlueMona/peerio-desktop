@@ -1,14 +1,7 @@
 const React = require('react');
 const { observable } = require('mobx');
 const { observer } = require('mobx-react');
-const {
-    Avatar,
-    Button,
-    List,
-    ListItem,
-    MaterialIcon,
-    ProgressBar
-} = require('peer-ui');
+const { Avatar, Button, List, ListItem, MaterialIcon, ProgressBar } = require('peer-ui');
 const { User, contactStore, validation } = require('peerio-icebear');
 const { t } = require('peerio-translator');
 const BetterInput = require('~/ui/shared-components/BetterInput');
@@ -75,8 +68,7 @@ class Profile extends React.Component {
     };
 
     saveNewEmail = () => {
-        if (this.newEmail && this.newEmailValid)
-            User.current.addEmail(this.newEmail);
+        if (this.newEmail && this.newEmailValid) User.current.addEmail(this.newEmail);
         this.cancelNewEmail();
     };
 
@@ -150,16 +142,11 @@ class Profile extends React.Component {
                             value={user.lastName}
                         />
                     </div>
-                    <div className="dark-label label-email">
-                        {t('title_email')}
-                    </div>
+                    <div className="dark-label label-email">{t('title_email')}</div>
                     <List theme="no-hover">
                         {user.addresses.map(a => {
                             const leftButton = a.primary ? (
-                                <MaterialIcon
-                                    icon="radio_button_checked"
-                                    className="selected"
-                                />
+                                <MaterialIcon icon="radio_button_checked" className="selected" />
                             ) : (
                                 <Button
                                     className={a.confirmed ? '' : 'hide'}
@@ -213,9 +200,7 @@ class Profile extends React.Component {
                                 type="email"
                                 label={t('title_email')}
                                 acceptOnBlur="false"
-                                validator={
-                                    validation.validators.emailFormat.action
-                                }
+                                validator={validation.validators.emailFormat.action}
                                 onChange={this.onNewEmailChange}
                                 value={this.newEmail}
                                 error="error_invalidEmail"
@@ -238,17 +223,11 @@ class Profile extends React.Component {
                         </div>
                     ) : null}
                     {this.addMode || user.addresses.length > 2 ? null : (
-                        <Button
-                            label={t('button_addEmail')}
-                            onClick={this.switchToAddMode}
-                        />
+                        <Button label={t('button_addEmail')} onClick={this.switchToAddMode} />
                     )}
 
                     <div className="row peerio-id-container">
-                        <div className="list-title">
-                            {' '}
-                            {t('title_publicKey')}
-                        </div>
+                        <div className="list-title"> {t('title_publicKey')}</div>
                         <div className="monospace selectable">
                             {f[0]} {f[1]} {f[2]}
                         </div>

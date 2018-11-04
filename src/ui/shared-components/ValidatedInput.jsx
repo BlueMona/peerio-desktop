@@ -17,14 +17,7 @@ import * as telemetry from '~/telemetry';
 const React = require('react');
 const _ = require('lodash');
 const { socket } = require('peerio-icebear'); // eslint-disable-line
-const {
-    computed,
-    reaction,
-    when,
-    isObservableProp,
-    observable,
-    action
-} = require('mobx');
+const { computed, reaction, when, isObservableProp, observable, action } = require('mobx');
 const { Component } = require('react');
 const { observer } = require('mobx-react');
 const { Input } = require('peer-ui');
@@ -54,12 +47,7 @@ class ValidatedInput extends Component {
         this.handleChange = this.handleChange.bind(this);
 
         // ward off misuse
-        if (
-            !(
-                this.props.store.constructor.prototype instanceof
-                OrderedFormStore
-            )
-        ) {
+        if (!(this.props.store.constructor.prototype instanceof OrderedFormStore)) {
             throw new Error(
                 'ValidatedInput expects a store property that inherits from OrderedFormStore'
             );
@@ -90,11 +78,9 @@ class ValidatedInput extends Component {
     }
 
     componentWillMount() {
-        reaction(
-            () => this.props.store[this.props.name],
-            () => this.validate(),
-            { fireImmediately: true }
-        );
+        reaction(() => this.props.store[this.props.name], () => this.validate(), {
+            fireImmediately: true
+        });
     }
 
     @observable inputRef;
@@ -169,14 +155,11 @@ class ValidatedInput extends Component {
         this.props.store[this.fDirty] = true;
         // mark all subsequent as dirty
         if (this.props.position !== undefined) {
-            _.each(
-                this.props.store.fieldOrders,
-                (otherPosition, otherField) => {
-                    if (otherPosition < this.props.position) {
-                        this.props.store[`${otherField}Dirty`] = true;
-                    }
+            _.each(this.props.store.fieldOrders, (otherPosition, otherField) => {
+                if (otherPosition < this.props.position) {
+                    this.props.store[`${otherField}Dirty`] = true;
                 }
-            );
+            });
         }
         this.toggleFocus();
 
@@ -191,9 +174,7 @@ class ValidatedInput extends Component {
 
     @action
     handleChange(val) {
-        this.props.store[this.fName] = this.props.lowercase
-            ? val.toLocaleLowerCase()
-            : val;
+        this.props.store[this.fName] = this.props.lowercase ? val.toLocaleLowerCase() : val;
         this.props.store[this.fDirty] = true;
     }
 

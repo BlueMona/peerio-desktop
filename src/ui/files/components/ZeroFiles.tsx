@@ -25,9 +25,7 @@ export default class ZeroFiles extends React.Component<ZeroFilesProps> {
                 <div className="instructions">
                     <T k="title_zeroFilesDescription" className="instructions">
                         {{
-                            uploadMockButton: text => (
-                                <span className="mock-button">{text}</span>
-                            )
+                            uploadMockButton: text => <span className="mock-button">{text}</span>
                         }}
                     </T>
                 </div>

@@ -21,29 +21,27 @@ function applyMiscHooks(mainWindow) {
         }
     });
 
-    mainWindow.webContents.session.setCertificateVerifyProc(
-        (request, callback) => {
-            let ok = true;
-            certData.forEach(d => {
-                if (request.hostname.match(d.hostRegex)) {
-                    // The reason for implementing check like this is
-                    // that we may want to include more fingerprints
-                    // for the same host for the period of transition
-                    // to a new certificate, so the later fingerprint
-                    // match can override the previous non-match,
-                    // setting ok back to true.
-                    ok = d.fingerprint === request.certificate.fingerprint;
-                }
-            });
-            if (!ok) {
-                // Verification failure.
-                callback(-2);
-                return;
+    mainWindow.webContents.session.setCertificateVerifyProc((request, callback) => {
+        let ok = true;
+        certData.forEach(d => {
+            if (request.hostname.match(d.hostRegex)) {
+                // The reason for implementing check like this is
+                // that we may want to include more fingerprints
+                // for the same host for the period of transition
+                // to a new certificate, so the later fingerprint
+                // match can override the previous non-match,
+                // setting ok back to true.
+                ok = d.fingerprint === request.certificate.fingerprint;
             }
-            // Let chromium verify it further.
-            callback(-3);
+        });
+        if (!ok) {
+            // Verification failure.
+            callback(-2);
+            return;
         }
-    );
+        // Let chromium verify it further.
+        callback(-3);
+    });
 }
 
 module.exports = applyMiscHooks;

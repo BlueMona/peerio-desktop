@@ -29,8 +29,7 @@ class About extends React.Component {
                         {t('title_version')} <strong>{version}</strong>
                     </p>
                     <p>
-                        {t('title_networkLatency')}{' '}
-                        <strong>{socket.latency}ms</strong>
+                        {t('title_networkLatency')} <strong>{socket.latency}ms</strong>
                     </p>
                 </section>
                 <section>

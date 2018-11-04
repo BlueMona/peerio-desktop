@@ -53,9 +53,7 @@ class MailSent extends React.Component {
                 <div className="compose-view">
                     <div className="compose-meta sent">
                         <div className="meta-container">
-                            <div className="subject">
-                                {this.props.ghost.subject}
-                            </div>
+                            <div className="subject">{this.props.ghost.subject}</div>
                             <Button
                                 tooltip={t('button_delete')}
                                 tooltipPosition="bottom"
@@ -67,10 +65,7 @@ class MailSent extends React.Component {
                                 <div className="attached-files">
                                     {this.props.ghost.files.length}
                                     <Menu icon="attachment">
-                                        <MenuItem
-                                            caption="Download all"
-                                            icon="file_download"
-                                        />
+                                        <MenuItem caption="Download all" icon="file_download" />
                                         <Divider />
                                         {this.props.ghost.files.map(f => {
                                             const file = fileStore.getById(f);
@@ -86,16 +81,10 @@ class MailSent extends React.Component {
                                 </div>
                             ) : null}
                         </div>
-                        <div className="date">
-                            {this.props.ghost.date.format('LLL')}
-                        </div>
-                        <div className="to">
-                            {this.props.ghost.recipients.join(',')}
-                        </div>
+                        <div className="date">{this.props.ghost.date.format('LLL')}</div>
+                        <div className="to">{this.props.ghost.recipients.join(',')}</div>
                     </div>
-                    <div className="mail-content sent-content">
-                        {this.props.ghost.body}
-                    </div>
+                    <div className="mail-content sent-content">{this.props.ghost.body}</div>
                     {this.props.ghost.files !== 0 ? (
                         <InlineFiles files={this.props.ghost.files} />
                     ) : null}

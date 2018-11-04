@@ -15,9 +15,7 @@ type FileFolderDetailsRowProps =
       };
 
 @observer
-export default class FileFolderDetailsRow extends React.Component<
-    FileFolderDetailsRowProps
-> {
+export default class FileFolderDetailsRow extends React.Component<FileFolderDetailsRowProps> {
     render() {
         const { props } = this as any;
 
@@ -30,9 +28,7 @@ export default class FileFolderDetailsRow extends React.Component<
         return (
             <div className="file-folder-details-row">
                 <span className="owner">
-                    {owner === User.current.username
-                        ? `${t('title_you')}`
-                        : owner}
+                    {owner === User.current.username ? `${t('title_you')}` : owner}
                 </span>
                 <span className="updated-date">{timeStamp}</span>
             </div>

@@ -24,22 +24,16 @@ import {
 export default class FilesHeader extends React.Component<{
     onUpload: () => void;
 }> {
-    protected readonly addFolderDialogRef = React.createRef<
-        AddOrRenameDialog
-    >();
+    protected readonly addFolderDialogRef = React.createRef<AddOrRenameDialog>();
     protected readonly moveFileDialogRef = React.createRef<MoveFileDialog>();
-    protected readonly shareWithMultipleDialogRef = React.createRef<
-        ShareWithMultipleDialog
-    >();
+    protected readonly shareWithMultipleDialogRef = React.createRef<ShareWithMultipleDialog>();
 
     protected readonly showAddFolder = () => {
         this.addFolderDialogRef.current.show();
     };
 
     protected readonly showMoveFiles = () => {
-        this.moveFileDialogRef.current.show(
-            fileStore.folderStore.currentFolder
-        );
+        this.moveFileDialogRef.current.show(fileStore.folderStore.currentFolder);
     };
 
     @action.bound
@@ -56,8 +50,7 @@ export default class FilesHeader extends React.Component<{
         // first parameter is a mess trying to fix at least one UX case(when 1 folder is selected),
         // needs refactor
         const contacts = await this.shareWithMultipleDialogRef.current.show(
-            fileStore.selectedFolders.length > 0 &&
-            fileStore.selectedFiles.length === 0
+            fileStore.selectedFolders.length > 0 && fileStore.selectedFiles.length === 0
                 ? fileStore.selectedFolders[0]
                 : null,
             context
@@ -65,14 +58,9 @@ export default class FilesHeader extends React.Component<{
         if (!contacts || !contacts.length) return;
 
         contacts.forEach(c =>
-            chatStore.startChatAndShareFiles(
-                [c],
-                fileStore.selectedFiles.slice()
-            )
+            chatStore.startChatAndShareFiles([c], fileStore.selectedFiles.slice())
         );
-        fileStore.selectedFolders.forEach(
-            f => f.canShare && volumeStore.shareFolder(f, contacts)
-        );
+        fileStore.selectedFolders.forEach(f => f.canShare && volumeStore.shareFolder(f, contacts));
         fileStore.clearSelection();
     }
 
@@ -110,9 +98,7 @@ export default class FilesHeader extends React.Component<{
                 disabled: !fileStore.bulk.canShare
             });
         }
-        return bulkButtons.map(props => (
-            <Button key={props.label} {...props} />
-        ));
+        return bulkButtons.map(props => <Button key={props.label} {...props} />);
     }
 
     protected get breadCrumbsHeader() {
@@ -129,9 +115,7 @@ export default class FilesHeader extends React.Component<{
                     onFolderClick={setCurrentFolder}
                 />
                 {selectedCount > 0 ? (
-                    <div className="buttons-container bulk-buttons">
-                        {this.bulkActionButtons}
-                    </div>
+                    <div className="buttons-container bulk-buttons">{this.bulkActionButtons}</div>
                 ) : (
                     <div className="buttons-container file-buttons">
                         <Button
@@ -165,13 +149,9 @@ export default class FilesHeader extends React.Component<{
 
         return (
             <div className="files-header">
-                <div className="search-results-header">
-                    {t('title_searchResults')}
-                </div>
+                <div className="search-results-header">{t('title_searchResults')}</div>
                 {selectedCount > 0 ? (
-                    <div className="buttons-container bulk-buttons">
-                        {this.bulkActionButtons}
-                    </div>
+                    <div className="buttons-container bulk-buttons">{this.bulkActionButtons}</div>
                 ) : null}
             </div>
         );
@@ -181,19 +161,12 @@ export default class FilesHeader extends React.Component<{
         return (
             <React.Fragment>
                 <div className="files-header-container">
-                    <Search
-                        onChange={handleSearch}
-                        query={fileStore.searchQuery}
-                    />
-                    {fileStore.searchQuery
-                        ? this.searchResultsHeader
-                        : this.breadCrumbsHeader}
+                    <Search onChange={handleSearch} query={fileStore.searchQuery} />
+                    {fileStore.searchQuery ? this.searchResultsHeader : this.breadCrumbsHeader}
                 </div>
                 <AddOrRenameDialog ref={this.addFolderDialogRef} />
                 <MoveFileDialog ref={this.moveFileDialogRef} />
-                <ShareWithMultipleDialog
-                    ref={this.shareWithMultipleDialogRef}
-                />
+                <ShareWithMultipleDialog ref={this.shareWithMultipleDialogRef} />
             </React.Fragment>
         );
     }

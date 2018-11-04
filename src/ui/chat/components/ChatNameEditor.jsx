@@ -23,13 +23,9 @@ class ChatNameEditor extends React.Component {
         const chat = chatStore.activeChat;
         if (!chat || !chat.chatHead) return null;
 
-        const hint = this.props.purpose
-            ? 'title_chatPurposeHint'
-            : 'title_chatNameHint';
+        const hint = this.props.purpose ? 'title_chatPurposeHint' : 'title_chatNameHint';
         const label = this.props.purpose ? 'title_purpose' : 'title_title';
-        const value = this.props.purpose
-            ? chat.purpose
-            : ELEMENTS.chatEditor.displayName(chat);
+        const value = this.props.purpose ? chat.purpose : ELEMENTS.chatEditor.displayName(chat);
         return (
             <BetterInput
                 label={this.props.showLabel ? t(label) : null}

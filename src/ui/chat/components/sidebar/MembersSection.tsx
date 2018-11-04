@@ -21,9 +21,7 @@ interface MembersSectionProps {
 }
 
 @observer
-export default class MembersSection extends React.Component<
-    MembersSectionProps
-> {
+export default class MembersSection extends React.Component<MembersSectionProps> {
     contactProfileRef = React.createRef<ContactProfile>();
 
     @observable clickedContact;
@@ -39,37 +37,25 @@ export default class MembersSection extends React.Component<
     // FIXME: stop stashing data in the DOM! just make a separate component
     deleteInvite(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const username = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-username'
-        );
+        const username = getAttributeInParentChain(ev.currentTarget, 'data-username');
         chatInviteStore.revokeInvite(chatStore.activeChat.id, username);
     }
 
     deleteParticipant(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const username = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-username'
-        );
+        const username = getAttributeInParentChain(ev.currentTarget, 'data-username');
         chatStore.activeChat.removeParticipant(username);
     }
 
     makeAdmin(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const username = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-username'
-        );
+        const username = getAttributeInParentChain(ev.currentTarget, 'data-username');
         chatStore.activeChat.promoteToAdmin(contactStore.getContact(username));
     }
 
     demoteAdmin(ev: React.MouseEvent) {
         ev.stopPropagation();
-        const username = getAttributeInParentChain(
-            ev.currentTarget,
-            'data-username'
-        );
+        const username = getAttributeInParentChain(ev.currentTarget, 'data-username');
         chatStore.activeChat.demoteAdmin(contactStore.getContact(username));
     }
 
@@ -151,16 +137,12 @@ export default class MembersSection extends React.Component<
             <ListItem
                 data-username={c.username}
                 key={c.username}
-                leftContent={
-                    <Avatar key="a" contact={c} size="small" clickable />
-                }
+                leftContent={<Avatar key="a" contact={c} size="small" clickable />}
                 caption={c.fullName}
                 legend={
                     <div className="user-caption">
                         <span className="username">{c.username}</span>
-                        {chat.isAdmin(c) ? (
-                            <T k="title_admin" className="tag" />
-                        ) : null}
+                        {chat.isAdmin(c) ? <T k="title_admin" className="tag" /> : null}
                     </div>
                 }
                 rightContent={
@@ -231,16 +213,11 @@ export default class MembersSection extends React.Component<
                             <ListHeading caption={t('title_invited')} />
                         ) : null}
                         {invited
-                            ? invited.map(c =>
-                                  this.renderInvitedParticipant(c, showAdmin)
-                              )
+                            ? invited.map(c => this.renderInvitedParticipant(c, showAdmin))
                             : null}
                     </List>
                 </div>
-                <ContactProfile
-                    ref={this.contactProfileRef}
-                    contact={this.clickedContact}
-                />
+                <ContactProfile ref={this.contactProfileRef} contact={this.clickedContact} />
             </SideBarSection>
         );
     }

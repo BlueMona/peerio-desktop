@@ -37,13 +37,9 @@ interface FolderActionsProps {
 
 @observer
 export default class FolderActions extends React.Component<FolderActionsProps> {
-    private readonly shareWithMultipleDialogRef = React.createRef<
-        ShareWithMultipleDialog
-    >();
+    private readonly shareWithMultipleDialogRef = React.createRef<ShareWithMultipleDialog>();
     private readonly moveFileDialogRef = React.createRef<MoveFileDialog>();
-    private readonly renameFolderDialogRef = React.createRef<
-        AddOrRenameDialog
-    >();
+    private readonly renameFolderDialogRef = React.createRef<AddOrRenameDialog>();
 
     private readonly deleteFolder = () => {
         deleteFileOrFolder(this.props.folder);
@@ -57,10 +53,7 @@ export default class FolderActions extends React.Component<FolderActionsProps> {
         if (this.props.onActionInProgress) this.props.onActionInProgress();
         const f = this.props.folder;
 
-        const contacts = await this.shareWithMultipleDialogRef.current.show(
-            f,
-            'sharefolders'
-        );
+        const contacts = await this.shareWithMultipleDialogRef.current.show(f, 'sharefolders');
 
         if (!contacts || !contacts.length) return;
         await volumeStore.shareFolder(f, contacts);
@@ -73,10 +66,7 @@ export default class FolderActions extends React.Component<FolderActionsProps> {
 
     private readonly moveFolder = () => {
         if (this.props.onActionInProgress) this.props.onActionInProgress();
-        this.moveFileDialogRef.current.show(
-            this.props.folder.parent,
-            this.props.folder
-        );
+        this.moveFileDialogRef.current.show(this.props.folder.parent, this.props.folder);
     };
 
     render() {
@@ -133,9 +123,7 @@ export default class FolderActions extends React.Component<FolderActionsProps> {
                 </Menu>
                 <AddOrRenameDialog ref={this.renameFolderDialogRef} />
                 <MoveFileDialog ref={this.moveFileDialogRef} />
-                <ShareWithMultipleDialog
-                    ref={this.shareWithMultipleDialogRef}
-                />
+                <ShareWithMultipleDialog ref={this.shareWithMultipleDialogRef} />
             </React.Fragment>
         );
     }

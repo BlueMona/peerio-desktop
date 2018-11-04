@@ -21,14 +21,8 @@ class AutoLogin extends React.Component {
         return (
             <div className="auto-sign-in">
                 <div className="content">
-                    <img
-                        alt="peerio"
-                        className="logo"
-                        src="static/img/logo-white.png"
-                    />
-                    <div className="display-2">
-                        {t('title_enableAutomatic')}
-                    </div>
+                    <img alt="peerio" className="logo" src="static/img/logo-white.png" />
+                    <div className="display-2">{t('title_enableAutomatic')}</div>
                     <div className="options">
                         <div className="option">
                             <Button

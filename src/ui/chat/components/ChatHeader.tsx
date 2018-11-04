@@ -23,20 +23,11 @@ export default class ChatHeader extends React.Component {
             <div className="messages-start">
                 <div className="avatars">
                     {this.displayParticipants.map(c => (
-                        <AvatarWithPopup
-                            size="large"
-                            key={c.username}
-                            contact={c}
-                            tooltip
-                        />
+                        <AvatarWithPopup size="large" key={c.username} contact={c} tooltip />
                     ))}
                 </div>
                 <T
-                    k={
-                        chat.isChannel
-                            ? 'title_chatBeginningRoom'
-                            : 'title_chatBeginning'
-                    }
+                    k={chat.isChannel ? 'title_chatBeginningRoom' : 'title_chatBeginning'}
                     tag="div"
                     className="title"
                 >

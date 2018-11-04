@@ -48,9 +48,7 @@ export default class FilePicker extends React.Component<FilePickerProps> {
         }
 
         const distanceToBottom =
-            this.container.scrollHeight -
-            this.container.scrollTop -
-            this.container.clientHeight;
+            this.container.scrollHeight - this.container.scrollTop - this.container.clientHeight;
         if (distanceToBottom < 250) {
             this.renderedItemsCount += this.pageSize;
         }
@@ -103,11 +101,7 @@ export default class FilePicker extends React.Component<FilePickerProps> {
     }
 
     get searchResultsHeader() {
-        return (
-            <div className="search-results-header">
-                {t('title_searchResults')}
-            </div>
-        );
+        return <div className="search-results-header">{t('title_searchResults')}</div>;
     }
 
     @computed
@@ -131,8 +125,7 @@ export default class FilePicker extends React.Component<FilePickerProps> {
 
         const items = [];
         const data = this.items;
-        const canShareFolder =
-            chatStore.activeChat && !chatStore.activeChat.isChannel;
+        const canShareFolder = chatStore.activeChat && !chatStore.activeChat.isChannel;
         for (let i = 0; i < this.renderedItemsCount && i < data.length; i++) {
             const f = data[i];
             if (f.isLegacy && this.props.hideLegacy) continue;
@@ -170,18 +163,10 @@ export default class FilePicker extends React.Component<FilePickerProps> {
             >
                 {!fileStore.loading && this.props.active ? (
                     <div className="file-picker-body">
-                        <Search
-                            onChange={this.handleSearch}
-                            query={fileStore.searchQuery}
-                        />
-                        {fileStore.searchQuery
-                            ? this.searchResultsHeader
-                            : this.breadCrumbsHeader}
+                        <Search onChange={this.handleSearch} query={fileStore.searchQuery} />
+                        {fileStore.searchQuery ? this.searchResultsHeader : this.breadCrumbsHeader}
                         <div className="file-table-wrapper">
-                            <div
-                                className="file-table-body"
-                                ref={this.setScrollerRef}
-                            >
+                            <div className="file-table-body" ref={this.setScrollerRef}>
                                 {items}
                             </div>
                         </div>

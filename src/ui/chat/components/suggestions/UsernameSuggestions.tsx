@@ -25,8 +25,7 @@ export default function makeUsernameSuggestions(getView: () => EditorView) {
         formatter: contact => (
             <span>
                 <Avatar size="tiny" contact={contact} />
-                <span className="semibold">@{contact.username}</span> -{' '}
-                {contact.fullName}
+                <span className="semibold">@{contact.username}</span> - {contact.fullName}
             </span>
         ),
         keySource: 'username',

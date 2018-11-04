@@ -1,8 +1,6 @@
 import { startApp, closeApp, isDev, Context } from './helpers';
 
-console.log(
-    `===== Tests starting in ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'} mode =====`
-);
+console.log(`===== Tests starting in ${isDev ? 'DEVELOPMENT' : 'PRODUCTION'} mode =====`);
 
 describe('application launch', function(this: Context) {
     setupTimeout(this);
@@ -28,14 +26,10 @@ describe('application launch', function(this: Context) {
         );
         expect(language.value).toEqual('en');
 
-        const locale = await this.app.client.execute(
-            () => ice.PhraseDictionary.current.locale
-        );
+        const locale = await this.app.client.execute(() => ice.PhraseDictionary.current.locale);
         expect(locale.value).toEqual('en');
 
-        const dict = await this.app.client.execute(
-            () => ice.PhraseDictionary.current.dict
-        );
+        const dict = await this.app.client.execute(() => ice.PhraseDictionary.current.dict);
         expect(dict.value.length).toBeGreaterThan(10000);
     });
 });

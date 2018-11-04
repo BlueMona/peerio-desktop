@@ -23,11 +23,7 @@ class Search extends React.Component {
                     onChange={this.handleChange}
                 />
                 {this.props.query === '' ? null : (
-                    <Button
-                        icon="close"
-                        onClick={this.handleClear}
-                        theme="small no-hover"
-                    />
+                    <Button icon="close" onClick={this.handleClear} theme="small no-hover" />
                 )}
             </div>
         );

@@ -55,7 +55,7 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
 
     // We make a lot of calculations based on child content size and position
     // `contentRef` stores the ref for the .beacon-container component which contains the child content
-    @observable contentRef = React.createRef();
+    @observable contentRef;
     @observable rendered = false;
 
     // Clone the child content, passing its ref to `contentRef`
@@ -69,16 +69,15 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
         // This will error if the child is a stateless functional component, which cannot be given a ref
         this.childContent = React.cloneElement(originalChild, {
             key: `beacon-wrapper-${this.props.name}`,
-            ref: this.contentRef
-            // node => {
-            //     // Keep your own reference
-            //     this.contentRef = node;
-            //     // Call the original ref, if any
-            //     const { ref } = originalChild.props;
-            //     if (typeof ref === 'function') {
-            //         ref(node);
-            //     }
-            // }
+            ref: node => {
+                // Keep your own reference
+                this.contentRef = node;
+                // Call the original ref, if any
+                const { ref } = originalChild.props;
+                if (typeof ref === 'function') {
+                    ref(node);
+                }
+            }
         });
     }
 
@@ -94,8 +93,8 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
 
     @action.bound
     setContentRect() {
-        if (this.contentRef && this.contentRef.current) {
-            this.contentRect = this.contentRef.current.getBoundingClientRect();
+        if (this.contentRef) {
+            this.contentRect = this.contentRef.getBoundingClientRect();
         }
     }
 

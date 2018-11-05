@@ -13,11 +13,16 @@ class PlusIconBeaconed extends React.Component {
                 size={48}
                 offsetX={100}
                 className="chatlist-plusicon-beacon"
+                onContentClick={this.props.onClick}
             >
+<<<<<<< HEAD
                 <div>This will work</div>
 
                 {/* This won't  */}
                 {/* <PlusIcon {...this.props} /> */}
+=======
+                <PlusIcon {...this.props} />
+>>>>>>> refactor-beacons-css
             </Beacon>
         );
     }

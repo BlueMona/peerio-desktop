@@ -21,9 +21,13 @@ interface BeaconBaseProps {
 
 export interface SpotBeaconProps extends BeaconBaseProps {
     type: 'spot';
+<<<<<<< HEAD
 
     /** Position of the bubble. 'left' is default. */
     position?: 'right' | 'left';
+=======
+    position?: 'right' | 'left'; // position of the bubble
+>>>>>>> refactor-beacons-css
     size?: number; // force a certain bubble size
     onContentClick?: () => void;
 }
@@ -45,7 +49,11 @@ interface RectanglePosition {
     marginLeft?: string | number;
     paddingRight?: string | number;
     paddingLeft?: string | number;
+<<<<<<< HEAD
     background?: any; // TODO: type
+=======
+    background?: string;
+>>>>>>> refactor-beacons-css
 }
 
 @observer
@@ -245,7 +253,11 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
             For SpotBeacon, rectangle needs to be positioned very precisely based on own size and circle size.
             There's a lot of offsets based on half of the rectangle height, or half the circle diameter.
             There's also the "punchout" effect, created by placing a CSS punchout of the rectangle
+<<<<<<< HEAD
             (using radial-gradiant) exactly in the same location as the circle.
+=======
+            exactly in the same location as the circle.
+>>>>>>> refactor-beacons-css
         */
         if (this.props.type === 'spot') {
             const rectangleOffset = rectHeight / 2;
@@ -288,6 +300,16 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
                 ret.marginLeft = -circleRadius;
             }
 
+<<<<<<< HEAD
+=======
+            /*
+                The highlight bubble itself is a transparent circle. However, since it sits on
+                top of the rectangle, the corner of the rectangle will peek through the bubble.
+                To solve this, we take advantage of a funny trick with `radial-gradient`, where
+                we set a gradient from transparent to $peerio-purple, over a span of 1px. This
+                has the effect of making a transparent circle with a radius of `circleRadius`.
+            */
+>>>>>>> refactor-beacons-css
             ret.background = `radial-gradient(circle at ${punchoutX} ${punchoutY}, transparent ${circleRadius -
                 1}px, ${BEACON_COLOR} ${circleRadius}px)`;
         } else {
@@ -442,14 +464,20 @@ class Bubble extends React.Component<BubbleProps> {
     render() {
         return (
             <div
-                className={css('circle', this.props.classNames, this.props.position)}
+                className={css('circle', this.props.classNames, this.props.position, {
+                    clickable: !!this.props.onClick
+                })}
                 style={{
                     height: this.props.size,
                     width: this.props.size
                 }}
                 onClick={this.props.onClick}
             >
+<<<<<<< HEAD
                 <div className="circle-content" />
+=======
+                <div className="circle-inner" />
+>>>>>>> refactor-beacons-css
             </div>
         );
     }

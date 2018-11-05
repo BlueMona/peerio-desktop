@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { action, computed, observable, reaction, when, IReactionDisposer } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import css from 'classnames';
 import { t } from 'peerio-translator';
 import beaconStore from '~/stores/beacon-store';
+import { BeaconActionsProps } from '~/ui/beacons/BeaconWrapper';
 
 const appRoot = document.getElementById('root');
 const BEACON_COLOR = '#5461cc';
@@ -17,6 +18,9 @@ interface BeaconBaseProps {
     offsetX?: number;
     offsetY?: number;
     onBeaconClick?: () => void;
+
+    /** Required for Provider. Intended to be used with @inject only. */
+    beaconActions?: BeaconActionsProps;
 }
 
 export interface SpotBeaconProps extends BeaconBaseProps {
@@ -46,6 +50,7 @@ interface RectanglePosition {
     background?: string;
 }
 
+@inject('beaconActions')
 @observer
 export default class Beacon extends React.Component<SpotBeaconProps | AreaBeaconProps> {
     @computed
@@ -66,18 +71,9 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
         const originalChild = React.Children.only(this.props.children) || null;
         if (!originalChild) return;
 
-        // This will error if the child is a stateless functional component, which cannot be given a ref
         this.childContent = React.cloneElement(originalChild, {
             key: `beacon-wrapper-${this.props.name}`,
-            ref: node => {
-                // Keep your own reference
-                this.contentRef = node;
-                // Call the original ref, if any
-                const { ref } = originalChild.props;
-                if (typeof ref === 'function') {
-                    ref(node);
-                }
-            }
+            className: css(originalChild.props.className, `__beacon-target-id-${this.props.name}`)
         });
     }
 
@@ -415,10 +411,10 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
     }
 
     render() {
+        console.log(this.props.beaconActions);
         if (!this.active && !this.rendered) return this.props.children;
 
         const beaconContent = this.beaconContent();
-
         return [this.childContent, ReactDOM.createPortal(beaconContent, appRoot)];
     }
 }

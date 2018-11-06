@@ -6,7 +6,7 @@ import { t } from 'peerio-translator';
 import { observer } from 'mobx-react';
 import { clientApp } from 'peerio-icebear';
 import MigrationDialog from '~/ui/shared-components/MigrationDialog';
-import BeaconWrapper from '~/ui/beacons/BeaconWrapper';
+import BeaconContext from '~/ui/beacons/BeaconContext';
 
 @observer
 export default class App extends React.Component {
@@ -32,7 +32,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <BeaconWrapper>
+            <BeaconContext>
                 <div className="app-root">
                     <AppNav />
                     {clientApp.updatingAfterReconnect ? (
@@ -45,7 +45,7 @@ export default class App extends React.Component {
                     <MigrationDialog />
                     {this.signatureErrorDialog}
                 </div>
-            </BeaconWrapper>
+            </BeaconContext>
         );
     }
 }

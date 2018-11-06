@@ -27,31 +27,32 @@ export default class BeaconWrapper extends React.Component<{}> {
 
     @observable
     beaconState = {
+        // Beacons in queue to be shown to user.
+        // 0th item is currently visible.
+        currentBeacons: [] as string[],
+
+        // Beacons queued to be pushed to currentBeacons
         beaconsInQueue: [] as string[]
     };
 
-    // Beacons in queue to be shown to user.
-    // 0th item is currently visible.
-    @observable currentBeacons: string[] = [];
-
     @computed
     get activeBeacon() {
-        if (!this.currentBeacons.length) return null;
-        return this.currentBeacons[0];
+        if (!this.beaconState.currentBeacons.length) return null;
+        return this.beaconState.currentBeacons[0];
     }
 
     // "Advances" the beacon flow by removing the 0th entry
     // Optionally, pass the name of the beacon that needs to be activeBeacon in orderto trigger the increment
     @action.bound
     increment(beacon?: string) {
-        if (!this.currentBeacons.length) return;
+        if (!this.beaconState.currentBeacons.length) return;
         if (!!beacon && this.activeBeacon !== beacon) return;
 
         // Mark activeBeacon as seen in User beacons
         this.markAsRead(this.activeBeacon);
 
         // Remove activeBeacon from currentBeacons array
-        this.currentBeacons.shift();
+        this.beaconState.currentBeacons.shift();
     }
 
     // Increment but with a delay passed from component.
@@ -120,14 +121,14 @@ export default class BeaconWrapper extends React.Component<{}> {
     private async pushBeacon(b: string): Promise<void> {
         const beaconStatus = await User.current.beacons.get(b);
         if (!beaconStatus) {
-            this.currentBeacons.push(b);
+            this.beaconState.currentBeacons.push(b);
         }
     }
 
     // Clear currentBeacons, e.g. if switching to a different beacon flow
     @action.bound
     clearBeacons(): void {
-        this.currentBeacons = [];
+        this.beaconState.currentBeacons = [];
     }
 
     // Adding beacons with a delay

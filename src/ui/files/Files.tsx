@@ -134,7 +134,7 @@ export default class Files extends React.Component<FilesProps> {
 
     onUploadClick = async () => {
         // Beacon control
-        if (this.props.beaconActions.activeBeacon === 'uploadFiles') {
+        if (this.props.beaconState.currentBeacons[0] === 'uploadFiles') {
             this.props.beaconActions.clearBeacons();
         }
         if (uiStore.firstLogin && !this.props.beaconState.beaconsInQueue.length) {

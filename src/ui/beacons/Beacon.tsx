@@ -1,10 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { action, computed, observable, reaction, when, IReactionDisposer } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import css from 'classnames';
-import { t } from 'peerio-translator';
-import beaconStore from '~/stores/beacon-store';
 import { BeaconActionsProps } from '~/ui/beacons/BeaconWrapper';
 
 interface BeaconBaseProps {
@@ -36,32 +32,22 @@ export interface AreaBeaconProps extends BeaconBaseProps {
 @inject('beaconActions')
 @observer
 export default class Beacon extends React.Component<SpotBeaconProps | AreaBeaconProps> {
-    @computed
-    get active() {
-        return beaconStore.activeBeacon === this.props.name;
-    }
+    /*
+        We clone the child content, giving it a `__beacon-target-id` class.
+        This allows us to get its dimensions without needing a wrapper <div>
 
-    // We make a lot of calculations based on child content size and position
-    // `contentRef` stores the ref for the .beacon-container component which contains the child content
-    @observable contentRef;
-    @observable rendered = false;
+        `React.Children.only` fails if children is >1 node (i.e. React.Fragment w/ many children)
+        This makes sense because we need to be able to measure the size of a *single* element
+        So this whole component will error if it wraps multiple children.
+    */
+    originalChild = React.Children.only(this.props.children);
 
-    // Clone the child content, passing its ref to `contentRef`
-    // This allows us to measure its dimensions without needing to wrap it in another div
-    @observable childContent;
-    @action.bound
-    setChildContent() {
-        const originalChild = React.Children.only(this.props.children) || null;
-        if (!originalChild) return;
-
-        this.childContent = React.cloneElement(originalChild, {
-            key: `beacon-target-${this.props.name}`,
-            className: css(originalChild.props.className, `__beacon-target-id-${this.props.name}`)
-        });
-    }
+    clonedChildContent = React.cloneElement(this.originalChild, {
+        ...this.props,
+        className: css(this.originalChild.props.className, `__beacon-target-id-${this.props.name}`)
+    });
 
     render() {
-        if (!this.active && !this.rendered) return this.props.children;
-        return this.childContent;
+        return this.clonedChildContent;
     }
 }

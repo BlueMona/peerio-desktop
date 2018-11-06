@@ -1,4 +1,5 @@
 import React from 'react';
+import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import css from 'classnames';
 import { BeaconActionsProps } from '~/ui/beacons/BeaconWrapper';
@@ -40,12 +41,13 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
         This makes sense because we need to be able to measure the size of a *single* element
         So this whole component will error if it wraps multiple children.
     */
-    originalChild = React.Children.only(this.props.children);
-
-    clonedChildContent = React.cloneElement(this.originalChild, {
-        ...this.props,
-        className: css(this.originalChild.props.className, `__beacon-target-id-${this.props.name}`)
-    });
+    @computed
+    get clonedChildContent() {
+        const originalChild = React.Children.only(this.props.children);
+        return React.cloneElement(originalChild, {
+            className: css(originalChild.props.className, `__beacon-target-id-${this.props.name}`)
+        });
+    }
 
     render() {
         return this.clonedChildContent;

@@ -25,6 +25,11 @@ export default class BeaconWrapper extends React.Component<{}> {
 
     // CP from BeaconStore
 
+    @observable
+    beaconState = {
+        beaconsInQueue: [] as string[]
+    };
+
     // Beacons in queue to be shown to user.
     // 0th item is currently visible.
     @observable currentBeacons: string[] = [];
@@ -98,7 +103,8 @@ export default class BeaconWrapper extends React.Component<{}> {
     }
 
     // Add beacons to the currentBeacons array. Argument can be string (single beacon) or array (multiple).
-    addBeacons = (b: string | string[]): void => {
+    @action.bound
+    addBeacons(b: string | string[]): void {
         if (typeof b === 'string') {
             this.pushBeacon(b);
         } else {
@@ -106,7 +112,7 @@ export default class BeaconWrapper extends React.Component<{}> {
                 this.pushBeacon(beacon);
             });
         }
-    };
+    }
 
     // Push to currentBeacons but check beacon read status in User profile first.
     // This is not intended to be called directly. Component should use addBeacons.
@@ -125,15 +131,14 @@ export default class BeaconWrapper extends React.Component<{}> {
     }
 
     // Adding beacons with a delay
-    @observable beaconsInQueue: string[] = [];
     @observable beaconDelay: number;
 
     @action.bound
     queueBeacons(b: string | string[], delay: number) {
         if (typeof b === 'string') {
-            this.beaconsInQueue = [b];
+            this.beaconState.beaconsInQueue = [b];
         } else {
-            this.beaconsInQueue = b;
+            this.beaconState.beaconsInQueue = b;
         }
         this.beaconDelay = delay;
         this.setBeaconTimer();
@@ -146,7 +151,7 @@ export default class BeaconWrapper extends React.Component<{}> {
             clearTimeout(this.beaconTimer);
             this.beaconTimer = null;
         }
-        this.beaconsInQueue = [];
+        this.beaconState.beaconsInQueue = [];
         this.beaconDelay = 0;
         removeActivityListener(this.setBeaconTimer);
     }
@@ -156,22 +161,34 @@ export default class BeaconWrapper extends React.Component<{}> {
     setBeaconTimer() {
         if (this.beaconTimer) clearTimeout(this.beaconTimer);
         this.beaconTimer = setTimeout(() => {
-            this.addBeacons(this.beaconsInQueue);
+            this.addBeacons(this.beaconState.beaconsInQueue);
             this.clearQueuedBeacons();
         }, this.beaconDelay);
     }
 
     // First beacon has different rules from the other queued beacons.
     // Identical except user activity listeners do *not* include mouse movement.
-    queueFirstBeacon = (b: string | string[], delay: number) => {
+    @action.bound
+    queueFirstBeacon(b: string | string[], delay: number) {
         if (typeof b === 'string') {
-            this.beaconsInQueue = [b];
+            this.beaconState.beaconsInQueue = [b];
         } else {
-            this.beaconsInQueue = b;
+            this.beaconState.beaconsInQueue = b;
         }
         this.beaconDelay = delay;
         this.setBeaconTimer();
         addActivityListenerWithoutMouseMovement(this.setBeaconTimer);
+    }
+
+    @observable
+    beaconActions = {
+        addBeacons: this.addBeacons,
+        queueFirstBeacon: this.queueFirstBeacon,
+        queueIncrement: this.queueIncrement,
+        clearBeacons: this.clearBeacons,
+        clearQueuedBeacons: this.clearQueuedBeacons,
+        clearIncrementQueue: this.clearIncrementQueue,
+        markAsRead: this.markAsRead
     };
 
     render() {
@@ -179,16 +196,8 @@ export default class BeaconWrapper extends React.Component<{}> {
             <Provider
                 beaconInit={this.initializeBeacon}
                 beaconStore={this.beaconStore}
-                beaconActions={{
-                    addBeacons: this.addBeacons,
-                    queueFirstBeacon: this.queueFirstBeacon,
-                    queueIncrement: this.queueIncrement,
-                    clearBeacons: this.clearBeacons,
-                    clearQueuedBeacons: this.clearQueuedBeacons,
-                    clearIncrementQueue: this.clearIncrementQueue,
-                    beaconsInQueue: this.beaconsInQueue,
-                    markAsRead: this.markAsRead
-                }}
+                beaconState={this.beaconState}
+                beaconActions={this.beaconActions}
             >
                 <>
                     {this.props.children}

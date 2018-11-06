@@ -81,7 +81,13 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
         const { channelName, participants, username } = chatInviteStore.activeInvite;
         if (participants.length <= this.minParticipants) return null;
 
-        const participantsToShow: JSX.Element[] = [];
+        const participantsToShow: JSX.Element[] = [
+            // First avatar is always the person who sent the invite
+            <div className="admin" key={username}>
+                <AvatarWithPopup contact={contactStore.getContact(username)} tooltip />
+                <T k="title_admin" className="badge" />
+            </div>
+        ];
 
         for (
             let i = 0;
@@ -104,8 +110,9 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
         return (
             <div className="participant-list">
                 <span>
-                    <T k="title_whoIsAlreadyIn" className="already-in-room" tag="span" />&nbsp;
-                    <span className="room-name">{`# ${channelName}`}</span>
+                    <T k="title_whoIsInRoom" className="already-in-room" tag="span">
+                        {{ roomName: channelName }}
+                    </T>
                 </span>
                 <div className="avatars">
                     {participantsToShow}
@@ -125,62 +132,48 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
         if (this.inProgress) return <ProgressBar />;
         const { activeInvite } = chatInviteStore;
         if (!activeInvite) return null;
-        const { channelName, username } = activeInvite;
-        const contact = contactStore.getContact(username);
+        const { channelName } = activeInvite;
+
         return (
             <div className={css('channel-invite', this.props.className)}>
                 <div className="invite-content">
-                    <EmojiImage emoji="tada" size="large" />
+                    <img src="./static/img/illustrations/room-invite.svg" />
                     <div className="text">
-                        <T k="title_roomInviteHeading" />&nbsp;
-                        <span className="channel-name"># {channelName}</span>
+                        <T k="title_roomInviteTitle">{{ roomName: channelName }}</T>
                     </div>
-
-                    {User.current.channelsLeft > 0 ? (
-                        <div className="buttons">
-                            <Button
-                                label={t('button_decline')}
-                                theme="affirmative secondary"
-                                onClick={this.rejectInvite}
-                            />
-                            <Button
-                                label={t('button_accept')}
-                                theme="affirmative"
-                                onClick={this.acceptInvite}
-                            />
-                        </div>
-                    ) : (
-                        <div className="upgrade-prompt">
-                            <div className="upgrade-content">
-                                <span className="upgrade-text">
-                                    👋 <T k="title_roomInviteUpgradeNotice" tag="span" />
-                                </span>
-                                <Button label={t('button_upgrade')} onClick={this.toUpgrade} />
-                            </div>
-                            <Button
-                                label={t('button_declineInvite')}
-                                theme="affirmative secondary"
-                                onClick={this.rejectInvite}
-                            />
-                        </div>
-                    )}
                 </div>
 
                 {User.current.channelsLeft > 0 ? (
                     <div className="participants">
                         <Divider />
-                        <div className="participant-list">
-                            <span>
-                                <T k="title_hostedBy" className="hosted-by" tag="span" />&nbsp;
-                                <span className="host-username">{contact.fullName}</span>
-                            </span>
-                            <div className="avatars">
-                                <AvatarWithPopup contact={contact} tooltip />
-                            </div>
-                        </div>
                         {this.renderParticipants}
                     </div>
                 ) : null}
+
+                {User.current.channelsLeft > 0 ? (
+                    <div className="buttons">
+                        <Button label={t('button_declineInvite')} onClick={this.rejectInvite} />
+                        <Button
+                            label={t('button_joinRoom')}
+                            theme="affirmative"
+                            onClick={this.acceptInvite}
+                        />
+                    </div>
+                ) : (
+                    <div className="upgrade-prompt">
+                        <div className="upgrade-content">
+                            <span className="upgrade-text">
+                                👋 <T k="title_roomInviteUpgradeNotice" tag="span" />
+                            </span>
+                            <Button label={t('button_upgrade')} onClick={this.toUpgrade} />
+                        </div>
+                        <Button
+                            label={t('button_declineInvite')}
+                            theme="affirmative secondary"
+                            onClick={this.rejectInvite}
+                        />
+                    </div>
+                )}
             </div>
         );
     }

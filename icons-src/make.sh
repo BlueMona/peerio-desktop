@@ -25,6 +25,9 @@ convert \
     $BASE_DIR/win-installer/icon_16x16.png \
     $BASE_DIR/../dist-assets/win-installer.ico
 
+# Windows tray icon
+cp $BASE_DIR/../dist-assets/icon.ico $BASE_DIR/../src/static/img/windows-tray-icon.ico
+
 # Linux window icon
 cp $BASE_DIR/icon.iconset/icon_512x512@2x.png $BASE_DIR/../src/static/img/icon.png
 

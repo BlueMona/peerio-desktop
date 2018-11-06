@@ -1,9 +1,9 @@
 import React from 'react';
-import { observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 
-import { CustomIcon, List, ListItem } from 'peer-ui';
+import { Button, CustomIcon, Dialog, List, ListItem } from 'peer-ui';
 import { chatStore } from 'peerio-icebear';
 import { t } from 'peerio-translator';
 
@@ -33,27 +33,46 @@ export default class ChannelSideBar extends React.Component<ChannelSideBarProps>
 
     chatPurposeTextarea: HTMLInputElement | undefined;
 
+    @observable deleteChannelDialogVisible;
+    @action.bound
+    toggleDeleteChannelDialog() {
+        this.deleteChannelDialogVisible = !this.deleteChannelDialogVisible;
+    }
+
     deleteChannel() {
         const chat = chatStore.activeChat;
         if (!chat) return;
-        if (confirm(t('title_confirmChannelDelete'))) {
-            try {
-                chat.delete();
-            } catch (err) {
-                console.error(err);
-            }
+
+        try {
+            chat.delete();
+        } catch (err) {
+            console.error(err);
         }
     }
 
+    @observable deleteChannelDescriptionVisible;
+    @action.bound
+    toggleDeleteChannelDescription() {
+        this.deleteChannelDescriptionVisible = !this.deleteChannelDescriptionVisible;
+    }
+
+    @observable leaveChannelDialogVisible;
+    @action.bound
+    toggleLeaveChannelDialog() {
+        this.leaveChannelDialogVisible = !this.leaveChannelDialogVisible;
+    }
+
+    @action.bound
     leaveChannel() {
         const chat = chatStore.activeChat;
         if (!chat) return;
-        if (confirm(t('title_confirmChannelLeave'))) {
-            try {
-                chat.leave().then(chatStore.switchToFirstChat);
-            } catch (err) {
-                console.error(err);
-            }
+        try {
+            chat.leave().then(() => {
+                this.leaveChannelDialogVisible = false;
+                chatStore.switchToFirstChat();
+            });
+        } catch (err) {
+            console.error(err);
         }
     }
 
@@ -142,7 +161,7 @@ export default class ChannelSideBar extends React.Component<ChannelSideBarProps>
                                 className="custom-icon-hover-container"
                                 disabled={chatStore.hidingChat}
                                 caption={t('button_leaveChannel')}
-                                onClick={this.leaveChannel}
+                                onClick={this.toggleLeaveChannelDialog}
                                 leftContent={<CustomIcon icon="leave" hover />}
                             />
                         ) : null}
@@ -151,7 +170,7 @@ export default class ChannelSideBar extends React.Component<ChannelSideBarProps>
                                 className="admin-controls delete-room"
                                 leftIcon="delete"
                                 caption={t('button_deleteChannel')}
-                                onClick={this.deleteChannel}
+                                onClick={this.toggleDeleteChannelDialog}
                             />
                         ) : null}
                     </List>
@@ -167,6 +186,45 @@ export default class ChannelSideBar extends React.Component<ChannelSideBarProps>
                         open={this.openSection === FILES}
                     />
                 ) : null}
+                <Dialog
+                    active={this.deleteChannelDialogVisible}
+                    title={t('title_confirmChannelDelete')}
+                    actions={[
+                        {
+                            label: t('button_cancel'),
+                            onClick: this.toggleDeleteChannelDialog
+                        },
+                        {
+                            label: t('button_delete'),
+                            onClick: this.deleteChannel
+                        }
+                    ]}
+                    headerImage="./static/img/illustrations/dialog-delete-room.svg"
+                    theme="error"
+                >
+                    <T k="title_actionIrreversible" />
+                    <Button icon="help_outline" onClick={this.toggleDeleteChannelDescription} />
+                    {this.deleteChannelDescriptionVisible ? (
+                        <T k="title_deleteChannelDescription" tag="p" />
+                    ) : null}
+                </Dialog>
+                <Dialog
+                    active={this.leaveChannelDialogVisible}
+                    title={t('title_confirmChannelLeave')}
+                    actions={[
+                        {
+                            label: t('button_cancel'),
+                            onClick: this.toggleLeaveChannelDialog
+                        },
+                        {
+                            label: t('button_leave'),
+                            onClick: this.leaveChannel
+                        }
+                    ]}
+                    headerImage="./static/img/illustrations/dialog-leave-room.svg"
+                >
+                    <T k="title_confirmChannelLeaveDescription" />
+                </Dialog>
             </div>
         );
     }

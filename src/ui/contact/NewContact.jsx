@@ -166,15 +166,7 @@ class NewContact extends React.Component {
                             <T k="title_contactZeroState" className="title" tag="div" />
                         ) : null}
 
-                        <T
-                            k={
-                                this.isInviteView
-                                    ? 'button_inviteEmailContact'
-                                    : 'title_addAContact'
-                            }
-                            className="display-1"
-                            tag="div"
-                        />
+                        <T k="title_teamUp" className="title" tag="div" />
 
                         <div className="message-search-wrapper">
                             <Beacon
@@ -241,6 +233,9 @@ class NewContact extends React.Component {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="image-container">
+                    <img src="./static/img/illustrations/contacts-add-invite.svg" />
                 </div>
             </div>
         );

@@ -2,11 +2,11 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { observable, computed } from 'mobx';
 
-import { fileStore, chatStore, config } from 'peerio-icebear';
+import { fileStore, chatStore } from 'peerio-icebear';
 import { File } from 'peerio-icebear/dist/models';
 import { t } from 'peerio-translator';
 import { Dialog, ProgressBar } from 'peer-ui';
-
+import config from '~/config';
 import Search from '~/ui/shared-components/Search';
 
 import FileLine from './FileLine';
@@ -36,7 +36,6 @@ export default class FilePicker extends React.Component<FilePickerProps> {
     }
 
     componentWillUnmount() {
-        fileStore.folderStore.currentFolder = fileStore.folderStore.root;
         fileStore.searchQuery = '';
     }
 
@@ -126,7 +125,7 @@ export default class FilePicker extends React.Component<FilePickerProps> {
         const items = [];
         const data = this.items;
         const canShareFolder =
-            config.enbleVolumes && chatStore.activeChat && !chatStore.activeChat.isChannel;
+            config.enableVolumes && chatStore.activeChat && !chatStore.activeChat.isChannel;
         for (let i = 0; i < this.renderedItemsCount && i < data.length; i++) {
             const f = data[i];
             if (f.isLegacy && this.props.hideLegacy) continue;

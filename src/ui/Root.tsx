@@ -16,9 +16,11 @@ import SystemWarningDialog from '~/ui/shared-components/SystemWarningDialog';
 
 import appState from '~/stores/app-state';
 import routerStore from '~/stores/router-store';
+import uiStore from '~/stores/ui-store';
 
 import isDevEnv from '~/helpers/is-dev-env';
 import * as appControl from '~/helpers/app-control';
+import { sendWindowHiddenNotification } from '~/helpers/notifications';
 
 import DropTarget from './shared-components/DropTarget';
 import UpdateFailedDialog from './updater/UpdateFailedDialog';
@@ -61,6 +63,14 @@ export default class Root extends React.Component {
         ipcRenderer.on('console_log', (_ev, arg) => console.log(arg));
         ipcRenderer.on('activate_dev_mode', () => {
             appState.devModeEnabled = true;
+        });
+        ipcRenderer.on('main-window-hidden', () => {
+            if (process.platform === 'win32') {
+                if (!uiStore.sharedPrefs.minimizeToTrayNotificationSeen) {
+                    sendWindowHiddenNotification();
+                    uiStore.sharedPrefs.minimizeToTrayNotificationSeen = true;
+                }
+            }
         });
 
         reaction(

@@ -57,6 +57,12 @@ export default class FolderLine extends React.Component<FolderLineProps> {
         this.toggleSelected();
     };
 
+    goToSharingSource = (): void => {
+        if (this.props.folder.convertingFromFolder) {
+            setCurrentFolder(this.props.folder.convertingFromFolder);
+        }
+    };
+
     @observable clickedContact; // FIXME/TS: need icebear type
     @action.bound
     openContact(): void {
@@ -75,7 +81,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
 
         const selectDisabled = this.props.disabledCheckbox;
         const { progress, progressMax, progressPercentage } = folder;
-        const shareInProgress = folder.convertingToVolume || folder.convertingFromFolder;
+        const shareInProgress = !!(folder.convertingToVolume || folder.convertingFromFolder);
 
         return (
             <div
@@ -150,6 +156,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                                 onMenuClick={this.onMenuClick}
                                 onMenuHide={this.onMenuHide}
                                 onActionInProgress={this.onActionInProgress}
+                                downloadVisible
                             />
                         </div>
                     )}
@@ -160,7 +167,7 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                 </div>
 
                 {shareInProgress && (
-                    <div className="row sub-row">
+                    <div className="row sub-row" onClick={this.goToSharingSource}>
                         <div className="file-checkbox" />
 
                         <div className="file-icon">
@@ -172,7 +179,13 @@ export default class FolderLine extends React.Component<FolderLineProps> {
                         </div>
 
                         <div className="file-owner">
-                            <T k="title_sharingFiles" />
+                            <T k="title_sharingCount">
+                                {{
+                                    count:
+                                        folder.convertingFromFolder.progressMax -
+                                        folder.convertingFromFolder.progress
+                                }}
+                            </T>
                         </div>
 
                         <div className="file-uploaded" />

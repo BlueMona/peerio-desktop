@@ -11,7 +11,7 @@ export default class ZeroChats extends React.Component {
                     <T k="title_zeroChats" className="title" tag="div" />
                     <T k="title_zeroChatsDescription" tag="div" />
                 </div>
-                <img src="./static/img/illustration-zero-chats.svg" />
+                <img src="./static/img/illustrations/zero-chats.svg" />
 
                 <div className="text-container bottom">
                     {/*

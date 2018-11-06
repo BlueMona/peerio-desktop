@@ -16,9 +16,14 @@ export default class Welcome extends React.Component {
     render() {
         return (
             <div className="welcome">
-                <T k="title_zeroFirstLoginTitleDesktop" className="headline" />
-                <T k="title_zeroFirstLoginMessage" className="subtitle" />
-                <T k="title_learnFollowWalkthrough" className="small-print" />
+                <div className="text-container">
+                    <T k="title_zeroFirstLoginTitleDesktop" className="heading" />
+                    <T k="title_zeroFirstLoginMessage" className="subtitle" />
+                    <T k="title_learnFollowWalkthrough" className="small-print" />
+                </div>
+                <div className="image-container">
+                    <div className="illustration" />
+                </div>
             </div>
         );
     }

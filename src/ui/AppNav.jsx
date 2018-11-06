@@ -19,6 +19,7 @@ const routerStore = require('~/stores/router-store');
 const config = require('~/config').default;
 const urls = config.translator.urlMap;
 const AppNavBeaconedItem = require('./AppNavBeaconedItem');
+const updaterStore = require('~/stores/updater-store');
 
 const { app, nativeImage } = remote;
 
@@ -171,9 +172,16 @@ class AppNav extends React.Component {
             },
             {
                 value: 'Signout',
-                icon: 'power_settings_new',
+                customIcon: 'signout',
                 caption: 'button_logout',
+                className: css('signout', 'custom-icon-hover-container'),
                 clickFunction: 'signout'
+            },
+            {
+                value: 'Quit',
+                icon: 'power_settings_new',
+                caption: updaterStore.readyToInstall ? 'title_updateAndQuit' : 'title_quit',
+                clickFunction: 'quit' // note: Quit and Update & Quit are the same action: just quitting the app.
             }
         ];
 
@@ -209,6 +217,10 @@ class AppNav extends React.Component {
 
     signout = async () => {
         this.isConfirmSignOutVisible = true;
+    };
+
+    quit = () => {
+        app.quit();
     };
 
     cancelSignout = () => {

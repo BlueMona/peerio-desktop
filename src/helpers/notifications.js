@@ -263,8 +263,9 @@ class InviteAcceptedNotification {
         };
 
         // icon needed for Windows, looks weird on Mac
-        if (config.os !== 'Darwin')
+        if (config.os !== 'Darwin') {
             props.icon = path.join(app.getAppPath(), 'build/static/img/notification-icon.png');
+        }
 
         const notification = new Notification(title, props);
         notification.onclick = this.handleClick;
@@ -276,8 +277,21 @@ function sendInviteAcceptedNotification(props) {
     n.send();
 }
 
+function sendWindowHiddenNotification() {
+    const props = {
+        body: t('notification_peerioInTrayBody'),
+        silent: true
+    };
+    // icon needed for Windows, looks weird on Mac
+    if (config.os !== 'Darwin') {
+        props.icon = path.join(app.getAppPath(), 'build/static/img/notification-icon.png');
+    }
+    new Notification(t('notification_peerioInTrayTitle'), props); // eslint-disable-line no-new
+}
+
 module.exports = {
     sendMessageNotification,
     sendInviteNotification,
-    sendInviteAcceptedNotification
+    sendInviteAcceptedNotification,
+    sendWindowHiddenNotification
 };

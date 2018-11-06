@@ -1,6 +1,7 @@
 .channel-invite {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
   padding: 0 $padding-xl;
 
@@ -14,24 +15,19 @@
   }
 
   .invite-content {
-    margin-top: 256px;
+    img {
+      max-width: 600px;
+    }
 
     .text {
       @extend %headline;
+      margin-top: $margin-xl;
       line-height: 33px;
       text-align: center;
 
       .channel-name {
         font-weight: $font-weight-semibold;
         white-space: nowrap;
-      }
-    }
-
-    .buttons {
-      margin-top: $margin-large;
-
-      .p-button {
-        margin: 0 $margin-default;
       }
     }
 
@@ -60,18 +56,16 @@
   }
 
   .participants {
-    padding-top: $padding-xl;
-    margin: auto 0;
+    margin-top: $margin-large;
 
     .p-divider {
-      width: 50%;
+      width: 100%;
       max-width: 600px;
     }
 
     .participant-list {
       margin-top: $margin-default;
 
-      .hosted-by,
       .already-in-room {
         color: $text-dark-secondary;
       }
@@ -85,7 +79,7 @@
         display: flex;
         margin-top: $margin-small;
 
-        .p-avatar + div {
+        .p-avatar:not(:first-of-type) {
           margin-left: 8px;
         }
 
@@ -102,6 +96,33 @@
           border-radius: 100%;
         }
       }
+
+      .admin {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-right: $margin-default;
+
+        .badge {
+          padding: 1px $padding-tiny 2px;
+          margin-top: $margin-small;
+          font-size: 12px;
+          font-weight: $font-weight-semibold;
+          color: $text-dark-secondary;
+          background-color: $black-12;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: $margin-xl;
+
+    .p-button {
+      margin: 0 $margin-default;
     }
   }
 }

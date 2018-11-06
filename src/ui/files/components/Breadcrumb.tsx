@@ -192,7 +192,7 @@ export default class Breadcrumb extends React.Component<BreadcrumbProps> {
                 {(folder.isRoot && !folder.isShared) ||
                 this.props.noActions ||
                 selectedCount > 0 ? null : (
-                    <FolderActions folder={folder} position="top-right" />
+                    <FolderActions folder={folder} position="top-right" downloadVisible />
                 )}
             </div>
         );

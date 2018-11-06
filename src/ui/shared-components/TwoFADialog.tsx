@@ -145,7 +145,7 @@ export default class TwoFADialog extends React.Component {
                 className="twofa-dialog"
                 // @ts-ignore FIXME
                 theme="small"
-                headerImage="./static/img/dialogs/2sv.svg"
+                headerImage="./static/img/illustrations/2sv.svg"
             >
                 {this.getPreText(req) ? <p>{this.getPreText(req)}</p> : null}
                 <div className="text-center">

@@ -74,7 +74,8 @@ class UIStore {
     // anything you add here will be stored with 'pref_' prefix in shared (system) tinydb
     @observable
     sharedPrefs = {
-        prereleaseUpdatesEnabled: false
+        prereleaseUpdatesEnabled: false,
+        minimizeToTrayNotificationSeen: false // should be available even if not signed in, so in sharedPref
     };
 
     // initializes prefs and sharePrefs with stored data and subscribes to changes to persist them
@@ -96,17 +97,21 @@ class UIStore {
         });
     }
 
+    constructor() {
+        // make shared prefs available immediately
+        Promise.all(
+            Object.keys(this.sharedPrefs).map(key =>
+                this.observePreference(key, 'system', this.sharedPrefs)
+            )
+        );
+    }
+
     // should be called only once, after user has been authenticated first time
     // currently authenticated app root component calls it on mount
     async init() {
         this.pendingFilesBannerVisible = !(await TinyDb.user.getValue(PENDING_FILES_BANNER_KEY));
         await Promise.all(
             Object.keys(this.prefs).map(key => this.observePreference(key, 'user', this.prefs))
-        );
-        await Promise.all(
-            Object.keys(this.sharedPrefs).map(key =>
-                this.observePreference(key, 'system', this.sharedPrefs)
-            )
         );
 
         // TODO: to be removed

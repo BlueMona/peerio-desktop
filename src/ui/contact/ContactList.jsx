@@ -129,7 +129,7 @@ class ContactList extends React.Component {
                         <T k="error_contactNotFound" className="text">
                             {textParser}
                         </T>
-                        <img src="./static/img/illustration-no-results.svg" />
+                        <img src="./static/img/illustrations/no-results.svg" />
                     </div>
                 )}
             </div>

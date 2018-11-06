@@ -34,18 +34,17 @@
     "test": "run-s -l test:*",
     "test:jest": "jest --colors",
     "test:ts": "npm run compile:icebear-types && tsc --noEmit --pretty",
+    "test:prettier": "prettier '{src,test,scripts}/**/*.{js,ts,jsx,tsx,css,scss}' -l",
+    "test:stylelint": "stylelint 'src/**/*.{css,scss}'",
+    "TODO-replace-below-eslint-commands-with-this": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
+    "test:eslint": "eslint ./src --ext .js,.jsx --max-warnings 0",
+    "test:eslint-ts": "eslint -c '.eslintrc.typescript-temp.json' ./src --ext .ts,.tsx --max-warnings 0",
+    "test:obs-dec": "./scripts/test-observer-decorator.sh",
     "=== BUILD ===": "",
     "internal-build": "NODE_ENV=production npm run compile && NODE_ENV=production build --mac --windows --x64 --publish never",
     "internal-build-mac": "NODE_ENV=production npm run compile && DEBUG='electron-builder' NODE_ENV=production build --mac --x64 --publish never",
     "internal-build-linux": "NODE_ENV=production npm run compile && NODE_ENV=production build --linux --x64 --publish never",
-    "=== VALIDATION ===": "",
-    "verify": "run-s -l verify:*",
-    "verify:prettier": "prettier '{src,test,scripts}/**/*.{js,ts,jsx,tsx,css,scss}' -l",
-    "verify:stylelint": "stylelint 'src/**/*.{css,scss}'",
-    "TODO-replace-below-eslint-commands-with-this": "eslint ./src --ext .js,.jsx,.ts,.tsx --max-warnings 0",
-    "verify:eslint": "eslint ./src --ext .js,.jsx --max-warnings 0",
-    "verify:eslint-ts": "eslint -c '.eslintrc.typescript-temp.json' ./src --ext .ts,.tsx --max-warnings 0",
-    "verify:obs-dec": "./scripts/test-observer-decorator.sh",
+    "internal-build-windows": "NODE_ENV=production npm run compile && NODE_ENV=production build --windows --x64 --publish never",
     "=== HELPERS ===": "",
     "prettier": "stylelint 'src/**/*.{css,scss}' --fix && prettier '{src,test,scripts}/**/*.{js,ts,jsx,tsx,css,scss}' -l --write",
     "check-links": "echo node_modules: && ls -la node_modules | grep peerio",
@@ -131,7 +130,7 @@
     "material-design-icons": "3.0.1",
     "mobx-react": "5.3.4",
     "normalize.css": "8.0.0",
-    "peer-ui": "github:PeerioTechnologies/ui-library#v4.0.1",
+    "peer-ui": "github:PeerioTechnologies/ui-library#v4.0.2",
     "peerio-copy": "github:PeerioTechnologies/peerio-copy#icebear",
     "peerio-icebear": "github:PeerioTechnologies/peerio-icebear#dev",
     "prosemirror-commands": "1.0.7",
@@ -394,7 +393,7 @@
       "commit-msg": "validate-commit-msg",
       "post-checkout": "[ `which opt` ] && opt --in npm-install --exec \"npm install\"",
       "post-merge": "opt --in npm-install --exec \"npm install\"",
-      "pre-commit": "opt --in lint --exec \"npm run verify\""
+      "pre-commit": "opt --in lint --exec \"npm run test\""
     }
   }
 }

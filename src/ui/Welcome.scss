@@ -1,31 +1,58 @@
 .welcome {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 100%;
   width: 100%;
   padding-top: 80px;
   background-color: $background-root;
-  background-image: url('./static/img/illustration-welcome.svg');
-  background-position: center 32%;
+  background-position: bottom;
   background-repeat: no-repeat;
-  background-size: auto 70%;
+  background-size: contain;
 
-  .headline {
-    margin-bottom: $margin-xl;
-    font-size: 34px;
-    color: $darkblue;
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    .heading {
+      margin-bottom: $margin-large;
+      font-size: 34px;
+      color: $darkblue;
+    }
+
+    .subtitle {
+      margin-bottom: $margin-large;
+      font-size: 24px;
+      color: $darkblue;
+    }
+
+    .small-print {
+      color: rgba($darkblue, 0.54);
+    }
   }
 
-  .subtitle {
-    margin-bottom: $margin-small;
-    font-size: 18px;
-    font-weight: $font-weight-semibold;
-    color: #39393a;
-  }
+  .image-container {
+    display: flex;
+    position: relative;
+    height: 400px;
+    width: 100%;
+    max-height: 52vh;
 
-  .small-print {
-    color: $text-dark-secondary;
+    background-color: $background-hover-default;
+    border-top: 0.5px solid #363c66;
+
+    .illustration {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: -80px;
+      margin: 0 auto;
+      background-image: url('./static/img/illustrations/welcome.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+    }
   }
 }

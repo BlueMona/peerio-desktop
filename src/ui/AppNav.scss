@@ -55,15 +55,10 @@
 
 .p-menu-content.app-nav-menu {
   // Tricky rules to make last menu item appear to be full height (no padding)
-  padding-bottom: 0; // was 8px;
+  padding-bottom: 8px;
 
   .p-divider:last-of-type {
-    margin-bottom: 0; // was 8px;
-  }
-
-  .p-menu-item:last-of-type {
-    padding-top: $padding-default; // $padding-small + 8px = $padding-default
-    padding-bottom: $padding-default;
+    margin-bottom: 8px;
   }
 
   // Individual menu item hover/selected colours
@@ -85,8 +80,8 @@
     &.upgrade .material-icons {
       color: $darkblue;
     }
-    &.signout .material-icons {
-      color: $red;
+    &.quit .material-icons {
+      color: $black-54;
     }
 
     &.profile,

@@ -1,7 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import T from '~/ui/shared-components/T';
-import { zeroFilesIllustrationUrl } from '~/whitelabel/components/ZeroFiles';
 
 interface ZeroFilesProps {
     isRoot?: boolean; // means absolute FS root, volumes count as folders
@@ -21,7 +20,7 @@ export default class ZeroFiles extends React.Component<ZeroFilesProps> {
                     <T k="title_emptyFolder" className="headline" />
                 )}
 
-                <img src={zeroFilesIllustrationUrl} className="illustration" />
+                <img src="./static/img/illustrations/zero-files.svg" className="illustration" />
                 <div className="instructions">
                     <T k="title_zeroFilesDescription" className="instructions">
                         {{

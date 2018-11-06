@@ -11,18 +11,6 @@ const { clipboard } = require('electron').remote;
 
 @observer
 class Help extends React.Component {
-    feedback = () => {
-        console.log('feedback', config.contacts.feedbackUser);
-        const feedback = contactStore.getContact(config.contacts.feedbackUser);
-        when(
-            () => !feedback.loading,
-            () => {
-                chatStore.startChat([feedback]);
-                window.router.push('/app/chats');
-            }
-        );
-    };
-
     support = () => {
         const support = contactStore.getContact(config.contacts.supportUser);
         when(
@@ -75,7 +63,7 @@ class Help extends React.Component {
                         <T k="title_feedbackIntro" />
                         <Button
                             icon="question_answer"
-                            onClick={this.feedback}
+                            onClick={this.support}
                             tooltip={t('button_feedbackChat')}
                             theme="no-hover"
                         />

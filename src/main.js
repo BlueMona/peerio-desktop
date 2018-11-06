@@ -86,6 +86,7 @@ const buildGlobalShortcuts = require('~/main-process/global-shortcuts');
 const applyMiscHooks = require('~/main-process/misc-hooks');
 const { saveWindowState, getSavedWindowState } = require('~/main-process/state-persistance');
 const setMainMenu = require('~/main-process/main-menu');
+const setTrayIcon = require('~/main-process/tray').default;
 const { isAppInDMG, handleLaunchFromDMG } = require('~/main-process/dmg');
 const updater = require('./main-process/updater');
 const config = require('~/config').default;
@@ -108,6 +109,9 @@ app.on('ready', async () => {
     console.log('Electron ready event - Starting app.');
     buildGlobalShortcuts();
     setMainMenu();
+    if (process.platform === 'win32') {
+        setTrayIcon();
+    }
     app.setAppUserModelId(config.appId);
 
     if (await isAppInDMG()) {
@@ -188,7 +192,7 @@ app.on('ready', async () => {
         } catch (err) {
             console.error(err);
         }
-        if (process.platform === 'darwin' && !mustCloseWindow) {
+        if (!mustCloseWindow && (process.platform === 'darwin' || process.platform === 'win32')) {
             if (mainWindow.isFullScreen()) {
                 mainWindow.setFullScreen(false);
                 // Electron doesn't want to hide window until full screen
@@ -202,6 +206,7 @@ app.on('ready', async () => {
             } else {
                 mainWindow.hide();
             }
+            mainWindow.webContents.send('main-window-hidden');
         } else {
             mainWindow.removeListener('close', handleClose);
             mainWindow.close();
@@ -233,6 +238,7 @@ if (singleInstanceLock) {
     app.on('second-instance', () => {
         // Restore window if user tried to launch second instance.
         if (mainWindow) {
+            mainWindow.show();
             if (mainWindow.isMinimized()) {
                 mainWindow.restore();
             }

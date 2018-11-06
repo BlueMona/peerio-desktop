@@ -5,7 +5,7 @@ import { observable, action, computed, reaction, IReactionDisposer } from 'mobx'
 import { DropTarget } from 'react-dnd';
 import _ from 'lodash';
 
-import { Button, Checkbox, ProgressBar } from 'peer-ui';
+import { Button, Checkbox, ProgressBar, MaterialIcon } from 'peer-ui';
 import { fileStore, clientApp } from 'peerio-icebear';
 import { t } from 'peerio-translator';
 
@@ -283,22 +283,36 @@ export default class Files extends React.Component<FilesProps> {
                         {currentFolder.isRoot &&
                             this.removedFolderNotifVisible &&
                             this.removedFolderNotif}
-                        {currentFolder.convertingToVolume && (
+                        {(currentFolder.convertingToVolume ||
+                            currentFolder.convertingFromFolder) && (
                             <div
                                 className={css('file-ui-subheader', 'row', {
                                     'converting-to-volume': currentFolder.convertingToVolume
                                 })}
                             >
                                 <div className="file-checkbox percent-in-progress">
-                                    {currentFolder.progressPercentage}
+                                    {currentFolder.progressPercentage}%
                                 </div>
 
                                 <div className="file-share-info">
                                     {currentFolder.convertingToVolume && (
                                         <span>
-                                            <T k="title_filesInQueue" tag="span" />&nbsp;
-                                            {/* } (34 <T k="title_filesLeftCount" tag="span" />) */}
+                                            <MaterialIcon icon="sync" />
+                                            &nbsp;
+                                            <T k="title_filesInQueue" tag="span" />
+                                            &nbsp; (<T k="title_filesLeftCount" tag="span">
+                                                {{
+                                                    count:
+                                                        currentFolder.progressMax -
+                                                        currentFolder.progress
+                                                }}
+                                            </T>)
                                         </span>
+                                    )}
+                                    {currentFolder.convertingFromFolder && (
+                                        <T k="title_convertingFolderNameToShared">
+                                            {{ folderName: currentFolder.name }}
+                                        </T>
                                     )}
                                 </div>
                                 <ProgressBar

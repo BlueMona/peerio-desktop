@@ -1,16 +1,16 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import T from '~/ui/shared-components/T';
-import beaconStore from '~/stores/beacon-store';
 
+@inject('beaconActions')
 @observer
-export default class Welcome extends React.Component {
+export default class Welcome extends React.Component<{ beaconActions?: any }> {
     componentWillMount() {
-        beaconStore.queueFirstBeacon('contact', 2000);
+        this.props.beaconActions.queueFirstBeacon('contact', 2000);
     }
 
     componentWillUnmount() {
-        beaconStore.clearQueuedBeacons();
+        this.props.beaconActions.clearQueuedBeacons();
     }
 
     render() {

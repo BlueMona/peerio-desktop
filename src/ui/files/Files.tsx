@@ -1,6 +1,6 @@
 import React from 'react';
 import css from 'classnames';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { observable, action, computed, reaction, IReactionDisposer } from 'mobx';
 import { DropTarget } from 'react-dnd';
 import _ from 'lodash';
@@ -12,7 +12,6 @@ import { t } from 'peerio-translator';
 import T from '~/ui/shared-components/T';
 import ConfirmFolderDeleteDialog from '~/ui/shared-components/ConfirmFolderDeleteDialog';
 import uiStore from '~/stores/ui-store';
-import beaconStore from '~/stores/beacon-store';
 
 import { selectDownloadFolder, pickSavePath } from '~/helpers/file';
 
@@ -31,6 +30,7 @@ const DEFAULT_RENDERED_ITEMS_COUNT = 15;
 interface FilesProps {
     connectDropTarget?: (el: JSX.Element) => JSX.Element;
     isBeingDraggedOver?: boolean;
+    beaconActions?: any;
 }
 
 @DropTarget(
@@ -46,6 +46,7 @@ interface FilesProps {
         isBeingDraggedOver: monitor.isOver({ shallow: true })
     })
 )
+@inject('beaconActions')
 @observer
 export default class Files extends React.Component<FilesProps> {
     @observable renderedItemsCount = DEFAULT_RENDERED_ITEMS_COUNT;
@@ -95,13 +96,13 @@ export default class Files extends React.Component<FilesProps> {
 
         // Show uploadFiles beacons if user has no files
         if (fileStore.loaded && !fileStore.files.length && !fileStore.folderStore.folders.length) {
-            beaconStore.addBeacons('uploadFiles');
+            this.props.beaconActions.addBeacons('uploadFiles');
         }
 
         // If user is on first login, add startChat beacon and timeout to auto-clear uploadFiles beacon
         if (uiStore.firstLogin) {
-            beaconStore.addBeacons('chat');
-            beaconStore.queueIncrement(8000, 'uploadFiles');
+            this.props.beaconActions.addBeacons('chat');
+            this.props.beaconActions.queueIncrement(8000, 'uploadFiles');
         }
     }
 
@@ -120,8 +121,8 @@ export default class Files extends React.Component<FilesProps> {
         this.disposers.forEach(d => d());
 
         // Clean up beacons
-        beaconStore.clearBeacons();
-        beaconStore.clearIncrementQueue();
+        this.props.beaconActions.clearBeacons();
+        this.props.beaconActions.clearIncrementQueue();
     }
 
     readonly toggleSelectAll = (ev: React.MouseEvent<HTMLInputElement>) => {
@@ -132,11 +133,11 @@ export default class Files extends React.Component<FilesProps> {
 
     onUploadClick = async () => {
         // Beacon control
-        if (beaconStore.activeBeacon === 'uploadFiles') {
-            beaconStore.clearBeacons();
+        if (this.props.beaconActions.activeBeacon === 'uploadFiles') {
+            this.props.beaconActions.clearBeacons();
         }
-        if (uiStore.firstLogin && !beaconStore.beaconsInQueue.length) {
-            beaconStore.queueBeacons('chat', 8000);
+        if (uiStore.firstLogin && !this.props.beaconActions.beaconsInQueue.length) {
+            this.props.beaconActions.queueBeacons('chat', 8000);
         }
 
         // Actual uploading function

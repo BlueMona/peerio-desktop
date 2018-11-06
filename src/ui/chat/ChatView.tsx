@@ -1,6 +1,6 @@
 import React from 'react';
 import { action, computed, observable, reaction, IReactionDisposer } from 'mobx';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import css from 'classnames';
 
 import { Button, CustomIcon, Dialog, MaterialIcon, ProgressBar, Tooltip } from 'peer-ui';
@@ -10,7 +10,6 @@ import { t } from 'peerio-translator';
 import routerStore from '~/stores/router-store';
 import sounds from '~/helpers/sounds';
 import uiStore from '~/stores/ui-store';
-import beaconStore from '~/stores/beacon-store';
 
 import UserPicker from '~/ui/shared-components/UserPicker';
 import FullCoverLoader from '~/ui/shared-components/FullCoverLoader';
@@ -26,8 +25,9 @@ import ChatNameEditor from './components/ChatNameEditor';
 import ShareToChatProgress from './components/ShareToChatProgress';
 import PendingDM from './components/PendingDM';
 
+@inject('beaconActions')
 @observer
-export default class ChatView extends React.Component {
+export default class ChatView extends React.Component<{ beaconActions?: any }> {
     reactionsToDispose!: IReactionDisposer[];
 
     @observable chatNameEditorVisible = false;
@@ -50,13 +50,13 @@ export default class ChatView extends React.Component {
         ELEMENTS.chatView.checkActiveSpace();
 
         if (!chatStore.chats.length && !chatInviteStore.received.length) {
-            beaconStore.addBeacons('startChat');
+            this.props.beaconActions.addBeacons('startChat');
         }
     }
 
     componentWillUnmount() {
         this.reactionsToDispose.forEach(dispose => dispose());
-        beaconStore.clearBeacons();
+        this.props.beaconActions.clearBeacons();
     }
 
     scrollToBottom(): void {

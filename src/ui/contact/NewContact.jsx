@@ -1,6 +1,6 @@
 const React = require('react');
 const { observable, action, computed } = require('mobx');
-const { observer } = require('mobx-react');
+const { inject, observer } = require('mobx-react');
 const { Button, Input, MaterialIcon, ProgressBar } = require('peer-ui');
 const T = require('~/ui/shared-components/T');
 const { t } = require('peerio-translator');
@@ -11,9 +11,9 @@ const urls = require('peerio-icebear').config.translator.urlMap;
 
 const uiStore = require('~/stores/ui-store');
 const routerStore = require('~/stores/router-store');
-const beaconStore = require('~/stores/beacon-store').default;
 const Beacon = require('~/ui/beacons/Beacon').default;
 
+@inject('beaconActions')
 @observer
 class NewContact extends React.Component {
     @observable query = '';
@@ -36,12 +36,12 @@ class NewContact extends React.Component {
         this.isInviteView = routerStore.currentRoute === routerStore.ROUTES.newInvite;
 
         if (!contactStore.contacts.length) {
-            beaconStore.addBeacons('search');
+            this.props.beaconActions.addBeacons('search');
         }
 
         if (uiStore.firstLogin) {
-            beaconStore.addBeacons('files');
-            beaconStore.queueIncrement(8000, 'search');
+            this.props.beaconActions.addBeacons('files');
+            this.props.beaconActions.queueIncrement(8000, 'search');
         }
     }
 
@@ -56,8 +56,8 @@ class NewContact extends React.Component {
     componentWillUnmount() {
         clearTimeout(this.beaconTimeout);
         this.beaconTimeout = null;
-        beaconStore.clearBeacons();
-        beaconStore.clearIncrementQueue();
+        this.props.beaconActions.clearBeacons();
+        this.props.beaconActions.clearIncrementQueue();
     }
 
     // Don't use onKeyUp - text change fires earlier
@@ -74,12 +74,12 @@ class NewContact extends React.Component {
         this.query = newVal.toLocaleLowerCase().trim();
 
         // Beacon management
-        if (beaconStore.activeBeacon === 'search') {
-            beaconStore.clearBeacons();
+        if (this.props.beaconActions.activeBeacon === 'search') {
+            this.props.beaconActions.clearBeacons();
         }
 
-        if (uiStore.firstLogin && !beaconStore.beaconsInQueue.length) {
-            beaconStore.queueBeacons('files', 8000);
+        if (uiStore.firstLogin && !this.props.beaconActions.beaconsInQueue.length) {
+            this.props.beaconActions.queueBeacons('files', 8000);
         }
     }
 

@@ -12,7 +12,7 @@ const urls = require('peerio-icebear').config.translator.urlMap;
 const uiStore = require('~/stores/ui-store');
 const routerStore = require('~/stores/router-store');
 const beaconStore = require('~/stores/beacon-store').default;
-const Beacon = require('~/ui/shared-components/Beacon').default;
+const Beacon = require('~/ui/beacons/Beacon').default;
 
 @observer
 class NewContact extends React.Component {

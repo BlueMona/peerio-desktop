@@ -2,7 +2,7 @@ const React = require('react');
 const AppNavButton = require('./AppNavButton');
 const uiStore = require('~/stores/ui-store');
 const beaconStore = require('~/stores/beacon-store').default;
-const Beacon = require('~/ui/shared-components/Beacon').default;
+const Beacon = require('~/ui/beacons/Beacon').default;
 const { observer } = require('mobx-react');
 
 @observer

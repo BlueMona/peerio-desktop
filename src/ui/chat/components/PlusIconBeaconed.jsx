@@ -1,6 +1,6 @@
 const React = require('react');
 // const PlusIcon = require('~/ui/shared-components/PlusIcon');
-const Beacon = require('~/ui/shared-components/Beacon').default;
+const Beacon = require('~/ui/beacons/Beacon').default;
 const { observer } = require('mobx-react');
 
 @observer

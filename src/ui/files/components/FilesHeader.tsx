@@ -5,7 +5,7 @@ import { action, computed } from 'mobx';
 import { Button } from 'peer-ui';
 import { fileStore, chatStore, volumeStore } from 'peerio-icebear';
 import { t } from 'peerio-translator';
-import Beacon from '~/ui/shared-components/Beacon';
+import Beacon from '~/ui/beacons/Beacon';
 
 import config from '~/config';
 import Search from '~/ui/shared-components/Search';

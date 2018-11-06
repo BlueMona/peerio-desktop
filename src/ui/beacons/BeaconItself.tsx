@@ -52,7 +52,7 @@ interface RectanglePosition {
 
 @inject('beaconActions')
 @observer
-export default class Beacon extends React.Component<SpotBeaconProps | AreaBeaconProps> {
+export default class BeaconItself extends React.Component<SpotBeaconProps | AreaBeaconProps> {
     @computed
     get active() {
         return beaconStore.activeBeacon === this.props.name;

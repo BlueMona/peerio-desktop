@@ -1,21 +1,21 @@
 const React = require('react');
 const AppNavButton = require('./AppNavButton');
 const uiStore = require('~/stores/ui-store');
-const beaconStore = require('~/stores/beacon-store').default;
 const Beacon = require('~/ui/beacons/Beacon').default;
-const { observer } = require('mobx-react');
+const { inject, observer } = require('mobx-react');
 
+@inject('beaconActions')
 @observer
 class AppNavBeaconedItem extends React.Component {
     // When Beacon is directly dismissed (rather than Beacon bubble being clicked), cancel remaining onboarding beacons
     cancelOnboardingBeacons() {
         if (uiStore.firstLogin) {
-            beaconStore.markAsRead(['chat', 'files', 'contact']);
+            this.props.beaconActions.markAsRead(['chat', 'files', 'contact']);
         }
     }
 
     onNavigateClick = () => {
-        beaconStore.clearBeacons();
+        this.props.beaconActions.clearBeacons();
         this.cancelOnboardingBeacons();
         this.props.onClick();
     };

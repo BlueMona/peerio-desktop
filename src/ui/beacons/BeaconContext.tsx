@@ -163,7 +163,7 @@ export default class BeaconWrapper extends React.Component<{}> {
 
     // First beacon has different rules from the other queued beacons.
     // Identical except user activity listeners do *not* include mouse movement.
-    queueFirstBeacon(b: string | string[], delay: number) {
+    queueFirstBeacon = (b: string | string[], delay: number) => {
         if (typeof b === 'string') {
             this.beaconsInQueue = [b];
         } else {
@@ -172,7 +172,7 @@ export default class BeaconWrapper extends React.Component<{}> {
         this.beaconDelay = delay;
         this.setBeaconTimer();
         addActivityListenerWithoutMouseMovement(this.setBeaconTimer);
-    }
+    };
 
     render() {
         return (

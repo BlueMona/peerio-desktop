@@ -35,17 +35,16 @@ const beaconRenderPropNames = [
 @inject('beaconInit')
 @observer
 export default class Beacon extends React.Component<BeaconCombinedProps> {
-    // Immediately pass this Beacon's properties to the beacon store in Provider
     constructor(props) {
         super(props);
 
+        // Immediately pass this Beacon's properties to the beacon store in Provider
         const renderProps = {};
         beaconRenderPropNames.forEach(p => {
             if (props[p]) {
                 renderProps[p] = props[p];
             }
         });
-
         props.beaconInit(props.name, renderProps);
     }
 

@@ -32,7 +32,7 @@ const beaconRenderPropNames = [
     'onContentClick'
 ];
 
-@inject('beaconStore', 'beaconInit')
+@inject('beaconInit')
 @observer
 export default class Beacon extends React.Component<BeaconCombinedProps> {
     // Immediately pass this Beacon's properties to the beacon store in Provider

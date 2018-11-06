@@ -8,7 +8,7 @@ class AppNav extends React.Component {
     render() {
         return (
             <div
-                className={css('menu-item', { active: this.props.active })}
+                className={css('menu-item', this.props.className, { active: this.props.active })}
                 onClick={this.props.onClick}
             >
                 <Button

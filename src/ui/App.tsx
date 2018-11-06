@@ -6,6 +6,7 @@ import { t } from 'peerio-translator';
 import { observer } from 'mobx-react';
 import { clientApp } from 'peerio-icebear';
 import MigrationDialog from '~/ui/shared-components/MigrationDialog';
+import BeaconWrapper from '~/ui/beacons/BeaconWrapper';
 
 @observer
 export default class App extends React.Component {
@@ -31,18 +32,20 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div className="app-root">
-                <AppNav />
-                {clientApp.updatingAfterReconnect ? (
-                    <div className="global-update-progress">
-                        <ProgressBar />
-                    </div>
-                ) : null}
+            <BeaconWrapper>
+                <div className="app-root">
+                    <AppNav />
+                    {clientApp.updatingAfterReconnect ? (
+                        <div className="global-update-progress">
+                            <ProgressBar />
+                        </div>
+                    ) : null}
 
-                {this.props.children}
-                <MigrationDialog />
-                {this.signatureErrorDialog}
-            </div>
+                    {this.props.children}
+                    <MigrationDialog />
+                    {this.signatureErrorDialog}
+                </div>
+            </BeaconWrapper>
         );
     }
 }

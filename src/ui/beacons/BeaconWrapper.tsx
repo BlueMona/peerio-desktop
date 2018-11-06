@@ -22,6 +22,24 @@ export default class BeaconWrapper extends React.Component<{}> {
     };
 
     render() {
-        return <Provider beaconActions={this.beaconActions}>{this.props.children}</Provider>;
+        return (
+            <Provider beaconActions={this.beaconActions}>
+                <>
+                    {this.props.children}
+                    <BeaconItself />
+                </>
+            </Provider>
+        );
+    }
+}
+
+@observer
+class BeaconItself extends React.Component<{}> {
+    render() {
+        return (
+            <div className="beacon-overlay">
+                <div className="beacon-itself">Beacon Itself</div>
+            </div>
+        );
     }
 }

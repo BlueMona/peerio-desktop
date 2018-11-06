@@ -411,7 +411,6 @@ export default class BeaconItself extends React.Component<SpotBeaconProps | Area
     }
 
     render() {
-        console.log(this.props.beaconActions);
         if (!this.active && !this.rendered) return this.props.children;
 
         const beaconContent = this.beaconContent();

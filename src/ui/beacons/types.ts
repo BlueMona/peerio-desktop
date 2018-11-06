@@ -1,3 +1,8 @@
+export interface BeaconActionsProps {
+    activeBeacon: string;
+    activateBeacon: (option: string) => void;
+}
+
 interface BeaconBaseProps {
     name: string;
     title?: string; // if no title, will check t('title_${name}_beacon')

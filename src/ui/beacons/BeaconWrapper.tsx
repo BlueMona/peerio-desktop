@@ -2,10 +2,7 @@ import React from 'react';
 import { action, observable } from 'mobx';
 import { observer, Provider } from 'mobx-react';
 
-export interface BeaconActionsProps {
-    activeBeacon: string;
-    activateBeacon: (option: string) => void;
-}
+import { BeaconActionsProps } from './types';
 
 @observer
 export default class BeaconWrapper extends React.Component<{}> {

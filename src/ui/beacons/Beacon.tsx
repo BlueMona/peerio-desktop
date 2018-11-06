@@ -3,8 +3,7 @@ import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import css from 'classnames';
 
-import { BeaconActionsProps } from '~/ui/beacons/BeaconWrapper';
-import { SpotBeaconProps, AreaBeaconProps } from '~/ui/beacons/types';
+import { SpotBeaconProps, AreaBeaconProps } from './types';
 
 @inject('beaconActions')
 @observer

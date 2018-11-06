@@ -72,7 +72,7 @@ export default class Beacon extends React.Component<SpotBeaconProps | AreaBeacon
         if (!originalChild) return;
 
         this.childContent = React.cloneElement(originalChild, {
-            key: `beacon-wrapper-${this.props.name}`,
+            key: `beacon-target-${this.props.name}`,
             className: css(originalChild.props.className, `__beacon-target-id-${this.props.name}`)
         });
     }

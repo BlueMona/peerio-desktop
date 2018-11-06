@@ -35,21 +35,17 @@ export default class BeaconWrapper extends React.Component<{}> {
         beaconsInQueue: [] as string[]
     };
 
-    @computed
-    get activeBeacon() {
-        if (!this.beaconState.currentBeacons.length) return null;
-        return this.beaconState.currentBeacons[0];
-    }
-
     // "Advances" the beacon flow by removing the 0th entry
     // Optionally, pass the name of the beacon that needs to be activeBeacon in orderto trigger the increment
     @action.bound
     increment(beacon?: string) {
         if (!this.beaconState.currentBeacons.length) return;
-        if (!!beacon && this.activeBeacon !== beacon) return;
+
+        const activeBeacon = this.beaconState.currentBeacons[0];
+        if (!!beacon && activeBeacon !== beacon) return;
 
         // Mark activeBeacon as seen in User beacons
-        this.markAsRead(this.activeBeacon);
+        this.markAsRead(activeBeacon);
 
         // Remove activeBeacon from currentBeacons array
         this.beaconState.currentBeacons.shift();

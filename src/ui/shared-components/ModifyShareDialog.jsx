@@ -15,6 +15,19 @@ const { Avatar, Dialog, List, ListItem, Button } = require('peer-ui');
 @observer
 class ModifyShareDialog extends React.Component {
     @observable visible = false;
+    @observable selection = [];
+
+    componentDidMount() {
+        this.selection = [];
+    }
+
+    @action.bound
+    toggleRemove(contact) {
+        // if contact was not in the array, push it there. If it was - it's now removed
+        if (!this.selection.remove(contact)) {
+            this.selection.push(contact);
+        }
+    }
 
     @computed
     get contacts() {
@@ -38,21 +51,23 @@ class ModifyShareDialog extends React.Component {
     @action.bound
     close() {
         this.visible = false;
+        this.selection = [];
         this.resolve(null);
         this.resolve = null;
     }
 
     @action.bound
-    share() {
-        // TODO: this may be different is the dialog invoked
-        // from different circumstances
+    removeSelectedContacts() {
+        this.props.folder.removeParticipants(this.selection);
         this.close();
     }
 
     render() {
         if (!this.visible) return false;
-        const dialogActions = [{ label: t('button_close'), onClick: this.close }];
-
+        const dialogActions = [{ label: t('button_cancel'), onClick: this.close }];
+        if (this.selection.length) {
+            dialogActions.push({ label: t('button_save'), onClick: this.removeSelectedContacts });
+        }
         return (
             <Dialog
                 active
@@ -76,6 +91,7 @@ class ModifyShareDialog extends React.Component {
                                             key={c.username}
                                             contact={c}
                                             folder={this.props.folder}
+                                            toggleRemove={this.toggleRemove}
                                         />
                                     );
                                 })}
@@ -86,7 +102,7 @@ class ModifyShareDialog extends React.Component {
                         <Button
                             icon="person_add"
                             label={t('title_shareWithOthers')}
-                            onClick={this.share}
+                            onClick={this.close}
                         />
                     </div>
                 </div>
@@ -100,18 +116,14 @@ class ModifyShareListItem extends ListItem {
     @observable isClicked = false;
 
     @action.bound
-    triggerRemoveUserWarning() {
-        this.isClicked = true;
-    }
-
-    @action.bound
-    handleRemove() {
-        this.props.folder.removeParticipant(this.props.contact.username);
+    handleRemoveAndUndo() {
+        this.isClicked = !this.isClicked;
+        this.props.toggleRemove(this.props.contact);
     }
 
     render() {
         const c = this.props.contact;
-
+        const fileCount = this.props.folder.store.getFilesSharedBy(c.username).length;
         return (
             <ListItem
                 className={css('modify-share-list-item', {
@@ -120,28 +132,25 @@ class ModifyShareListItem extends ListItem {
                 leftContent={<Avatar key="a" contact={c} size="small" />}
                 rightContent={
                     this.isClicked ? (
-                        <a className="clickable" onClick={this.handleRemove}>
-                            {t('button_remove')}
-                        </a>
+                        <Button onClick={this.handleRemoveAndUndo}>{t('button_undo')}</Button>
                     ) : this.props.folder.owner === c.username ? (
-                        <T k="title_owner" className="badge-old-version" />
+                        <T k="title_owner" className="badge" />
                     ) : (
-                        <Button
-                            icon="remove_circle_outline"
-                            onClick={this.triggerRemoveUserWarning}
-                        />
+                        <Button icon="remove_circle_outline" onClick={this.handleRemoveAndUndo} />
                     )
                 }
             >
                 <div>
                     <span className="full-name">{c.fullName}</span>
                     <span className="username">@{c.username}</span>
+                    &nbsp;
+                    {this.isClicked && <T k="title_removed" className="badge red" />}
                 </div>
 
-                {this.isClicked ? (
+                {this.isClicked && fileCount ? (
                     <T k="title_unshareUserWarning" tag="div" className="remove-user-warning">
                         {{
-                            fileCount: this.props.folder.store.getFilesSharedBy(c.username).length,
+                            fileCount,
                             user: c.firstName
                         }}
                     </T>

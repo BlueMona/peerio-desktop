@@ -20,7 +20,6 @@ interface ChannelInviteProps {
 
 @observer
 export default class ChannelInvite extends React.Component<ChannelInviteProps> {
-    readonly minParticipants = 2;
     readonly maxAvatars = 4;
     readonly maxParticipants = 6;
 
@@ -79,7 +78,7 @@ export default class ChannelInvite extends React.Component<ChannelInviteProps> {
 
     get renderParticipants() {
         const { channelName, participants, username } = chatInviteStore.activeInvite;
-        if (participants.length <= this.minParticipants) return null;
+        if (!username) return null;
 
         const participantsToShow: JSX.Element[] = [
             // First avatar is always the person who sent the invite

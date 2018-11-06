@@ -38,7 +38,7 @@ export default class InlineSharedFolder extends React.Component<InlineSharedFold
     @action.bound
     private unshareFolder() {
         const contact = chatStore.activeChat.otherParticipants[0];
-        this.volume.removeParticipant(contact);
+        this.volume.removeParticipants([contact]);
     }
 
     @action.bound

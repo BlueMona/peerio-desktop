@@ -6,15 +6,23 @@ import { BeaconActionsProps, BeaconCombinedProps } from './types';
 
 @observer
 export default class BeaconWrapper extends React.Component<{}> {
+    // Store all possible beacons in here (passed from <Beacon> components)
+    @observable beaconStore = {};
+
+    @action.bound
+    initializeBeacon(name: string, properties: { [key: string]: any }) {
+        if (!this.beaconStore[name]) {
+            this.beaconStore[name] = properties;
+        }
+    }
+
+    // Currently active beacon(s)
     @observable activeBeacon: string;
 
     @action.bound
     activateBeacon(option: string): void {
         this.activeBeacon = option;
     }
-
-    @action.bound
-    initializeBeacon(name: string, properties: BeaconCombinedProps) {}
 
     beaconActions: BeaconActionsProps = {
         activeBeacon: this.activeBeacon,
@@ -24,7 +32,11 @@ export default class BeaconWrapper extends React.Component<{}> {
 
     render() {
         return (
-            <Provider beaconActions={this.beaconActions}>
+            <Provider
+                beaconActions={this.beaconActions}
+                beaconStore={this.beaconStore}
+                beaconInit={this.initializeBeacon}
+            >
                 <>
                     {this.props.children}
                     {/* <BeaconItself /> */}

@@ -5,10 +5,37 @@ import css from 'classnames';
 
 import { BeaconCombinedProps } from './types';
 
-@inject('beaconActions')
+// Subset of beacon properties that are relevant to render (to pass to Provider)
+const beaconRenderPropNames = [
+    'type',
+    'title',
+    'description',
+    'offsetX',
+    'offsetY',
+    'position',
+    'size',
+    'arrowPosition',
+    'arrowDistance',
+    'onBeaconClick',
+    'onContentClick'
+];
+
+@inject('beaconStore', 'beaconInit')
 @observer
 export default class Beacon extends React.Component<BeaconCombinedProps> {
     // Immediately pass this Beacon's properties to the beacon store in Provider
+    constructor(props) {
+        super(props);
+
+        const renderProps = {};
+        beaconRenderPropNames.forEach(p => {
+            if (props[p]) {
+                renderProps[p] = props[p];
+            }
+        });
+
+        props.beaconInit(props.name, renderProps);
+    }
 
     /*
         We clone the child content, giving it a `__beacon-target-id` class.

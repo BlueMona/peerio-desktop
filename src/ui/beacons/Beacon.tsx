@@ -3,11 +3,13 @@ import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import css from 'classnames';
 
-import { SpotBeaconProps, AreaBeaconProps } from './types';
+import { BeaconCombinedProps } from './types';
 
 @inject('beaconActions')
 @observer
-export default class Beacon extends React.Component<SpotBeaconProps | AreaBeaconProps> {
+export default class Beacon extends React.Component<BeaconCombinedProps> {
+    // Immediately pass this Beacon's properties to the beacon store in Provider
+
     /*
         We clone the child content, giving it a `__beacon-target-id` class.
         This allows us to get its dimensions without needing a wrapper <div>

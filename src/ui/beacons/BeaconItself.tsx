@@ -5,36 +5,11 @@ import { inject, observer } from 'mobx-react';
 import css from 'classnames';
 import { t } from 'peerio-translator';
 import beaconStore from '~/stores/beacon-store';
-import { BeaconActionsProps } from '~/ui/beacons/BeaconWrapper';
+
+import { BeaconActionsProps, BeaconCombinedProps } from './types';
 
 const appRoot = document.getElementById('root');
 const BEACON_COLOR = '#5461cc';
-
-interface BeaconBaseProps {
-    name: string;
-    title?: string; // if no title, will check t('title_${name}_beacon')
-    description?: string; // if no description, will use t('description_${name}_beacon')
-    className?: string; // applied to the beacon itself. needed for styling, since beacon is portaled to appRoot.
-    offsetX?: number;
-    offsetY?: number;
-    onBeaconClick?: () => void;
-
-    /** Required for Provider. Intended to be used with @inject only. */
-    beaconActions?: BeaconActionsProps;
-}
-
-export interface SpotBeaconProps extends BeaconBaseProps {
-    type: 'spot';
-    position?: 'right' | 'left'; // position of the bubble
-    size?: number; // force a certain bubble size
-    onContentClick?: () => void;
-}
-
-export interface AreaBeaconProps extends BeaconBaseProps {
-    type: 'area';
-    arrowPosition?: 'top' | 'right' | 'bottom' | 'left'; // position of the arrow on the rectangle
-    arrowDistance?: number; // how far along the side of the rectangle to place the arrow, as a percentage
-}
 
 interface RectanglePosition {
     top?: string | number;
@@ -52,7 +27,10 @@ interface RectanglePosition {
 
 @inject('beaconActions')
 @observer
-export default class BeaconItself extends React.Component<SpotBeaconProps | AreaBeaconProps> {
+export default class BeaconItself extends React.Component<
+    BeaconCombinedProps,
+    { beaconActions: BeaconActionsProps }
+> {
     @computed
     get active() {
         return beaconStore.activeBeacon === this.props.name;

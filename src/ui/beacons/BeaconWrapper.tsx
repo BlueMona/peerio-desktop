@@ -2,7 +2,7 @@ import React from 'react';
 import { action, observable } from 'mobx';
 import { observer, Provider } from 'mobx-react';
 
-import { BeaconActionsProps } from './types';
+import { BeaconActionsProps, BeaconCombinedProps } from './types';
 
 @observer
 export default class BeaconWrapper extends React.Component<{}> {
@@ -13,9 +13,13 @@ export default class BeaconWrapper extends React.Component<{}> {
         this.activeBeacon = option;
     }
 
+    @action.bound
+    initializeBeacon(name: string, properties: BeaconCombinedProps) {}
+
     beaconActions: BeaconActionsProps = {
         activeBeacon: this.activeBeacon,
-        activateBeacon: this.activateBeacon
+        activateBeacon: this.activateBeacon,
+        initializeBeacon: this.initializeBeacon
     };
 
     render() {

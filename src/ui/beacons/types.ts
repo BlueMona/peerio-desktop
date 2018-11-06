@@ -1,9 +1,10 @@
 export interface BeaconActionsProps {
     activeBeacon: string;
     activateBeacon: (option: string) => void;
+    initializeBeacon: (name: string, properties: BeaconCombinedProps) => void;
 }
 
-interface BeaconBaseProps {
+export interface BeaconBaseProps {
     name: string;
     title?: string; // if no title, will check t('title_${name}_beacon')
     description?: string; // if no description, will use t('description_${name}_beacon')
@@ -11,9 +12,6 @@ interface BeaconBaseProps {
     offsetX?: number;
     offsetY?: number;
     onBeaconClick?: () => void;
-
-    /** Required for Provider. Intended to be used with @inject only. */
-    beaconActions?: BeaconActionsProps;
 }
 
 export interface SpotBeaconProps extends BeaconBaseProps {
@@ -28,3 +26,5 @@ export interface AreaBeaconProps extends BeaconBaseProps {
     arrowPosition?: 'top' | 'right' | 'bottom' | 'left'; // position of the arrow on the rectangle
     arrowDistance?: number; // how far along the side of the rectangle to place the arrow, as a percentage
 }
+
+export type BeaconCombinedProps = SpotBeaconProps | AreaBeaconProps;

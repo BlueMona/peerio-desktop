@@ -1,3 +1,15 @@
+/*
+    For the sake of being user-friendly, this component is called "Beacon" because this is what
+    will actually be used when you want to add a beacon somewhere in the app.
+
+    However, this is just a wrapper around the child content which
+        1. returns the child content with an added className for the actual beacon to target
+        2. passes its own properties up to the Provider controlled by BeaconContext
+
+    The functionality/render/etc. of the beacon itself is handled by component BeaconItself.
+    The naming is weird but no one should ever have to directly call BeaconItself.
+*/
+
 import React from 'react';
 import { computed } from 'mobx';
 import { inject, observer } from 'mobx-react';

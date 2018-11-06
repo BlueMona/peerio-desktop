@@ -186,12 +186,13 @@ export default class BeaconWrapper extends React.Component<{}> {
                     clearBeacons: this.clearBeacons,
                     clearQueuedBeacons: this.clearQueuedBeacons,
                     clearIncrementQueue: this.clearIncrementQueue,
-                    beaconsInQueue: this.beaconsInQueue
+                    beaconsInQueue: this.beaconsInQueue,
+                    markAsRead: this.markAsRead
                 }}
             >
                 <>
                     {this.props.children}
-                    <BeaconItself store={this.beaconStore} />
+                    {/* <BeaconItself store={this.beaconStore} /> */}
                 </>
             </Provider>
         );

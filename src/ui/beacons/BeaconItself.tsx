@@ -1,5 +1,5 @@
 import React from 'react';
-import { action, computed, observable, reaction, when, IReactionDisposer } from 'mobx';
+import { action, computed, observable, reaction, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 import { t } from 'peerio-translator';

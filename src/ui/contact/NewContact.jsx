@@ -71,11 +71,12 @@ class NewContact extends React.Component {
         this.notFound = false;
         this.query = newVal.toLocaleLowerCase().trim();
 
-        // Beacon management
+        // Clear beacons after typing
         if (this.props.beaconsActive[0] === 'search') {
             this.props.beaconActions.clearBeacons();
         }
 
+        // Queue the beacon on AppNav "files" button if it's the user's first session
         if (uiStore.firstLogin) {
             this.props.beaconActions.queueBeacons('files', 8000);
         }

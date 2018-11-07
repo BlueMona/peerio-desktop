@@ -12,6 +12,7 @@ import BeaconItself from './BeaconItself';
 
 @observer
 export default class BeaconWrapper extends React.Component<{}> {
+    // Reset beacons whenever route changes (no beacons persist between views)
     resetBeaconsReaction: IReactionDisposer;
     componentWillMount() {
         this.resetBeaconsReaction = reaction(
@@ -24,14 +25,13 @@ export default class BeaconWrapper extends React.Component<{}> {
     componentWillUnmount() {
         this.resetBeaconsReaction();
     }
-
-    resetBeacons = () => {
+    resetBeacons = (): void => {
         this.clearBeacons();
         this.clearQueuedBeacons();
         this.clearIncrementQueue();
     };
 
-    // Store all possible beacons in here (passed from <Beacon> components)
+    // All beacons and their properties are stored here (passed from <Beacon> components)
     @observable beaconStore = {};
 
     @action.bound
@@ -41,15 +41,14 @@ export default class BeaconWrapper extends React.Component<{}> {
         }
     }
 
-    // Beacons in queue to be shown to user.
-    // 0th item is currently visible.
+    // Beacons in queue to be shown to user. 0th item = currently visible.
     @observable activeBeacons: string[] = [];
 
-    // Beacons queued to be pushed to activeBeacons
+    // Beacons queued to be pushed to activeBeacons after a timeout.
     @observable beaconsInQueue: string[] = [];
 
-    // "Advances" the beacon flow by removing the 0th entry
-    // Optionally, pass the name of the beacon that needs to be activeBeacon in orderto trigger the increment
+    // This advances the beacon flow (by removing the 0th entry)
+    // Optionally, pass the name of the beacon that needs to be activeBeacon in order to trigger the increment
     @action.bound
     increment(beacon?: string) {
         if (!this.activeBeacons.length) return;
@@ -112,7 +111,7 @@ export default class BeaconWrapper extends React.Component<{}> {
         await User.current.saveBeacons();
     }
 
-    // Add beacons to the activeBeacons array. Argument can be string (single beacon) or array (multiple).
+    // Add beacons to the activeBeacons array. Argument can be string (single beacon) or array.
     @action.bound
     addBeacons(b: string | string[]): void {
         if (typeof b === 'string') {
@@ -125,7 +124,7 @@ export default class BeaconWrapper extends React.Component<{}> {
     }
 
     // Push to activeBeacons but check beacon read status in User profile first.
-    // This is not intended to be called directly. Component should use addBeacons.
+    // Not intended to be called directly; component should use addBeacons or queueBeacons.
     @action.bound
     private async pushBeacon(b: string): Promise<void> {
         const beaconStatus = await User.current.beacons.get(b);
@@ -140,8 +139,8 @@ export default class BeaconWrapper extends React.Component<{}> {
         this.activeBeacons.length = 0;
     }
 
-    // Adding beacons with a delay
-    @observable beaconDelay: number;
+    // Store the delay for the beacon queue so it can be easily accessed in several functions
+    @observable queueDelay: number;
 
     @action.bound
     queueBeacons(b: string | string[], delay: number) {
@@ -151,7 +150,7 @@ export default class BeaconWrapper extends React.Component<{}> {
         } else {
             this.beaconsInQueue.concat(b);
         }
-        this.beaconDelay = delay;
+        this.queueDelay = delay;
         this.setBeaconTimer();
         addActivityListener(this.setBeaconTimer);
     }
@@ -163,10 +162,11 @@ export default class BeaconWrapper extends React.Component<{}> {
             this.beaconTimer = null;
         }
         this.beaconsInQueue.length = 0;
-        this.beaconDelay = 0;
+        this.queueDelay = 0;
         removeActivityListener(this.setBeaconTimer);
     }
 
+    // Add beacons from beaconsInQueue to activeBeacons after the delay
     @observable beaconTimer: NodeJS.Timer;
     @action.bound
     setBeaconTimer() {
@@ -174,11 +174,11 @@ export default class BeaconWrapper extends React.Component<{}> {
         this.beaconTimer = setTimeout(() => {
             this.addBeacons(this.beaconsInQueue);
             this.clearQueuedBeacons();
-        }, this.beaconDelay);
+        }, this.queueDelay);
     }
 
-    // First beacon has different rules from the other queued beacons.
-    // Identical except user activity listeners do *not* include mouse movement.
+    // The Welcome screen beacon has different rules from the other queued beacons.
+    // It's identical, except user activity listeners do *not* include mouse movement, only KB.
     @action.bound
     queueFirstBeacon(b: string | string[], delay: number) {
         this.clearQueuedBeacons;
@@ -187,7 +187,7 @@ export default class BeaconWrapper extends React.Component<{}> {
         } else {
             this.beaconsInQueue.concat(b);
         }
-        this.beaconDelay = delay;
+        this.queueDelay = delay;
         this.setBeaconTimer();
         addActivityListenerWithoutMouseMovement(this.setBeaconTimer);
     }

@@ -29,7 +29,8 @@ const beaconRenderPropNames = [
     'arrowPosition',
     'arrowDistance',
     'onBeaconClick',
-    'onContentClick'
+    'onContentClick',
+    'className'
 ];
 
 @inject('beaconInit')

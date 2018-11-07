@@ -56,8 +56,6 @@ class NewContact extends React.Component {
     componentWillUnmount() {
         clearTimeout(this.beaconTimeout);
         this.beaconTimeout = null;
-        this.props.beaconActions.clearBeacons();
-        this.props.beaconActions.clearIncrementQueue();
     }
 
     // Don't use onKeyUp - text change fires earlier

@@ -56,7 +56,6 @@ export default class ChatView extends React.Component<{ beaconActions?: any }> {
 
     componentWillUnmount() {
         this.reactionsToDispose.forEach(dispose => dispose());
-        this.props.beaconActions.clearBeacons();
     }
 
     scrollToBottom(): void {

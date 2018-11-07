@@ -120,10 +120,6 @@ export default class Files extends React.Component<FilesProps> {
         fileStore.bulk.downloadFolderSelector = null;
         fileStore.bulk.pickPathSelector = null;
         this.disposers.forEach(d => d());
-
-        // Clean up beacons
-        this.props.beaconActions.clearBeacons();
-        this.props.beaconActions.clearIncrementQueue();
     }
 
     readonly toggleSelectAll = (ev: React.MouseEvent<HTMLInputElement>) => {

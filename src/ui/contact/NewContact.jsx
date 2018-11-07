@@ -13,7 +13,7 @@ const uiStore = require('~/stores/ui-store');
 const routerStore = require('~/stores/router-store');
 const Beacon = require('~/ui/beacons/Beacon').default;
 
-@inject('beaconState', 'beaconActions')
+@inject('beaconsCurrent', 'beaconsInQueue', 'beaconActions')
 @observer
 class NewContact extends React.Component {
     @observable query = '';
@@ -74,11 +74,11 @@ class NewContact extends React.Component {
         this.query = newVal.toLocaleLowerCase().trim();
 
         // Beacon management
-        if (this.props.beaconState.currentBeacons[0] === 'search') {
+        if (this.props.beaconsCurrent[0] === 'search') {
             this.props.beaconActions.clearBeacons();
         }
 
-        if (uiStore.firstLogin && !this.props.beaconState.beaconsInQueue.length) {
+        if (uiStore.firstLogin && !this.props.beaconsInQueue.length) {
             this.props.beaconActions.queueBeacons('files', 8000);
         }
     }

@@ -21,7 +21,34 @@ interface RectanglePosition {
 }
 
 @observer
-export default class BeaconItself extends React.Component<{}> {
+export default class BeaconItself extends React.Component<{
+    store: any;
+    beaconsCurrent: string[];
+    onIncrement: () => void;
+}> {
+    @computed
+    get currentBeaconName() {
+        if (!this.props.beaconsCurrent || !this.props.beaconsCurrent.length) return;
+        return this.props.beaconsCurrent[0];
+    }
+
+    @computed
+    get target() {
+        return `__beacon-target-id-${this.currentBeaconName}`;
+    }
+
+    @computed
+    get contentRef() {
+        return document.querySelector(this.target);
+    }
+
+    @action.bound
+    setContentRect() {
+        if (this.contentRef) {
+            this.contentRect = this.contentRef.getBoundingClientRect();
+        }
+    }
+
     @observable rendered = true;
 
     // `contentRect` stores the bounding rect for the child content.
@@ -33,13 +60,6 @@ export default class BeaconItself extends React.Component<{}> {
         height: 0,
         width: 0
     };
-
-    @action.bound
-    setContentRect() {
-        if (this.contentRef) {
-            this.contentRect = this.contentRef.getBoundingClientRect();
-        }
-    }
 
     @observable reactionsToDispose: IReactionDisposer[];
     @observable renderTimeout: NodeJS.Timer;

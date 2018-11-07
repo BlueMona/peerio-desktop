@@ -26,15 +26,21 @@ export default class BeaconItself extends React.Component<{
     beaconsCurrent: string[];
     onIncrement: () => void;
 }> {
+    @observable rendered = true;
+
+    /*
+        Get the child content's size.
+        Need to get the ref via DOM selector targeting the `__beacon-target-id` class
+    */
     @computed
-    get currentBeaconName() {
+    get name() {
         if (!this.props.beaconsCurrent || !this.props.beaconsCurrent.length) return;
         return this.props.beaconsCurrent[0];
     }
 
     @computed
     get target() {
-        return `__beacon-target-id-${this.currentBeaconName}`;
+        return `.__beacon-target-id-${this.name}`;
     }
 
     @computed
@@ -42,31 +48,29 @@ export default class BeaconItself extends React.Component<{
         return document.querySelector(this.target);
     }
 
-    @action.bound
-    setContentRect() {
-        if (this.contentRef) {
-            this.contentRect = this.contentRef.getBoundingClientRect();
-        }
+    // Properties of the current beacon, grabbed from `store`
+    @computed
+    get properties() {
+        return this.props.store[this.name];
     }
-
-    @observable rendered = true;
 
     // `contentRect` stores the bounding rect for the child content.
     // We give it default values to start, to prevent null references
-    @observable
-    contentRect = {
-        top: 0,
-        left: 0,
-        height: 0,
-        width: 0
-    };
+    @computed
+    get contentRect() {
+        if (!this.contentRef)
+            return {
+                top: 0,
+                left: 0,
+                height: 0,
+                width: 0
+            };
+        return this.contentRef.getBoundingClientRect();
+    }
 
     @observable reactionsToDispose: IReactionDisposer[];
     @observable renderTimeout: NodeJS.Timer;
-    componentWillMount() {
-        // Update `contentRect` on window resize
-        window.addEventListener('resize', this.setContentRect);
-
+    componentDidMount() {
         this.reactionsToDispose = [
             reaction(
                 () => !!this.contentRef,
@@ -79,18 +83,11 @@ export default class BeaconItself extends React.Component<{
                         this.rendered = false;
                     }
                 }
-            ),
-            when(
-                () => !!this.contentRef,
-                () => {
-                    this.setContentRect();
-                }
             )
         ];
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.setContentRect);
         this.reactionsToDispose.forEach(dispose => {
             dispose();
         });
@@ -102,7 +99,7 @@ export default class BeaconItself extends React.Component<{
     // If not defined, it is the greater of the child content's width and height.
     @computed
     get circleSize() {
-        if (this.props.type === 'spot' && !!this.props.size) return this.props.size;
+        if (this.properties.type === 'spot' && !!this.properties.size) return this.properties.size;
         const { height, width } = this.contentRect;
         return height > width ? height + 8 : width + 8;
     }
@@ -121,7 +118,7 @@ export default class BeaconItself extends React.Component<{
         let left: number = 0;
         let marginSize: number = 0;
 
-        if (this.props.type === 'spot') {
+        if (this.properties.type === 'spot') {
             height = this.circleSize;
             width = this.circleSize;
 
@@ -142,8 +139,8 @@ export default class BeaconItself extends React.Component<{
 
         // `offestX` and `offsetY` props can shift beacon position by arbitrary pixel value
         /* eslint-disable operator-assignment */
-        if (this.props.offsetX) left = left + this.props.offsetX;
-        if (this.props.offsetY) top = top + this.props.offsetY;
+        if (this.properties.offsetX) left = left + this.properties.offsetX;
+        if (this.properties.offsetY) top = top + this.properties.offsetY;
         /* eslint-enable operator-assignment */
         // In this instance operator-assignment looks more clunky and unintuitive
 
@@ -169,9 +166,9 @@ export default class BeaconItself extends React.Component<{
     // This is redundant, but helps keep the styles more organized
     @computed
     get positionClasses(): string {
-        return this.props.type === 'spot'
-            ? `${this.props.position || 'left'} slice-${this.slicePosition}`
-            : this.props.arrowPosition || 'bottom';
+        return this.properties.type === 'spot'
+            ? `${this.properties.position || 'left'} slice-${this.slicePosition}`
+            : this.properties.arrowPosition || 'bottom';
     }
 
     /*
@@ -205,10 +202,10 @@ export default class BeaconItself extends React.Component<{
             There's also the "punchout" effect, created by placing a CSS punchout of the rectangle
             exactly in the same location as the circle.
         */
-        if (this.props.type === 'spot') {
+        if (this.properties.type === 'spot') {
             const rectangleOffset = rectHeight / 2;
             const circleRadius = this.circleSize / 2;
-            const punchoutX = this.props.position === 'right' ? '100%' : 0;
+            const punchoutX = this.properties.position === 'right' ? '100%' : 0;
             let punchoutY;
 
             switch (this.slicePosition) {
@@ -238,7 +235,7 @@ export default class BeaconItself extends React.Component<{
                     break;
             }
 
-            if (this.props.position === 'right') {
+            if (this.properties.position === 'right') {
                 ret.paddingRight = circleRadius;
                 ret.marginRight = -circleRadius;
             } else {
@@ -256,8 +253,8 @@ export default class BeaconItself extends React.Component<{
             ret.background = `radial-gradient(circle at ${punchoutX} ${punchoutY}, transparent ${circleRadius -
                 1}px, ${BEACON_COLOR} ${circleRadius}px)`;
         } else {
-            const arrowPos = this.props.arrowPosition || 'bottom';
-            const arrowDistance = this.props.arrowDistance || 0;
+            const arrowPos = this.properties.arrowPosition || 'bottom';
+            const arrowDistance = this.properties.arrowDistance || 0;
 
             /*
                 arrowDistance is an integer representing far along the edge the arrow is placed, as a percent of the edge's length.
@@ -312,34 +309,37 @@ export default class BeaconItself extends React.Component<{
 
     // Clicking the rectangle
     beaconClick = () => {
+        if (this.properties.onBeaconClick) this.properties.onBeaconClick();
         this.beaconFadeout();
-        if (this.props.onBeaconClick) this.props.onBeaconClick();
     };
 
     // Clicking the content of the bubble in a SpotBeacon
     contentClick = () => {
+        if (this.properties.type === 'spot' && !!this.properties.onContentClick)
+            this.properties.onContentClick();
         this.beaconFadeout();
-        if (this.props.type === 'spot' && !!this.props.onContentClick) this.props.onContentClick();
     };
 
     // Fading out current beacon is called on both beaconClick and contentClick
     @action.bound
     beaconFadeout() {
         this.rendered = false;
-        beaconStore.increment();
+        this.props.onIncrement();
     }
 
-    beaconContent() {
-        const title = this.props.title || t(`title_${this.props.name}_beacon`);
-        const description = this.props.description || t(`description_${this.props.name}_beacon`);
+    render() {
+        if (!this.rendered || !this.properties) return null;
+
+        const title = this.properties.title || t(`title_${this.name}_beacon`);
+        const description = this.properties.description || t(`description_${this.name}_beacon`);
 
         return (
             <div
-                key={`beacon-content-${this.props.name}`}
+                key={`beacon-content-${this.name}`}
                 className={css(
                     'beacon',
-                    this.props.className,
-                    `${this.props.type}-beacon`,
+                    this.properties.className,
+                    `${this.properties.type}-beacon`,
                     this.positionClasses,
                     {
                         show: this.rendered
@@ -361,7 +361,7 @@ export default class BeaconItself extends React.Component<{
                     </div>
                 </div>
 
-                {this.props.type === 'spot' ? (
+                {this.properties.type === 'spot' ? (
                     <Bubble
                         position={this.positionClasses}
                         size={this.circleSize}
@@ -372,13 +372,6 @@ export default class BeaconItself extends React.Component<{
                 )}
             </div>
         );
-    }
-
-    render() {
-        if (!this.rendered) return this.props.children;
-
-        const beaconContent = this.beaconContent();
-        return beaconContent;
     }
 }
 

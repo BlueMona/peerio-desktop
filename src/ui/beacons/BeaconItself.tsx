@@ -1,11 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { action, computed, observable, reaction, when, IReactionDisposer } from 'mobx';
 import { observer } from 'mobx-react';
 import css from 'classnames';
 import { t } from 'peerio-translator';
 
-const appRoot = document.getElementById('root');
 const BEACON_COLOR = '#5461cc';
 
 interface RectanglePosition {
@@ -49,12 +47,9 @@ export default class BeaconItself extends React.Component<{}> {
         // Update `contentRect` on window resize
         window.addEventListener('resize', this.setContentRect);
 
-        // Set childContent ref
-        this.setChildContent();
-
         this.reactionsToDispose = [
             reaction(
-                () => this.active && !!this.contentRef,
+                () => !!this.contentRef,
                 active => {
                     if (active) {
                         this.renderTimeout = setTimeout(() => {
@@ -360,10 +355,10 @@ export default class BeaconItself extends React.Component<{}> {
     }
 
     render() {
-        if (!this.active && !this.rendered) return this.props.children;
+        if (!this.rendered) return this.props.children;
 
         const beaconContent = this.beaconContent();
-        return [this.childContent, ReactDOM.createPortal(beaconContent, appRoot)];
+        return beaconContent;
     }
 }
 

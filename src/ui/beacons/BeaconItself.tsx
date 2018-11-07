@@ -39,23 +39,14 @@ export default class BeaconItself extends React.Component<{
     }
 
     @computed
-    get target() {
-        return `.__beacon-target-id-${this.name}`;
-    }
-
-    @computed
     get contentRef() {
-        return document.querySelector(this.target);
+        return document.querySelector(`.__beacon-target-id-${this.name}`);
     }
 
-    // Properties of the current beacon, grabbed from `store`
-    @computed
-    get properties() {
-        return this.props.store[this.name];
-    }
-
-    // `contentRect` stores the bounding rect for the child content.
-    // We give it default values to start, to prevent null references
+    /*
+        `contentRect` stores the bounding rect for the child content.
+        We give it default values to start, to prevent null references.
+    */
     @observable
     contentRect = {
         top: 0,
@@ -68,6 +59,12 @@ export default class BeaconItself extends React.Component<{
     setContentRect() {
         if (!this.contentRef) return;
         this.contentRect = this.contentRef.getBoundingClientRect();
+    }
+
+    // Properties of the current beacon, grabbed from `store`
+    @computed
+    get properties() {
+        return this.props.store[this.name];
     }
 
     @observable reactionsToDispose: IReactionDisposer[];
@@ -87,6 +84,7 @@ export default class BeaconItself extends React.Component<{
     }
 
     componentWillUnmount() {
+        window.removeEventListener('resize', this.setContentRect);
         this.reactionsToDispose.forEach(dispose => {
             dispose();
         });

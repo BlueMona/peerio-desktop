@@ -178,6 +178,7 @@ export default class BeaconWrapper extends React.Component<{}> {
     beaconActions = {
         addBeacons: this.addBeacons,
         queueFirstBeacon: this.queueFirstBeacon,
+        queueBeacons: this.queueBeacons,
         queueIncrement: this.queueIncrement,
         clearBeacons: this.clearBeacons,
         clearQueuedBeacons: this.clearQueuedBeacons,

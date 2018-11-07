@@ -1,5 +1,5 @@
 import React from 'react';
-import { action, computed, observable, reaction, IReactionDisposer } from 'mobx';
+import { action, observable, reaction, IReactionDisposer } from 'mobx';
 import { observer, Provider } from 'mobx-react';
 import { User } from 'peerio-icebear';
 import routerStore from '~/stores/router-store';
@@ -129,9 +129,9 @@ export default class BeaconWrapper extends React.Component<{}> {
     @action.bound
     private async pushBeacon(b: string): Promise<void> {
         const beaconStatus = await User.current.beacons.get(b);
-        // if (!beaconStatus) {
-        this.activeBeacons.push(b);
-        // }
+        if (!beaconStatus) {
+            this.activeBeacons.push(b);
+        }
     }
 
     // Clear activeBeacons, e.g. if switching to a different beacon flow

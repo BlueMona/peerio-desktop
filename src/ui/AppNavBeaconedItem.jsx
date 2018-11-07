@@ -26,7 +26,6 @@ class AppNavBeaconedItem extends React.Component {
                 type="spot"
                 name={this.props.beaconName}
                 size={48}
-                offsetY={12}
                 className="appnav-beacon"
                 onContentClick={this.props.onClick}
                 onBeaconClick={this.cancelOnboardingBeacons}

@@ -1,5 +1,5 @@
 const React = require('react');
-// const PlusIcon = require('~/ui/shared-components/PlusIcon');
+const PlusIcon = require('~/ui/shared-components/PlusIcon');
 const Beacon = require('~/ui/beacons/Beacon').default;
 const { observer } = require('mobx-react');
 
@@ -15,10 +15,7 @@ class PlusIconBeaconed extends React.Component {
                 className="chatlist-plusicon-beacon"
                 onContentClick={this.props.onClick}
             >
-                <div>This will work</div>
-
-                {/* This won't  */}
-                {/* <PlusIcon {...this.props} /> */}
+                <PlusIcon {...this.props} />
             </Beacon>
         );
     }

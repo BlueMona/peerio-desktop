@@ -34,13 +34,8 @@ export default class BeaconItself extends React.Component<{
     */
     @computed
     get name() {
-        if (!this.props.beaconsCurrent || !this.props.beaconsCurrent.length) return;
+        if (!this.props.beaconsCurrent || !this.props.beaconsCurrent.length) return null;
         return this.props.beaconsCurrent[0];
-    }
-
-    @computed
-    get contentRef() {
-        return document.querySelector(`.__beacon-target-id-${this.name}`);
     }
 
     /*
@@ -57,8 +52,11 @@ export default class BeaconItself extends React.Component<{
 
     @action.bound
     setContentRect() {
-        if (!this.contentRef) return;
-        this.contentRect = this.contentRef.getBoundingClientRect();
+        const contentRef = document.querySelector(`.__beacon-target-id-${this.name}`);
+        console.log(contentRef);
+        if (!contentRef) return;
+        console.log(contentRef.getBoundingClientRect());
+        this.contentRect = contentRef.getBoundingClientRect();
     }
 
     // Properties of the current beacon, grabbed from `store`
@@ -69,15 +67,15 @@ export default class BeaconItself extends React.Component<{
 
     @observable reactionsToDispose: IReactionDisposer[];
     componentDidMount() {
-        // Recalculate contentRect on window resize
+        // (Re)calculate contentRect on window resize or beacon change
         window.addEventListener('resize', this.setContentRect);
-
-        // Recalculate contentRect when contentRef changes
         this.reactionsToDispose = [
             reaction(
-                () => this.contentRef,
+                () => this.name,
                 () => {
-                    this.setContentRect();
+                    setTimeout(() => {
+                        this.setContentRect();
+                    }, 1);
                 }
             )
         ];
@@ -318,7 +316,7 @@ export default class BeaconItself extends React.Component<{
     // Fading out current beacon is called on both beaconClick and contentClick
     @action.bound
     beaconFadeout() {
-        this.rendered = false;
+        // this.rendered = false;
         this.props.onIncrement();
     }
 

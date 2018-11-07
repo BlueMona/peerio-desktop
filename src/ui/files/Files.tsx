@@ -30,8 +30,6 @@ const DEFAULT_RENDERED_ITEMS_COUNT = 15;
 interface FilesProps {
     connectDropTarget?: (el: JSX.Element) => JSX.Element;
     isBeingDraggedOver?: boolean;
-    beaconsActive?: string[];
-    beaconActions?: any;
 }
 
 @DropTarget(
@@ -49,7 +47,12 @@ interface FilesProps {
 )
 @inject('beaconsActive', 'beaconActions')
 @observer
-export default class Files extends React.Component<FilesProps> {
+export default class Files extends React.Component<
+    FilesProps & {
+        beaconsActive?: string[];
+        beaconActions?: any;
+    }
+> {
     @observable renderedItemsCount = DEFAULT_RENDERED_ITEMS_COUNT;
     pageSize = DEFAULT_RENDERED_ITEMS_COUNT;
     localFileManager = new LocalFileManager();

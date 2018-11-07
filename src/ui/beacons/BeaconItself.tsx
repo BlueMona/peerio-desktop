@@ -26,7 +26,7 @@ export default class BeaconItself extends React.Component<{
     beaconsActive: string[];
     onIncrement: () => void;
 }> {
-    @observable rendered = true;
+    @observable rendered;
 
     /*
         Get the child content's size.
@@ -65,6 +65,7 @@ export default class BeaconItself extends React.Component<{
         return this.props.store[this.name];
     }
 
+    fadeTimeout: NodeJS.Timer;
     @observable reactionsToDispose: IReactionDisposer[];
     componentDidMount() {
         // (Re)calculate contentRect on window resize or beacon change
@@ -73,8 +74,10 @@ export default class BeaconItself extends React.Component<{
             reaction(
                 () => this.name,
                 () => {
+                    this.rendered = false;
                     setTimeout(() => {
                         this.setContentRect();
+                        this.rendered = true;
                     }, 1);
                 }
             )
@@ -316,12 +319,11 @@ export default class BeaconItself extends React.Component<{
     // Fading out current beacon is called on both beaconClick and contentClick
     @action.bound
     beaconFadeout() {
-        // this.rendered = false;
         this.props.onIncrement();
     }
 
     render() {
-        if (!this.rendered || !this.properties) return null;
+        if (!this.properties) return null;
 
         const title = this.properties.title || t(`title_${this.name}_beacon`);
         const description = this.properties.description || t(`description_${this.name}_beacon`);

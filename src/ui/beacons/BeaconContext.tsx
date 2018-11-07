@@ -25,25 +25,25 @@ export default class BeaconWrapper extends React.Component<{}> {
 
     // Beacons in queue to be shown to user.
     // 0th item is currently visible.
-    @observable currentBeacons: string[] = [];
+    @observable activeBeacons: string[] = [];
 
-    // Beacons queued to be pushed to currentBeacons
+    // Beacons queued to be pushed to activeBeacons
     @observable beaconsInQueue: string[] = [];
 
     // "Advances" the beacon flow by removing the 0th entry
     // Optionally, pass the name of the beacon that needs to be activeBeacon in orderto trigger the increment
     @action.bound
     increment(beacon?: string) {
-        if (!this.currentBeacons.length) return;
+        if (!this.activeBeacons.length) return;
 
-        const activeBeacon = this.currentBeacons[0];
+        const activeBeacon = this.activeBeacons[0];
         if (!!beacon && activeBeacon !== beacon) return;
 
         // Mark activeBeacon as seen in User beacons
         this.markAsRead(activeBeacon);
 
-        // Remove activeBeacon from currentBeacons array
-        this.currentBeacons.shift();
+        // Remove activeBeacon from activeBeacons array
+        this.activeBeacons.shift();
     }
 
     // Increment but with a delay passed from component.
@@ -94,7 +94,7 @@ export default class BeaconWrapper extends React.Component<{}> {
         await User.current.saveBeacons();
     }
 
-    // Add beacons to the currentBeacons array. Argument can be string (single beacon) or array (multiple).
+    // Add beacons to the activeBeacons array. Argument can be string (single beacon) or array (multiple).
     @action.bound
     addBeacons(b: string | string[]): void {
         if (typeof b === 'string') {
@@ -106,20 +106,20 @@ export default class BeaconWrapper extends React.Component<{}> {
         }
     }
 
-    // Push to currentBeacons but check beacon read status in User profile first.
+    // Push to activeBeacons but check beacon read status in User profile first.
     // This is not intended to be called directly. Component should use addBeacons.
     @action.bound
     private async pushBeacon(b: string): Promise<void> {
         const beaconStatus = await User.current.beacons.get(b);
         if (!beaconStatus) {
-            this.currentBeacons.push(b);
+            this.activeBeacons.push(b);
         }
     }
 
-    // Clear currentBeacons, e.g. if switching to a different beacon flow
+    // Clear activeBeacons, e.g. if switching to a different beacon flow
     @action.bound
     clearBeacons(): void {
-        this.currentBeacons.length = 0;
+        this.activeBeacons.length = 0;
     }
 
     // Adding beacons with a delay
@@ -190,7 +190,7 @@ export default class BeaconWrapper extends React.Component<{}> {
             <Provider
                 beaconInit={this.initializeBeacon}
                 beaconStore={this.beaconStore}
-                beaconsCurrent={this.currentBeacons}
+                beaconsActive={this.activeBeacons}
                 beaconsInQueue={this.beaconsInQueue}
                 beaconActions={this.beaconActions}
             >
@@ -198,7 +198,7 @@ export default class BeaconWrapper extends React.Component<{}> {
                     {this.props.children}
                     <BeaconItself
                         store={this.beaconStore}
-                        beaconsCurrent={this.currentBeacons}
+                        beaconsActive={this.activeBeacons}
                         onIncrement={this.increment}
                     />
                 </>

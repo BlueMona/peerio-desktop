@@ -23,7 +23,7 @@ interface RectanglePosition {
 @observer
 export default class BeaconItself extends React.Component<{
     store: any;
-    beaconsCurrent: string[];
+    beaconsActive: string[];
     onIncrement: () => void;
 }> {
     @observable rendered = true;
@@ -34,8 +34,8 @@ export default class BeaconItself extends React.Component<{
     */
     @computed
     get name() {
-        if (!this.props.beaconsCurrent || !this.props.beaconsCurrent.length) return null;
-        return this.props.beaconsCurrent[0];
+        if (!this.props.beaconsActive || !this.props.beaconsActive.length) return null;
+        return this.props.beaconsActive[0];
     }
 
     /*

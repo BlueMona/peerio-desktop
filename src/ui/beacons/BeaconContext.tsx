@@ -191,7 +191,6 @@ export default class BeaconWrapper extends React.Component<{}> {
                 beaconInit={this.initializeBeacon}
                 beaconStore={this.beaconStore}
                 beaconsActive={this.activeBeacons}
-                beaconsInQueue={this.beaconsInQueue}
                 beaconActions={this.beaconActions}
             >
                 <>

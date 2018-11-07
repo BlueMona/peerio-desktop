@@ -31,7 +31,6 @@ interface FilesProps {
     connectDropTarget?: (el: JSX.Element) => JSX.Element;
     isBeingDraggedOver?: boolean;
     beaconsActive?: string[];
-    beaconsInQueue?: string[];
     beaconActions?: any;
 }
 
@@ -48,7 +47,7 @@ interface FilesProps {
         isBeingDraggedOver: monitor.isOver({ shallow: true })
     })
 )
-@inject('beaconsActive', 'beaconsInQueue', 'beaconActions')
+@inject('beaconsActive', 'beaconActions')
 @observer
 export default class Files extends React.Component<FilesProps> {
     @observable renderedItemsCount = DEFAULT_RENDERED_ITEMS_COUNT;
@@ -138,7 +137,7 @@ export default class Files extends React.Component<FilesProps> {
         if (this.props.beaconsActive[0] === 'uploadFiles') {
             this.props.beaconActions.clearBeacons();
         }
-        if (uiStore.firstLogin && !this.props.beaconsInQueue.length) {
+        if (uiStore.firstLogin) {
             this.props.beaconActions.queueBeacons('chat', 8000);
         }
 

@@ -13,7 +13,7 @@ const uiStore = require('~/stores/ui-store');
 const routerStore = require('~/stores/router-store');
 const Beacon = require('~/ui/beacons/Beacon').default;
 
-@inject('beaconsActive', 'beaconsInQueue', 'beaconActions')
+@inject('beaconsActive', 'beaconActions')
 @observer
 class NewContact extends React.Component {
     @observable query = '';
@@ -78,7 +78,7 @@ class NewContact extends React.Component {
             this.props.beaconActions.clearBeacons();
         }
 
-        if (uiStore.firstLogin && !this.props.beaconsInQueue.length) {
+        if (uiStore.firstLogin) {
             this.props.beaconActions.queueBeacons('files', 8000);
         }
     }

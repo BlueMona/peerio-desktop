@@ -56,32 +56,31 @@ export default class BeaconItself extends React.Component<{
 
     // `contentRect` stores the bounding rect for the child content.
     // We give it default values to start, to prevent null references
-    @computed
-    get contentRect() {
-        if (!this.contentRef)
-            return {
-                top: 0,
-                left: 0,
-                height: 0,
-                width: 0
-            };
-        return this.contentRef.getBoundingClientRect();
+    @observable
+    contentRect = {
+        top: 0,
+        left: 0,
+        height: 0,
+        width: 0
+    };
+
+    @action.bound
+    setContentRect() {
+        if (!this.contentRef) return;
+        this.contentRect = this.contentRef.getBoundingClientRect();
     }
 
     @observable reactionsToDispose: IReactionDisposer[];
-    @observable renderTimeout: NodeJS.Timer;
     componentDidMount() {
+        // Recalculate contentRect on window resize
+        window.addEventListener('resize', this.setContentRect);
+
+        // Recalculate contentRect when contentRef changes
         this.reactionsToDispose = [
             reaction(
-                () => !!this.contentRef,
-                active => {
-                    if (active) {
-                        this.renderTimeout = setTimeout(() => {
-                            this.rendered = true;
-                        }, 1);
-                    } else {
-                        this.rendered = false;
-                    }
+                () => this.contentRef,
+                () => {
+                    this.setContentRect();
                 }
             )
         ];
@@ -91,8 +90,6 @@ export default class BeaconItself extends React.Component<{
         this.reactionsToDispose.forEach(dispose => {
             dispose();
         });
-        clearTimeout(this.renderTimeout);
-        this.renderTimeout = null;
     }
 
     // The size of the SpotBeacon bubble can be defined in prop `size`.

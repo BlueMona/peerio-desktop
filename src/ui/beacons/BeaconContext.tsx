@@ -11,7 +11,7 @@ import {
 import BeaconItself from './BeaconItself';
 
 @observer
-export default class BeaconWrapper extends React.Component<{}> {
+export default class BeaconWrapper extends React.Component {
     // Reset beacons whenever route changes (no beacons persist between views)
     resetBeaconsReaction: IReactionDisposer;
     componentWillMount() {

@@ -63,7 +63,6 @@ class RouterStore {
             newPatientRoom: '/app/patients/new-patient-room',
 
             onboarding: '/app/onboarding',
-            mail: '/app/mail',
             files: '/app/files',
             contacts: '/app/contacts',
             invitedContacts: '/app/contacts/invited',

@@ -42,7 +42,6 @@ interface DesktopConfig extends Config {
     keychainService: string;
     appId: string;
     socketServerUrl: string;
-    ghostFrontendUrl: string;
     disablePayments: boolean;
     whiteLabel: {
         name: string;

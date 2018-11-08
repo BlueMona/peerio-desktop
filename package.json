@@ -75,7 +75,6 @@
     "appId": "com.peerio.desktop",
     "keychainService": "PeerioMessenger",
     "socketServerUrl": "",
-    "ghostFrontendUrl": "https://mail.peerio.com",
     "disablePayments": false,
     "whiteLabel": {
       "name": ""

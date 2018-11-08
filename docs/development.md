@@ -5,66 +5,49 @@
 Assuming you have nodejs and npm installed.
 
 - Clone repository
-- Set the environment variable `PEERIO_STAGING_SOCKET_SERVER` if you want to connect to a different server.
-- Run `npm install` -- if it fails maybe run `npm install` in `app/` first
+- Run `npm install`
 - Run `npm start` to run a development build.
 
-## Linking the SDK
+By default client will connect to staging server.
+If you want to use a different server, run `PEERIO_STAGING_SOCKET_SERVER=\"wss://your_url\" npm run start-dev`.
 
-If you want to use a local development version of `peerio-icebear`, create a file named `.opt-in` in the root directory of this repo and include the line `link-sdk`. (see **git hooks** below for more info on the `.opt-in` file)
 
-**Beware:** Don't ever use a development SDK with production servers, especially not with your own account (you could break it permanently).
+## Linking the SDK (icebear)
 
-## Dependency management
+Sometimes you might want to work on both desktop app and sdk at the same time and see changes you make in sdk reflected in your desktop development build immediately. To make this happen:
 
-Due to the 2-package.json structure, as well as other idiosyncracies, the following gotchas must be observed when adding dependencies to peerio-desktop:
-1. If you add a dependency to peerio-icebear, you should add it to both the dependencies and peerDependencies of that project.
-2. Only dependencies from `app/` will end up in a prod build, and they have to be added to `app/package.json` manually.
+- Clone `peerio-icebear`
+- Run `npm link` in the `peerio-icebear` root (this needs to be done once per clone, effectively it symlinks the clone to the npm global packages folder).
+- Copy `.opt-in.example` file in `peerio-desktop` to `.opt-in` file (it's gitignored).
+- Make sure `.opt-in` file contains line `link-sdk`. 
+(see **git hooks** below for more info on the `.opt-in` file). 
+
+We use manual linking, meaning that build scripts will copy sdk sources from the globally symliked package to desktop's `node_modules` every time the build is running. Build scripts will also watch and copy/rebuild sdk when needed.
+
+**Beware:** Don't ever use a development SDK with production servers, especially not with your own account (you could break it permanently due to possible incompatibilities in data formats).
 
 ## git hooks
 
-There are several git hooks configured. Some of them are optional, and you can opt in by creating `.opt-in` file in repository root (it's git ignored).
+There are several git hooks configured. Some of them are optional, and you can opt in by creating `.opt-in` file in repository root.
 
-`.opt-in` file should contain optional hooks names, one per line:
-* `link-sdk` will copy latest icebear sdk sources from local clone before building sdk sources. It will also watch local clone for changes when using `npm start`
-* `lint` will run code validation before commit. Commit will fail if there are any issues.
+`.opt-in` file should contain optional task names that are configured to run with different hooks, one per line:
+* `link-sdk` will copy latest icebear sdk sources from local clone before building sdk sources. It will also watch local sdk clone for changes when using `npm start`
+* `lint` will run code tests and validation before commit. Commit will fail if there are any issues.
 * `npm-install` to never ever forget to run `npm install` after package.json was changed in result of branch change/merge/pull.
 
-There is already a file in the repo root called `.opt-in.example` which you can copy or rename.
-
-## Logging
-
-In production builds, calls to `console` functions like `console.log` and
-`console.err` will be transformed with our Babel plugin
-[console-kungfu](https://github.com/PeerioTechnologies/babel-plugin-console-kungfu)
-to add helpful information like filenames and line numbers.
+There is already a file in the repo root called `.opt-in.example` which you can copy or use as an example.
 
 ## Localization
 
-Localization is done via `peerio-icebear/src/copy/en.json`. Translation copy will be fetched automatically when making production builds.
-
+Localization strings source file is located at `peerio-icebear/src/copy/en.json`. We use our own localization library `peerio-translator`.
 
 ## UI Tests
 
-Tests run with Spectron.
-
-### Writing tests
-
-In development builds, there is a tool available for recording clicks and inputs. You can run `recordUI()`, and then `stopRecording()`, which will print the results. There are at least a few caveats and pitfalls, documented in the code -- src/helpers/test-recorder.js
-
-There are a few hooks available in test/helpers.js --
-
-- `startApp` -- starts Spectron
-- `startAppAndConnect` -- starts spectron and waits until the socket is connected
-- `startAppAndLogin` -- the above, plus logs in (with a passphrase for CI reasons)
-- `login` -- login minus starting the app and connecting
-- `closeApp` -- cleans up, use as `afterEach` hook
+We validate our code with eslint, stylelint, typescript, unit tests, e2e cucumber tests with Spectron.
 
 ### CI
 
-Tests run on circleCI. However, the CI is very slow, so we hack the `login` function to wipe the passcode (if it exists).
-
-On the CI, tests on the branch `staging` are configured to run with the staging server.
+Tests run on CircleCI for every pull request. 
 
 ### Local tests / VSCode debugger
 

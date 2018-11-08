@@ -91,7 +91,6 @@ class AppNav extends React.Component {
     constructor() {
         super();
         [
-            'mail',
             'chats',
             'files',
             'contacts',

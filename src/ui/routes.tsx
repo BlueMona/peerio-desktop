@@ -18,7 +18,6 @@ import ChannelInvite from './chat/components/ChannelInvite';
 import PendingDMDismissed from './chat/components/PendingDMDismissed';
 import Patient from './whitelabel/medcryptor/Patient';
 import Files from './files/Files';
-import Mail from './mail/Mail';
 import Settings from './settings/Settings';
 import Profile from './settings/components/ProfileSettings';
 import Security from './settings/components/SecuritySettings';
@@ -69,7 +68,6 @@ export default (
                 <Route path="new-contact" component={NewContact} />
                 <Route path="new-invite" component={NewContact} />
             </Route>
-            <Route path="mail" component={Mail} />
             <Route path="settings" component={Settings}>
                 <Route path="profile" component={Profile} />
                 <Route path="security" component={Security} />

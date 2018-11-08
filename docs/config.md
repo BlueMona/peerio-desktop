@@ -9,7 +9,6 @@ contains the following keys:
 * keychainService (string) — app-unique name of keychain service for storing Account Key.
   (IMPORTANT: Changing this for the same app will invalidate autologin for all users.)
 * socketServerUrl (string) — URL for socket server
-* ghostFrontendUrl (string) — URL for ghost front-end
 * usePeerioUpdater (boolean) — temporary value that is used until we switch to the new updater
 * disablePayments (boolean) — whether to disable payments
 * contacts — object:

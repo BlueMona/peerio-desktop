@@ -53,9 +53,7 @@ export default class BeaconItself extends React.Component<{
     @action.bound
     setContentRect() {
         const contentRef = document.querySelector(`.__beacon-target-id-${this.name}`);
-        console.log(contentRef);
         if (!contentRef) return;
-        console.log(contentRef.getBoundingClientRect());
         this.contentRect = contentRef.getBoundingClientRect();
     }
 
